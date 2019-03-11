@@ -6,8 +6,8 @@ import Step from '../presentational/Step';
 const Step3 = ({ backButton, title }) => {
     const { actions, dispatch } = useContext(StoreContext);
 
-    const submitLink = () => {
-        console.log('submitting form data');
+    const submitLink = (formData) => {
+        dispatch(actions.submitForm(formData));
     };
 
     return (
@@ -15,7 +15,6 @@ const Step3 = ({ backButton, title }) => {
             {
                 ({ formData }) => {
                     const { name, url, tags, phone, timeValue, timeUnit } = formData;
-
                     return (
                         <Step title={title} backButton={backButton}>
                             <div className="w-full">
@@ -39,7 +38,7 @@ const Step3 = ({ backButton, title }) => {
                                     <label className="h-25 mgn-b-10 bold color-gray">Reminder Time</label>
                                     <p className="font-md">{+timeValue.value > 0 ? `${timeValue.value} ${timeUnit.value} from now` : '-'}</p>
                                 </div>
-                                <button className="w-full h-50px bg-primary radius-sm" onClick={() => submitLink}>
+                                <button className="w-full h-50px bg-primary radius-sm" onClick={(formData) => submitLink(formData)}>
                                         Save Article
                                 </button>
                             </div>

@@ -1,4 +1,11 @@
-import { NAVIGATE_FORWARD, NAVIGATE_BACKWARD, UPDATE_FORM, RESET_FORM, SET_INPUT_ERROR } from "../actions/action-types";
+import {
+    NAVIGATE_FORWARD,
+    NAVIGATE_BACKWARD,
+    UPDATE_FORM,
+    RESET_FORM,
+    SUBMIT_FORM,
+    SET_INPUT_ERROR
+} from "../actions/action-types";
 
 const offsetValue = 388;
 
@@ -31,12 +38,19 @@ export const rootReducer = (state, action) => {
                 formData: { ...state.formData }
             };
 
+<<<<<<< Updated upstream
         case SET_INPUT_ERROR:
             const { name, errorValue } = action.payload;
             const formFieldData = state.formData[name];
             return {
                 ...state,
                 formData: { ...state.formData, [name]: { ...formFieldData, error: errorValue } }
+=======
+        case SUBMIT_FORM:
+            return {
+                ...state,
+                formData: { ...action.payload }
+>>>>>>> Stashed changes
             };
 
         default:
