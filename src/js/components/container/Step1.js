@@ -1,16 +1,34 @@
 import React, { useContext } from 'react';
-import { StoreContext } from '../../store';
 
+import { hasError } from '../../utils';
+import { StoreContext } from '../../store';
 import Step from '../presentational/Step';
 import FormField from '../presentational/FormField';
 
 const Step1 = ({ backButton, stepId, title }) => {
     const { actions, dispatch } = useContext(StoreContext);
 
-    let formData = {};
+    let formData = {
+        name: { value: '' },
+        url: { value: '' },
+        tags: { value: [] }
+    };
 
-    const onInputChange = ({ name, value }) => {
+    const onInputBlur = ({ currentTarget }) => {
+        dispatch(actions.setInputError({
+            name: currentTarget.name,
+            errorValue: hasError(currentTarget) && hasError(currentTarget).value
+        }));
+    };
+
+    const onInputChange = ({ target }) => {
+        const { name, value } = target;
         formData = { ...formData, [name]: value };
+        return formData;
+    };
+
+    const disableButton = (formData) => {
+
     };
 
     const nextStep = (stepId) => {
@@ -24,27 +42,29 @@ const Step1 = ({ backButton, stepId, title }) => {
                 inputType="text"
                 name="name"
                 placeholder={'React Unit Test'}
-                value={formData.name}
-                onChangeFn={(event) => onInputChange(event.target)}
+                value={formData.name.value}
+                onChangeFn={onInputChange}
+                onBlurFn={onInputBlur}
                 isRequired />
 
             <FormField
                 inputType="url"
                 name="url"
                 placeholder={'https://www.reactjs.com'}
-                value={formData.url}
-                onChangeFn={(event) => onInputChange(event.target)}
+                value={formData.url.value}
+                onChangeFn={onInputChange}
+                onBlurFn={onInputBlur}
                 isRequired/>
 
             <FormField
                 inputType="text"
                 name="tags"
                 placeholder={'TDD, unit test, jest, fb'}
-                value={formData.tags}
-                onChangeFn={(event) => onInputChange(event.target)}
+                value={formData.tags.value}
+                onChangeFn={onInputChange}
                 isRequired={false}/>
 
-            <button className="w-full h-50px bg-primary radius-sm" onClick={() => nextStep(stepId)}>
+            <button className="w-full h-50px bg-primary radius-sm" type="button" onClick={() => nextStep(stepId)}>
                 Next Step
             </button>
         </Step>

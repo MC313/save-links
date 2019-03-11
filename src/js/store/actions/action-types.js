@@ -1,4 +1,5 @@
-export const BACK_FORWARD = 'BACK_FORWARD';
+export const NAVIGATE_BACK = 'NAVIGATE_BACK';
 export const NAVIGATE_FORWARD = 'NAVIGATE_FORWARD';
 export const UPDATE_FORM = 'UPDATE_FORM';
 export const RESET_FORM = 'RESET_FORM';
+export const SET_INPUT_ERROR = 'SET_INPUT_ERROR';

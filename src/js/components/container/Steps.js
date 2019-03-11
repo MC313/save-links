@@ -36,7 +36,7 @@ class Steps extends React.Component {
                         this.navigateThroughSteps(scrollValue);
 
                         return (
-                            <div className="steps flex-row" ref={this.stepsContainer}>
+                            <ul className="steps flex-row" ref={this.stepsContainer}>
                                 <Step1
                                     title={'Article'}
                                     backButton={false}
@@ -51,7 +51,7 @@ class Steps extends React.Component {
                                     title={'Review'}
                                     backButton
                                     stepId={3} />
-                            </div>
+                            </ul>
                         );
                     }
                 }

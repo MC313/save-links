@@ -1,4 +1,4 @@
-import { NAVIGATE_FORWARD, NAVIGATE_BACKWARD, UPDATE_FORM, RESET_FORM } from "../actions/action-types";
+import { NAVIGATE_FORWARD, NAVIGATE_BACKWARD, UPDATE_FORM, RESET_FORM, SET_INPUT_ERROR } from "../actions/action-types";
 
 const offsetValue = 388;
 
@@ -20,8 +20,6 @@ export const rootReducer = (state, action) => {
             };
 
         case UPDATE_FORM:
-            console.log('previous form', state.formData);
-            console.log('current form', action.payload);
             return {
                 ...state,
                 formData: { ...state.formData, ...action.payload }
@@ -31,6 +29,14 @@ export const rootReducer = (state, action) => {
             return {
                 ...state,
                 formData: { ...state.formData }
+            };
+
+        case SET_INPUT_ERROR:
+            const { name, errorValue } = action.payload;
+            const formFieldData = state.formData[name];
+            return {
+                ...state,
+                formData: { ...state.formData, [name]: { ...formFieldData, error: errorValue } }
             };
 
         default:

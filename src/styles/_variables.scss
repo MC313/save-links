@@ -103,6 +103,10 @@ $margin-sm: 10px;
   align-items: center;
 }
 
+.mgn-l-5 {
+  margin-left: 5px;
+}
+
 .mgn-b-10 {
   margin-bottom: 10px;
 }
@@ -191,13 +195,13 @@ App Styles
 }
 
 .steps {
-  overflow-x: auto;
+  overflow-x: hidden;
   scroll-snap-coordinate: 0 0;
   scroll-snap-points-x: repeat(100%);
   scroll-snap-type: mandatory;
 }
 
-.steps > div {
+.step {
   padding: 0px 15px;
 }
 

@@ -5,14 +5,15 @@ import rootReducer from './reducers';
 
 const initialState = {
     currentStep: 1,
+    isSubmitting: false,
     scrollValue: 0,
     formData: {
-        name: '',
-        url: '',
-        tags: [],
-        phone: 0,
-        reminderDate: 0,
-        reminderTime: 0
+        name: { value: '', error: false },
+        url: { value: '', error: false },
+        tags: { value: [], error: false },
+        phone: { value: 0, error: false },
+        timeValue: { value: 0, error: false },
+        TimeUnit: { value: 0, error: false }
     }
 };
 

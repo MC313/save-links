@@ -9,13 +9,13 @@ const Step = ({ children, backButton, title }) => {
     const backButtonEl = <button className={buttonClassList} onClick={navigateBack}>{"<"}</button>;
 
     return (
-        <div className="step w-full">
+        <li className="step w-full">
             <div className="w-full flex-row mgn-b-20">
                 {backButton && backButtonEl}
                 <div className={titleClassList}>{title}</div>
             </div>
             {children}
-        </div>
+        </li>
     );
 };
 

@@ -1,6 +1,16 @@
+label {
+  &.error {
+    color: red;
+  }
+}
+
 button {
-    color: #ffffff;
-    border-style: none;
-    outline: none;
-    transition: color background-color 0.3s ease-in;
+  color: #ffffff;
+  border-style: none;
+  outline: none;
+  transition: color background-color 0.3s ease-in;
+
+  &:disabled {
+    opacity: 0.8;
+  }
 }

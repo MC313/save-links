@@ -21,23 +21,23 @@ const Step3 = ({ backButton, title }) => {
                             <div className="w-full">
                                 <div className="flex-column h-100 mgn-b-20">
                                     <label className="h-25 mgn-b-10 bold color-gray">Article Title</label>
-                                    <p className="font-md">{name}</p>
+                                    <p className="font-md">{name.value}</p>
                                 </div>
                                 <div className="flex-column h-100 mgn-b-20">
                                     <label className="h-25 mgn-b-10 bold color-gray">Article Url</label>
-                                    <p className="font-md">{url}</p>
+                                    <p className="font-md">{url.value}</p>
                                 </div>
                                 <div className="flex-column h-100 mgn-b-20">
                                     <label className="h-25 mgn-b-10 bold color-gray">Article Tags</label>
-                                    <p className="font-md">{tags || '-'}</p>
+                                    <p className="font-md">{tags.value || '-'}</p>
                                 </div>
                                 <div className="flex-column h-100 mgn-b-20">
                                     <label className="h-25 mgn-b-10 bold color-gray">Reminder Phone Number</label>
-                                    <p className="font-md">{phone || '-'}</p>
+                                    <p className="font-md">{phone.value || '-'}</p>
                                 </div>
                                 <div className="flex-column h-100 mgn-b-20">
                                     <label className="h-25 mgn-b-10 bold color-gray">Reminder Time</label>
-                                    <p className="font-md">{+timeValue > 0 ? `${timeValue} ${timeUnit} from now` : '-'}</p>
+                                    <p className="font-md">{+timeValue.value > 0 ? `${timeValue.value} ${timeUnit.value} from now` : '-'}</p>
                                 </div>
                                 <button className="w-full h-50px bg-primary radius-sm" onClick={() => submitLink}>
                                         Save Article
