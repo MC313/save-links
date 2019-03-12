@@ -6,13 +6,7 @@ import Step from '../presentational/Step';
 import FormField from '../presentational/FormField';
 
 const Step1 = ({ backButton, stepId, title }) => {
-    const { actions, dispatch } = useContext(StoreContext);
-
-    let formData = {
-        name: { value: '' },
-        url: { value: '' },
-        tags: { value: [] }
-    };
+    const { formData, actions, dispatch } = useContext(StoreContext);
 
     const onInputBlur = ({ currentTarget }) => {
         dispatch(actions.setInputError({
@@ -23,8 +17,7 @@ const Step1 = ({ backButton, stepId, title }) => {
 
     const onInputChange = ({ target }) => {
         const { name, value } = target;
-        formData = { ...formData, [name]: value };
-        return formData;
+        dispatch(actions.updateForm({ ...formData, [name]: { value } }));
     };
 
     const disableButton = (formData) => {
@@ -33,7 +26,7 @@ const Step1 = ({ backButton, stepId, title }) => {
 
     const nextStep = (stepId) => {
         dispatch(actions.navigateForward(stepId));
-        dispatch(actions.updateForm(formData));
+        //dispatch(actions.updateForm(articleInfo));
     };
 
     return (

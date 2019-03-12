@@ -7,6 +7,8 @@ import {
     SET_INPUT_ERROR
 } from "../actions/action-types";
 
+import { saveLink } from '../../linkService';
+
 const offsetValue = 388;
 
 export const rootReducer = (state, action) => {
@@ -38,19 +40,20 @@ export const rootReducer = (state, action) => {
                 formData: { ...state.formData }
             };
 
-<<<<<<< Updated upstream
         case SET_INPUT_ERROR:
             const { name, errorValue } = action.payload;
             const formFieldData = state.formData[name];
             return {
                 ...state,
                 formData: { ...state.formData, [name]: { ...formFieldData, error: errorValue } }
-=======
+            };
+
         case SUBMIT_FORM:
+            saveLink(action.payload);
             return {
                 ...state,
+                isSubmitting: true,
                 formData: { ...action.payload }
->>>>>>> Stashed changes
             };
 
         default:

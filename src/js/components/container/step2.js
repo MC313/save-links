@@ -4,17 +4,16 @@ import { StoreContext } from '../../store';
 import Step from '../presentational/Step';
 
 const Step2 = ({ backButton, stepId, title }) => {
-    const { actions, dispatch } = useContext(StoreContext);
+    const { formData, actions, dispatch } = useContext(StoreContext);
 
-    let formData = {};
-
-    const onInputChange = ({ name, value }) => {
-        formData = { ...formData, [name]: value };
+    const onInputChange = ({ target }) => {
+        const { name, value } = target;
+        dispatch(actions.updateForm({ ...formData, [name]: { value } }));
     };
 
     const nextStep = (stepId) => {
         dispatch(actions.navigateForward(stepId));
-        dispatch(actions.updateForm(formData));
+        //dispatch(actions.updateForm({...formData}));
     };
 
     return (
@@ -28,15 +27,23 @@ const Step2 = ({ backButton, stepId, title }) => {
                     name="phone"
                     type="tel"
                     placeholder="313-123-4567"
-                    onChange={(event) => onInputChange(event.target)}
+                    value={formData.phone.value}
+                    onChange={onInputChange}
                     noValidate/>
             </div>
 
             <div className="flex-column h-100px">
                 <label className="h-25 mgn-b-10 font-md" htmlFor="reminder">Send reminder in:</label>
                 <div className="flex-row" id="reminder">
-                    <input className="w-25 h-50px mgn-b-10 font-md" name="timeValue" type="number" onChange={(event) => onInputChange(event.target)}/>
-                    <select className="w-75 h-50px font-md" name="timeUnit" onChange={(event) => onInputChange(event.target)}>
+                    <input className="w-25 h-50px mgn-b-10 font-md"
+                        name="timeValue"
+                        type="number"
+                        value={formData.timeValue.value}
+                        onChange={onInputChange} />
+                    <select className="w-75 h-50px font-md"
+                        name="timeUnit"
+                        value={formData.timeUnit.value}
+                        onChange={onInputChange}>
                         <option value="minutes">Minutes</option>
                         <option value="hours">Hours</option>
                         <option value="days">Days</option>

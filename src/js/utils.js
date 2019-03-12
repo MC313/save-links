@@ -19,7 +19,7 @@ export const logger = (value, text = '[LOGGER]') => {
 
 export const formatReminderTimeIntoUTC = (timeValue, timeUnit) => {
     if (!timeValue) {
-        return timeValue;
+        return '';
     }
     return Date.now() + _convertTimeStringToMilliseconds(timeValue, timeUnit);
 };

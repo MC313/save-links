@@ -10,10 +10,10 @@ const initialState = {
     formData: {
         name: { value: '', error: false },
         url: { value: '', error: false },
-        tags: { value: [], error: false },
-        phone: { value: 0, error: false },
-        timeValue: { value: 0, error: false },
-        TimeUnit: { value: 0, error: false }
+        tags: { value: '', error: false },
+        phone: { value: '', error: false },
+        timeValue: { value: '', error: false },
+        timeUnit: { value: '', error: false }
     }
 };
 
