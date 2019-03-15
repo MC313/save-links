@@ -4,6 +4,7 @@ import { hasError } from '../../utils';
 import { StoreContext } from '../../store';
 import Step from '../presentational/Step';
 import FormField from '../presentational/FormField';
+import LoadingSpinner from '../presentational/LoadingSpinner';
 
 const Step1 = ({ backButton, stepId, title }) => {
     const { formData, actions, dispatch } = useContext(StoreContext);
@@ -26,7 +27,6 @@ const Step1 = ({ backButton, stepId, title }) => {
 
     const nextStep = (stepId) => {
         dispatch(actions.navigateForward(stepId));
-        //dispatch(actions.updateForm(articleInfo));
     };
 
     return (
@@ -34,7 +34,7 @@ const Step1 = ({ backButton, stepId, title }) => {
             <FormField
                 inputType="text"
                 name="name"
-                placeholder={'React Unit Test'}
+                placeholder={'React Unit Testing'}
                 value={formData.name.value}
                 onChangeFn={onInputChange}
                 onBlurFn={onInputBlur}

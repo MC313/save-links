@@ -10,7 +10,7 @@ export const saveLink = async ({ name, url, tags, phone, timeValue, timeUnit }) 
     };
 
     try {
-        const response = await fetch('https://r65032qxcg.execute-api.us-east-1.amazonaws.com/dev/links', {
+        await fetch('https://r65032qxcg.execute-api.us-east-1.amazonaws.com/dev/links', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -18,11 +18,7 @@ export const saveLink = async ({ name, url, tags, phone, timeValue, timeUnit }) 
             },
             body: JSON.stringify(link)
         });
-        const json = await response.json();
-        console.log('response', json);
-        // dispatch action on success
     } catch (error) {
         console.error('An error occured try again', error);
-        // dispatch action on error
     }
 };

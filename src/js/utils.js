@@ -24,6 +24,14 @@ export const formatReminderTimeIntoUTC = (timeValue, timeUnit) => {
     return Date.now() + _convertTimeStringToMilliseconds(timeValue, timeUnit);
 };
 
+export const formatDataForAPI = ({ name, url, tags, phone, timeValue, timeUnit }) => ({
+    name: name.value,
+    url: url.value,
+    tags: tags.value && tags.value.trim().split(',') || tags.value,
+    phone: phone.value,
+    reminder: formatReminderTimeIntoUTC(timeValue.value, timeUnit.value)
+});
+
 export const hasError = (input) => {
     let inputError = null;
     for (const type in input.validity) {

@@ -4,7 +4,9 @@ import {
     UPDATE_FORM,
     RESET_FORM,
     SUBMIT_FORM,
-    SET_INPUT_ERROR
+    SET_INPUT_ERROR,
+    CREATE_LINK_REQUEST,
+    CREATE_LINK_SUCCESS
 } from "../actions/action-types";
 
 import { saveLink } from '../../linkService';
@@ -48,12 +50,17 @@ export const rootReducer = (state, action) => {
                 formData: { ...state.formData, [name]: { ...formFieldData, error: errorValue } }
             };
 
-        case SUBMIT_FORM:
+        case CREATE_LINK_REQUEST:
             saveLink(action.payload);
             return {
                 ...state,
-                isSubmitting: true,
-                formData: { ...action.payload }
+                isSubmitting: true
+            };
+
+        case CREATE_LINK_SUCCESS:
+            return {
+                ...state,
+                isSubmitting: false
             };
 
         default:

@@ -20,8 +20,8 @@ class Steps extends React.Component {
 
     navigateThroughSteps = (offsetValue) => {
         if (!this.stepsContainer.current) return;
-        const { current: stepsContainer } = this.stepsContainer;
-        stepsContainer.scrollTo({
+        const { current: stepsElement } = this.stepsContainer;
+        stepsElement.scrollTo({
             top: 0,
             left: offsetValue,
             behavior: 'smooth'
