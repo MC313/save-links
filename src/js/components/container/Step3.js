@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { formatDataForAPI } from '../../utils';
 import { StoreContext } from '../../store';
-import LoadingSpinner from '../presentational/LoadingSpinner';
+import LoadingElement from '../presentational/LoadingElement';
 import Step from '../presentational/Step';
 
 const Step3 = ({ backButton, title }) => {
@@ -10,7 +10,7 @@ const Step3 = ({ backButton, title }) => {
 
     const submitLink = async (event) => {
         event.preventDefault();
-        const formattedData = formatDataForAPI(formData);
+        const requestPayload = formatDataForAPI(formData);
         dispatch(actions.createLinkRequest(formData));
         try {
             await fetch('https://r65032qxcg.execute-api.us-east-1.amazonaws.com/dev/links', {
@@ -19,12 +19,12 @@ const Step3 = ({ backButton, title }) => {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formattedData)
+                body: JSON.stringify(requestPayload)
             });
             dispatch(actions.createLinkSuccess());
         } catch (error) {
-            console.error('An error occured try again', error);
-            //dispatch(actions.createLinkError());
+            console.error('An error occurred when creating the link. Please try again.', error);
+            dispatch(actions.createLinkError());
         }
     };
 
@@ -54,7 +54,7 @@ const Step3 = ({ backButton, title }) => {
                     <p className="font-md">{+timeValue.value > 0 ? `${timeValue.value} ${timeUnit.value} from now` : '-'}</p>
                 </div>
                 <button className="w-full h-50px bg-primary radius-sm" disabled={isSubmitting} onClick={submitLink}>
-                    {isSubmitting ? <LoadingSpinner/> : 'Save Article'}
+                    {isSubmitting ? <LoadingElement/> : 'Save Article'}
                 </button>
             </div>
         </Step>

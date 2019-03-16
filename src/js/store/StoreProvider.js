@@ -7,6 +7,7 @@ const initialState = {
     currentStep: 1,
     isSubmitting: false,
     scrollValue: 0,
+    showOverlay: false,
     formData: {
         name: { value: '', error: false },
         url: { value: '', error: false },

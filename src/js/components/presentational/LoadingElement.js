@@ -48,7 +48,7 @@ const animations = `
 
 document.querySelector('style').append(animations);
 
-const LoadingSpinner = () => (
+const LoadingElement = () => (
     <div style={spinner}>
         <div style={bounce1} />
         <div style={bounce2} />
@@ -56,4 +56,4 @@ const LoadingSpinner = () => (
     </div>
 );
 
-export default LoadingSpinner;
+export default LoadingElement;

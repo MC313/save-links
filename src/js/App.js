@@ -1,18 +1,30 @@
 import React from 'react';
 
-import { StoreProvider } from './store';
+import { StoreProvider, StoreConsumer } from './store';
 import Steps from './components/container/Steps';
 import StepIndicator from './components/container/StepIndicator';
+import SuccessOverlay from './components/presentational/SuccessOverlay';
 
-const App = () =>
-    (
+
+const App = () => {
+    return (
         <StoreProvider>
-            <section className="wizard">
-                <Steps/>
-                <StepIndicator />
-            </section>
+            <StoreConsumer>
+                {
+                    ({ showOverlay }) => {
+                        return (
+                            <section className="wizard">
+                                <SuccessOverlay show={showOverlay} />
+                                <Steps/>
+                                <StepIndicator />
+                            </section>
+                        );
+                    }
+                }
+            </StoreConsumer>
         </StoreProvider>
     );
+};
 
 
 export default App;

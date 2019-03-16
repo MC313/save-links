@@ -4,7 +4,6 @@ import { hasError } from '../../utils';
 import { StoreContext } from '../../store';
 import Step from '../presentational/Step';
 import FormField from '../presentational/FormField';
-import LoadingSpinner from '../presentational/LoadingSpinner';
 
 const Step1 = ({ backButton, stepId, title }) => {
     const { formData, actions, dispatch } = useContext(StoreContext);
@@ -19,10 +18,6 @@ const Step1 = ({ backButton, stepId, title }) => {
     const onInputChange = ({ target }) => {
         const { name, value } = target;
         dispatch(actions.updateForm({ ...formData, [name]: { value } }));
-    };
-
-    const disableButton = (formData) => {
-
     };
 
     const nextStep = (stepId) => {

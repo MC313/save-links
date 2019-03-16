@@ -3,10 +3,10 @@ import {
     NAVIGATE_BACKWARD,
     UPDATE_FORM,
     RESET_FORM,
-    SUBMIT_FORM,
     SET_INPUT_ERROR,
     CREATE_LINK_REQUEST,
-    CREATE_LINK_SUCCESS
+    CREATE_LINK_SUCCESS,
+    CREATE_LINK_ERROR
 } from "../actions/action-types";
 
 import { saveLink } from '../../linkService';
@@ -58,6 +58,13 @@ export const rootReducer = (state, action) => {
             };
 
         case CREATE_LINK_SUCCESS:
+            return {
+                ...state,
+                isSubmitting: false,
+                showOverlay: true
+            };
+
+        case CREATE_LINK_ERROR:
             return {
                 ...state,
                 isSubmitting: false
