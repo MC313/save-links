@@ -5,9 +5,6 @@ import rootReducer from './reducers';
 
 const initialState = {
     currentStep: 1,
-    isSubmitting: false,
-    scrollValue: 0,
-    showOverlay: false,
     formData: {
         name: { value: '', error: false },
         url: { value: '', error: false },
@@ -15,7 +12,10 @@ const initialState = {
         phone: { value: '', error: false },
         timeValue: { value: '', error: false },
         timeUnit: { value: '', error: false }
-    }
+    },
+    isSubmitting: false,
+    scrollValue: 0,
+    showOverlay: false
 };
 
 let StoreContext;

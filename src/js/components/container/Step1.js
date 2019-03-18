@@ -42,7 +42,7 @@ const Step1 = ({ backButton, stepId, title }) => {
                 value={formData.url.value}
                 onChangeFn={onInputChange}
                 onBlurFn={onInputBlur}
-                isRequired/>
+                isRequired />
 
             <FormField
                 inputType="text"
@@ -50,7 +50,7 @@ const Step1 = ({ backButton, stepId, title }) => {
                 placeholder={'TDD, unit test, jest, fb'}
                 value={formData.tags.value}
                 onChangeFn={onInputChange}
-                isRequired={false}/>
+                isRequired={false} />
 
             <button className="w-full h-50px bg-primary radius-sm" type="button" onClick={() => nextStep(stepId)}>
                 Next Step

@@ -2,14 +2,27 @@ import {
     NAVIGATE_FORWARD,
     NAVIGATE_BACKWARD,
     UPDATE_FORM,
-    RESET_FORM,
+    RESET_STATE,
     SET_INPUT_ERROR,
-    CREATE_LINK_REQUEST,
-    CREATE_LINK_SUCCESS,
-    CREATE_LINK_ERROR
+    SAVE_LINK_REQUEST,
+    SAVE_LINK_SUCCESS,
+    SAVE_LINK_ERROR
 } from "../actions/action-types";
 
-import { saveLink } from '../../linkService';
+const initialState = {
+    currentStep: 1,
+    isSubmitting: false,
+    scrollValue: 0,
+    showOverlay: false,
+    formData: {
+        name: { value: '', error: false },
+        url: { value: '', error: false },
+        tags: { value: '', error: false },
+        phone: { value: '', error: false },
+        timeValue: { value: '', error: false },
+        timeUnit: { value: '', error: false }
+    }
+};
 
 const offsetValue = 388;
 
@@ -36,10 +49,9 @@ export const rootReducer = (state, action) => {
                 formData: { ...state.formData, ...action.payload }
             };
 
-        case RESET_FORM:
+        case RESET_STATE:
             return {
-                ...state,
-                formData: { ...state.formData }
+                ...initialState
             };
 
         case SET_INPUT_ERROR:
@@ -50,21 +62,20 @@ export const rootReducer = (state, action) => {
                 formData: { ...state.formData, [name]: { ...formFieldData, error: errorValue } }
             };
 
-        case CREATE_LINK_REQUEST:
-            saveLink(action.payload);
+        case SAVE_LINK_REQUEST:
             return {
                 ...state,
                 isSubmitting: true
             };
 
-        case CREATE_LINK_SUCCESS:
+        case SAVE_LINK_SUCCESS:
             return {
                 ...state,
                 isSubmitting: false,
                 showOverlay: true
             };
 
-        case CREATE_LINK_ERROR:
+        case SAVE_LINK_ERROR:
             return {
                 ...state,
                 isSubmitting: false

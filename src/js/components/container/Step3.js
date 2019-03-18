@@ -8,10 +8,12 @@ import Step from '../presentational/Step';
 const Step3 = ({ backButton, title }) => {
     const { formData, isSubmitting, actions, dispatch } = useContext(StoreContext);
 
-    const submitLink = async (event) => {
+    const saveLink = async (event) => {
         event.preventDefault();
         const requestPayload = formatDataForAPI(formData);
-        dispatch(actions.createLinkRequest(formData));
+
+        //is this action really neccessary
+        dispatch(actions.saveLinkRequest(formData));
         try {
             await fetch('https://r65032qxcg.execute-api.us-east-1.amazonaws.com/dev/links', {
                 method: 'POST',
@@ -21,12 +23,23 @@ const Step3 = ({ backButton, title }) => {
                 },
                 body: JSON.stringify(requestPayload)
             });
-            dispatch(actions.createLinkSuccess());
+            dispatch(actions.saveLinkSuccess());
         } catch (error) {
             console.error('An error occurred when creating the link. Please try again.', error);
-            dispatch(actions.createLinkError());
+            dispatch(actions.saveLinkError());
         }
     };
+
+    // const saveLink = (event) => {
+    //     event.preventDefault();
+    //     console.log('running save link');
+    //     const requestPayload = formatDataForAPI(formData);
+    //     dispatch(actions.saveLinkRequest(formData));
+    //     setTimeout(() => {
+    //         dispatch(actions.saveLinkSuccess());
+    //         console.log('dispatching save link action');
+    //     }, 3000);
+    // };
 
     const { name, url, tags, phone, timeValue, timeUnit } = formData;
 
@@ -53,8 +66,8 @@ const Step3 = ({ backButton, title }) => {
                     <label className="h-25 mgn-b-10 bold color-gray">Reminder Time</label>
                     <p className="font-md">{+timeValue.value > 0 ? `${timeValue.value} ${timeUnit.value} from now` : '-'}</p>
                 </div>
-                <button className="w-full h-50px bg-primary radius-sm" disabled={isSubmitting} onClick={submitLink}>
-                    {isSubmitting ? <LoadingElement/> : 'Save Article'}
+                <button className="w-full h-50px bg-primary radius-sm" disabled={isSubmitting} onClick={saveLink}>
+                    {isSubmitting ? <LoadingElement /> : 'Save Article'}
                 </button>
             </div>
         </Step>

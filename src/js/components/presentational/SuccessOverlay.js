@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-let overlayStyles = {
+import { StoreContext } from '../../store';
+
+const overlayStyles = {
     width: '100%',
     height: '100%',
     display: 'none',
@@ -18,14 +20,15 @@ let overlayStyles = {
 };
 
 const SuccessOverlay = ({ show }) => {
-    if (show) {
-        overlayStyles = { ...overlayStyles, display: 'flex', opacity: '1' };
-    }
+    const { actions, dispatch } = useContext(StoreContext);
+    const resetApp = () => dispatch(actions.resetState());
 
     return (
-        <div style={overlayStyles}>
+        <div style={show ? { ...overlayStyles, display: 'flex', opacity: '1' } : overlayStyles}>
             <p className="mgn-b-20">Link Saved Successfully</p>
-            <button className="w-75 h-50px bg-secondary radius-sm">Save Another Link</button>
+            <button className="w-75 h-50px bg-secondary radius-sm" onClick={resetApp}>
+                Save Another Link
+            </button>
         </div>
     );
 };
