@@ -45,31 +45,31 @@ const Step3 = ({ backButton, title }) => {
 
     return (
         <Step title={title} backButton={backButton}>
-            <div className="w-full">
-                <div className="flex-column h-100 mgn-b-20">
-                    <label className="h-25 mgn-b-10 bold color-gray">Article Title</label>
-                    <p className="font-md">{name.value || '-'}</p>
+            <div className="step__content">
+                <div className="review-text">
+                    <label className="review-text__label">Link Title</label>
+                    <p className="review-text__value">{name.value || '-'}</p>
                 </div>
-                <div className="flex-column h-100 mgn-b-20">
-                    <label className="h-25 mgn-b-10 bold color-gray">Article Url</label>
-                    <p className="font-md">{url.value || '-'}</p>
+                <div className="review-text">
+                    <label className="review-text__label">Link Url</label>
+                    <p className="review-text__value">{url.value || '-'}</p>
                 </div>
-                <div className="flex-column h-100 mgn-b-20">
-                    <label className="h-25 mgn-b-10 bold color-gray">Article Tags</label>
-                    <p className="font-md">{tags.value || '-'}</p>
+                <div className="review-text">
+                    <label className="review-text__label">Link Tags</label>
+                    <p className="review-text__value">{tags.value || '-'}</p>
                 </div>
-                <div className="flex-column h-100 mgn-b-20">
-                    <label className="h-25 mgn-b-10 bold color-gray">Reminder Phone Number</label>
-                    <p className="font-md">{phone.value || '-'}</p>
+                <div className="review-text">
+                    <label className="review-text__label">Reminder Phone Number</label>
+                    <p className="review-text__value">{phone.value || '-'}</p>
                 </div>
-                <div className="flex-column h-100 mgn-b-20">
-                    <label className="h-25 mgn-b-10 bold color-gray">Reminder Time</label>
-                    <p className="font-md">{+timeValue.value > 0 ? `${timeValue.value} ${timeUnit.value} from now` : '-'}</p>
+                <div className="review-text">
+                    <label className="review-text__label">Reminder Time</label>
+                    <p className="review-text__value">{+timeValue.value > 0 ? `${timeValue.value} ${timeUnit.value} from now` : '-'}</p>
                 </div>
-                <button className="w-full h-50px bg-primary radius-sm" disabled={isSubmitting} onClick={saveLink}>
-                    {isSubmitting ? <LoadingElement /> : 'Save Article'}
-                </button>
             </div>
+            <button className="btn--primary" disabled={isSubmitting} onClick={saveLink}>
+                {isSubmitting ? <LoadingElement /> : 'Save Link'}
+            </button>
         </Step>
     );
 };

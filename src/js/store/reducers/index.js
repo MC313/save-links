@@ -6,7 +6,8 @@ import {
     SET_INPUT_ERROR,
     SAVE_LINK_REQUEST,
     SAVE_LINK_SUCCESS,
-    SAVE_LINK_ERROR
+    SAVE_LINK_ERROR,
+    CHANGE_THEME
 } from "../actions/action-types";
 
 const initialState = {
@@ -79,6 +80,12 @@ export const rootReducer = (state, action) => {
             return {
                 ...state,
                 isSubmitting: false
+            };
+
+        case CHANGE_THEME:
+            return {
+                ...state,
+                theme: action.payload
             };
 
         default:

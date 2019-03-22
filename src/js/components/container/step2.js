@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { StoreContext } from '../../store';
 
 import Step from '../presentational/Step';
+import FormField from '../presentational/FormField';
 
 const Step2 = ({ backButton, stepId, title }) => {
     const { formData, actions, dispatch } = useContext(StoreContext);
@@ -13,44 +14,40 @@ const Step2 = ({ backButton, stepId, title }) => {
 
     const nextStep = (stepId) => {
         dispatch(actions.navigateForward(stepId));
-        //dispatch(actions.updateForm({...formData}));
     };
 
     return (
         <Step title={title} backButton={backButton}>
-            <div className="flex-column h-100px mgn-b-10">
-                <label className="flex-row h-25px font-md" htmlFor="phone">
-                    Text a reminder about this article to:
-                </label>
-                <input className="h-50px mgn-b-10 font-md"
-                    id="phoneId"
+            <div className="step__content">
+                <FormField
+                    inputType="tel"
                     name="phone"
-                    type="tel"
-                    placeholder="313-123-4567"
+                    label="Text a reminder about this article to:"
+                    placeholder={'React Unit Testing'}
                     value={formData.phone.value}
-                    onChange={onInputChange}
-                    noValidate/>
-            </div>
+                    onChangeFn={onInputChange}
+                    isRequired={false} />
 
-            <div className="flex-column h-100px">
-                <label className="h-25 mgn-b-10 font-md" htmlFor="reminder">Send reminder in:</label>
-                <div className="flex-row" id="reminder">
-                    <input className="w-25 h-50px mgn-b-10 font-md"
-                        name="timeValue"
-                        type="number"
-                        value={formData.timeValue.value}
-                        onChange={onInputChange} />
-                    <select className="w-75 h-50px font-md"
-                        name="timeUnit"
-                        value={formData.timeUnit.value}
-                        onChange={onInputChange}>
-                        <option value="minutes">Minutes</option>
-                        <option value="hours">Hours</option>
-                        <option value="days">Days</option>
-                    </select>
+                <div className="form-field form-field--reminder">
+                    <label className="form-field__label" htmlFor="reminder">Send reminder in:</label>
+                    <div id="reminder">
+                        <input className="form-field__input"
+                            name="timeValue"
+                            type="number"
+                            value={formData.timeValue.value}
+                            onChange={onInputChange} />
+                        <select className="form-field__select"
+                            name="timeUnit"
+                            value={formData.timeUnit.value}
+                            onChange={onInputChange}>
+                            <option value="minutes">Minutes</option>
+                            <option value="hours">Hours</option>
+                            <option value="days">Days</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <button className="w-full h-50px bg-primary radius-sm" onClick={() => nextStep(stepId)}>
+            <button className="btn--primary" onClick={() => nextStep(stepId)}>
                 Next Step
             </button>
         </Step>

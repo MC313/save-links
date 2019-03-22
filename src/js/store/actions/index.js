@@ -5,8 +5,11 @@ import {
     RESET_STATE,
     SAVE_LINK_REQUEST,
     SAVE_LINK_SUCCESS,
-    SET_INPUT_ERROR
+    SET_INPUT_ERROR,
+    CHANGE_THEME
 } from './action-types';
+
+export const changeTheme = (payload) => ({ type: CHANGE_THEME, payload });
 
 export const navigateForward = (payload) => ({ type: NAVIGATE_FORWARD, payload });
 export const navigateBackward = (payload) => ({ type: NAVIGATE_BACKWARD, payload });

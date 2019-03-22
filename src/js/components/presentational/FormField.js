@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { StoreConsumer } from '../../store';
+import { StoreContext } from '../../store';
 
-const FormField = ({ inputType = 'text', name, placeholder, onBlurFn, onChangeFn, isRequired = false }) => {
+const FormField = ({ inputType = 'text', name, label, placeholder, onBlurFn, onChangeFn, isRequired = false }) => {
+    const { formData } = useContext(StoreContext);
+
     const capitalize = (strValue) => {
         const strArray = strValue.split('');
         strArray[0] = strArray[0].toUpperCase();
@@ -10,32 +12,23 @@ const FormField = ({ inputType = 'text', name, placeholder, onBlurFn, onChangeFn
     };
 
     return (
-        <StoreConsumer>
-            {
-                ({ formData }) => {
-                    return (
-                        <div className="flex-column h-100px mgn-b-10">
-                            <label className={`flex-row h-25px font-md ${formData[name].error ? 'error' : ''}`} htmlFor={name}>
-                                <p>{capitalize(name)}</p>
-                                {isRequired ? <p className="font-md mgn-l-5">(required)</p> : ''}
-                            </label>
-                            <input
-                                className="h-50px mgn-b-10 font-md"
-                                id={`${name}Id`}
-                                name={name}
-                                type={inputType}
-                                placeholder={placeholder}
-                                onChange={onChangeFn}
-                                onBlur={onBlurFn}
-                                required={isRequired}
-                                noValidate/>
+        <div className="form-field">
+            <label className={`form-field__label ${formData[name].error ? 'form-field__label--error' : ''}`} htmlFor={name}>
+                {label ? capitalize(label) : capitalize(name)} { isRequired ? '(required)' : ''}
+            </label>
+            <input
+                className="form-field__input"
+                id={`${name}Id`}
+                name={name}
+                type={inputType}
+                placeholder={placeholder}
+                onChange={onChangeFn}
+                onBlur={onBlurFn}
+                required={isRequired}
+                noValidate/>
 
-                            <div className="h-25px w-full" />
-                        </div>
-                    );
-                }
-            }
-        </StoreConsumer>
+            <div className="h-25px w-full" />
+        </div>
     );
 };
 

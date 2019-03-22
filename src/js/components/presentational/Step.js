@@ -3,16 +3,15 @@ import { StoreContext } from '../../store';
 
 const Step = ({ children, backButton, title }) => {
     const { actions, dispatch, currentStep } = useContext(StoreContext);
-    const buttonClassList = "radius-round w-50px h-50px font-lg bg-primary";
-    const titleClassList = `center ${backButton ? 'w-75' : 'w-full'} font-lg color-primary`;
+    const buttonClassList = "btn--back";
     const navigateBack = () => dispatch(actions.navigateBackward(currentStep));
-    const backButtonEl = <button className={buttonClassList} onClick={navigateBack}>{"<"}</button>;
+    const backButtonEl = <button className={buttonClassList} onClick={navigateBack}>{"➜"}</button>;
 
     return (
-        <li className="step w-full">
-            <div className="w-full flex-row mgn-b-20">
+        <li className="step">
+            <div className="step__header">
                 {backButton && backButtonEl}
-                <div className={titleClassList}>{title}</div>
+                <h2 className="title">{title}</h2>
             </div>
             {children}
         </li>

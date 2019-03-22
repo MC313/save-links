@@ -1,0 +1,165 @@
+.btn--primary {
+  @include button;
+  border-color: var(--primary, rgba(54, 5, 104, 1));
+  background-color: rgba(54, 5, 104, 1);
+  background-color: var(--primary, rgba(54, 5, 104, 1));
+  color: var(--white, rgba(255, 255, 255, 1));
+  color: rgba(255, 255, 255, 1);
+}
+
+.btn--secondary {
+  @include button;
+  border-color: var(--secondary, rgba(154, 103, 234, 1));
+  background-color: rgba(154, 103, 234, 1);
+  background-color: var(--secondary, rgba(154, 103, 234, 1));
+  color: var(--white, rgba(255, 255, 255, 1));
+  color: rgba(255, 255, 255, 1);
+}
+
+.btn--back {
+  @include flex-center;
+  width: 45px;
+  height: 45px;
+  border-radius: $radius-round;
+  transform: rotate(180deg);
+  font-size: $font-medium;
+  background-color: rgba(54, 5, 104, 1);
+  background-color: var(--primary, rgba(54, 5, 104, 1));
+}
+
+.wizard {
+  width: 80%;
+  height: auto;
+  max-width: 450px;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  margin: 0px 10px;
+  padding: 30px 30px 0px 30px;
+  border: 1px solid rgba(162, 136, 166, 0.26);
+  border-bottom-color: rgba(162, 136, 166, 0.26);
+  border-radius: 8px;
+  box-shadow: 5px 5px 25px 0 rgba(46, 61, 73, 0.3);
+  background-color: #ffffff;
+}
+
+.form-field {
+  margin-bottom: 40px;
+  .form-field__label {
+    @include flex-row;
+    font-size: $font-base;
+    margin-right: $margin-small;
+    margin-bottom: $margin-medium;
+    &--error {
+      color: red;
+    }
+  }
+  .form-field__input {
+    width: $width-full;
+    height: $height-medium;
+    padding-left: $padding-small;
+    border-radius: $radius-small;
+    font-size: $font-medium;
+  }
+}
+
+.form-field--reminder {
+  div {
+    @include flex-row;
+  }
+  .form-field__input {
+    display: block;
+    width: $width-small;
+    margin-right: $margin-medium;
+  }
+  .form-field__select {
+    width: $width-full;
+  }
+}
+
+.review-text {
+  margin-bottom: $margin-large;
+  &__label {
+    margin-bottom: $margin-medium;
+  }
+  &__value {
+    font-size: $font-medium;
+  }
+}
+
+.steps {
+  @include flex-row;
+  width: $width-full;
+  overflow-x: hidden;
+  scroll-snap-coordinate: 0 0;
+  scroll-snap-points-x: repeat(100%);
+  scroll-snap-type: mandatory;
+}
+
+.step {
+  @include flex-column;
+  min-width: 100%;
+  width: $step-width;
+  padding: 0px 15px;
+  &__content {
+    flex: 1;
+  }
+  &__header {
+    @include flex-row;
+    @include flex-center;
+    width: $width-full;
+    font-size: $font-medium;
+    color: rgba(54, 5, 104, 1);
+    color: var(--primary, rgba(54, 5, 104, 1));
+    text-align: center;
+    margin-bottom: 40px;
+
+    .title {
+      flex: 1;
+    }
+  }
+}
+
+.indicator {
+  @include flex-row;
+  @include flex-space-evenly;
+  width: $width-full;
+  margin: 30px auto;
+  &__icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--primary, rgba(54, 5, 104, 1));
+    background-color: rgba(255, 255, 255, 1);
+    background-color: var(--white, rgba(255, 255, 255, 1));
+    transition: background-color 0.4s ease;
+  }
+  &__icon--active {
+    background-color: rgba(54, 5, 104, 1);
+    background-color: var(--primary, rgba(54, 5, 104, 1));
+  }
+}
+
+.overlay {
+  @include flex-center;
+  @include flex-column;
+  width: $width-full;
+  height: $height-full;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+  opacity: 0;
+  background-color: rgba(54, 5, 104, 1);
+  background-color: var(--primary, rgba(54, 5, 104, 1));
+  transition: opacity 0.3s 0.4s ease-in;
+  &__text {
+    font-size: $font-medium;
+    color: rgba(255, 255, 255, 1);
+    color: var(--white, rgba(255, 255, 255, 1));
+  }
+  &__btn {
+    width: 80%;
+    margin-top: $margin-medium;
+  }
+}

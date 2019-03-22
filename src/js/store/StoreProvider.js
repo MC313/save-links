@@ -15,7 +15,8 @@ const initialState = {
     },
     isSubmitting: false,
     scrollValue: 0,
-    showOverlay: false
+    showOverlay: false,
+    theme: 'LIGHT'
 };
 
 let StoreContext;

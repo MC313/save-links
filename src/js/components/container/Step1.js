@@ -26,33 +26,35 @@ const Step1 = ({ backButton, stepId, title }) => {
 
     return (
         <Step title={title} backButton={backButton}>
-            <FormField
-                inputType="text"
-                name="name"
-                placeholder={'React Unit Testing'}
-                value={formData.name.value}
-                onChangeFn={onInputChange}
-                onBlurFn={onInputBlur}
-                isRequired />
+            <div className="step__content">
+                <FormField
+                    inputType="text"
+                    name="name"
+                    placeholder={'React Unit Testing'}
+                    value={formData.name.value}
+                    onChangeFn={onInputChange}
+                    onBlurFn={onInputBlur}
+                    isRequired />
 
-            <FormField
-                inputType="url"
-                name="url"
-                placeholder={'https://www.reactjs.com'}
-                value={formData.url.value}
-                onChangeFn={onInputChange}
-                onBlurFn={onInputBlur}
-                isRequired />
+                <FormField
+                    inputType="url"
+                    name="url"
+                    placeholder={'https://www.reactjs.com'}
+                    value={formData.url.value}
+                    onChangeFn={onInputChange}
+                    onBlurFn={onInputBlur}
+                    isRequired />
 
-            <FormField
-                inputType="text"
-                name="tags"
-                placeholder={'TDD, unit test, jest, fb'}
-                value={formData.tags.value}
-                onChangeFn={onInputChange}
-                isRequired={false} />
+                <FormField
+                    inputType="text"
+                    name="tags"
+                    placeholder={'TDD, unit test, jest, fb'}
+                    value={formData.tags.value}
+                    onChangeFn={onInputChange}
+                    isRequired={false} />
+            </div>
 
-            <button className="w-full h-50px bg-primary radius-sm" type="button" onClick={() => nextStep(stepId)}>
+            <button className="btn--primary" type="button" onClick={() => nextStep(stepId)}>
                 Next Step
             </button>
         </Step>
