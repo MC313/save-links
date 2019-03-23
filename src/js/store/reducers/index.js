@@ -7,7 +7,7 @@ import {
     SAVE_LINK_REQUEST,
     SAVE_LINK_SUCCESS,
     SAVE_LINK_ERROR,
-    CHANGE_THEME
+    UPDATE_TOGGLE_SWITCH
 } from "../actions/action-types";
 
 const initialState = {
@@ -82,10 +82,11 @@ export const rootReducer = (state, action) => {
                 isSubmitting: false
             };
 
-        case CHANGE_THEME:
+        case UPDATE_TOGGLE_SWITCH:
             return {
                 ...state,
-                theme: action.payload
+                toggleOn: action.payload,
+                theme: action.payload ? 'DARK' : 'LIGHT'
             };
 
         default:

@@ -2,6 +2,7 @@
 @import 'variables';
 @import 'mixins';
 @import 'typography';
+@import 'controls';
 @import 'modules';
 
 * {
@@ -16,10 +17,9 @@ main {
 }
 
 main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
+  @include flex-column;
   line-height: 1;
   font-size: $font-base;
-  background-color: rgba(249, 249, 249, 1);
+  background-color: rgba(255, 255, 255, 1);
 }

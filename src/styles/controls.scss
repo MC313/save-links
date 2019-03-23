@@ -1,0 +1,80 @@
+.btn--primary {
+  @include button;
+  border-color: var(--primary, rgba(54, 5, 104, 1));
+  background-color: rgba(54, 5, 104, 1);
+  background-color: var(--primary, rgba(54, 5, 104, 1));
+  color: var(--white, rgba(255, 255, 255, 1));
+  color: rgba(255, 255, 255, 1);
+}
+
+.btn--secondary {
+  @include button;
+  border-color: var(--secondary, rgba(154, 103, 234, 1));
+  background-color: rgba(154, 103, 234, 1);
+  background-color: var(--secondary, rgba(154, 103, 234, 1));
+  color: var(--white, rgba(255, 255, 255, 1));
+  color: rgba(255, 255, 255, 1);
+}
+
+.btn--back {
+  @include flex-center;
+  width: 45px;
+  height: 45px;
+  border-radius: $radius-round;
+  transform: rotate(180deg);
+  font-size: $font-medium;
+  background-color: rgba(54, 5, 104, 1);
+  background-color: var(--primary, rgba(54, 5, 104, 1));
+}
+
+.toggle-container {
+  @include flex-row;
+  @include flex-center;
+  width: $width-full;
+  height: 50px;
+  justify-content: end;
+  padding-right: 50px;
+}
+
+.toggle {
+  @include flex-center;
+  input[type='checkbox'] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
+  &__label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 60px;
+    height: 26px;
+    background-color: rgba(103, 58, 183, 1);
+    background-color: var(--purple, rgba(103, 58, 183, 1));
+    display: block;
+    border-radius: 100px;
+    position: relative;
+  }
+
+  &__label:after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 1);
+    background-color: var(--white, rgba(255, 255, 255, 1));
+    border-radius: $radius-round;
+    transition: 0.3s;
+  }
+
+  &__input:checked + &__label {
+    background-color: rgba(54, 5, 104, 1);
+    background-color: var(--primary, rgba(54, 5, 104, 1));
+  }
+
+  &__input:checked + &__label:after {
+    left: calc(100% - 3px);
+    transform: translateX(-100%);
+  }
+}

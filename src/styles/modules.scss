@@ -1,32 +1,3 @@
-.btn--primary {
-  @include button;
-  border-color: var(--primary, rgba(54, 5, 104, 1));
-  background-color: rgba(54, 5, 104, 1);
-  background-color: var(--primary, rgba(54, 5, 104, 1));
-  color: var(--white, rgba(255, 255, 255, 1));
-  color: rgba(255, 255, 255, 1);
-}
-
-.btn--secondary {
-  @include button;
-  border-color: var(--secondary, rgba(154, 103, 234, 1));
-  background-color: rgba(154, 103, 234, 1);
-  background-color: var(--secondary, rgba(154, 103, 234, 1));
-  color: var(--white, rgba(255, 255, 255, 1));
-  color: rgba(255, 255, 255, 1);
-}
-
-.btn--back {
-  @include flex-center;
-  width: 45px;
-  height: 45px;
-  border-radius: $radius-round;
-  transform: rotate(180deg);
-  font-size: $font-medium;
-  background-color: rgba(54, 5, 104, 1);
-  background-color: var(--primary, rgba(54, 5, 104, 1));
-}
-
 .wizard {
   width: 80%;
   height: auto;
@@ -56,7 +27,8 @@
   }
   .form-field__input {
     width: $width-full;
-    height: $height-medium;
+    min-height: 40px;
+    height: 8vh;
     padding-left: $padding-small;
     border-radius: $radius-small;
     font-size: $font-medium;

@@ -4,6 +4,7 @@ import * as actions from './actions';
 import rootReducer from './reducers';
 
 const initialState = {
+    toggleOn: false,
     currentStep: 1,
     formData: {
         name: { value: '', error: false },

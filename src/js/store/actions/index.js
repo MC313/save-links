@@ -6,10 +6,10 @@ import {
     SAVE_LINK_REQUEST,
     SAVE_LINK_SUCCESS,
     SET_INPUT_ERROR,
-    CHANGE_THEME
+    UPDATE_TOGGLE_SWITCH
 } from './action-types';
 
-export const changeTheme = (payload) => ({ type: CHANGE_THEME, payload });
+export const setToggleValue = (payload) => ({ type: UPDATE_TOGGLE_SWITCH, payload });
 
 export const navigateForward = (payload) => ({ type: NAVIGATE_FORWARD, payload });
 export const navigateBackward = (payload) => ({ type: NAVIGATE_BACKWARD, payload });
