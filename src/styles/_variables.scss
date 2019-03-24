@@ -5,13 +5,22 @@
   --red: red;
   --gray: rgba(61, 61, 61, 0.8);
   --white: rgba(255, 255, 255, 1);
+
   --primary: var(--dark-purple);
   --secondary: var(--light-purple);
+  --teriary: var(--purple);
+  --primary-text: var(--primary);
+  --secondary-text: var(--white);
   --neutral: var(--gray);
+  --background: var(--white);
+  --card-background: var(--white);
+  --btn-color: var(--white);
   --error: var(--red);
 }
 
-$radius-small: 4px;
+$radius-extra-small: 4px;
+$radius-small: 8px;
+$radius-large: 100px;
 $radius-round: 50%;
 
 /******* Spacing *******/
@@ -21,6 +30,7 @@ $margin-large: 15px;
 
 $padding-small: 5px;
 $padding-medium: 10px;
+$padding-large: 15px;
 
 /******* Height *******/
 $height-auto: auto;

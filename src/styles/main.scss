@@ -5,10 +5,6 @@
 @import 'controls';
 @import 'modules';
 
-* {
-  box-sizing: border-box;
-}
-
 html,
 body,
 main {
@@ -17,9 +13,20 @@ main {
 }
 
 main {
-  @include flex-center;
-  @include flex-column;
+  display: grid;
+  grid-template-rows: 50px 1fr;
+  grid-row-gap: 10px;
   line-height: 1;
   font-size: $font-base;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: var(--background);
+}
+
+.primary-theme {
+  --primary: var(--dark-purple);
+  --secondary: var(--white);
+}
+
+.dark-theme {
+  --primary: var(--white);
+  --secondary: var(--dark-purple);
 }

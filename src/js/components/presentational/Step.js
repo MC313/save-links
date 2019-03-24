@@ -3,9 +3,8 @@ import { StoreContext } from '../../store';
 
 const Step = ({ children, backButton, title }) => {
     const { actions, dispatch, currentStep } = useContext(StoreContext);
-    const buttonClassList = "btn--back";
     const navigateBack = () => dispatch(actions.navigateBackward(currentStep));
-    const backButtonEl = <button className={buttonClassList} onClick={navigateBack}>{"➜"}</button>;
+    const backButtonEl = <button type="button" className="btn--back" onClick={navigateBack} />;
 
     return (
         <li className="step">

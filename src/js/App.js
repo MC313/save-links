@@ -8,8 +8,12 @@ import ThemeToggle from './components/container/ThemeToggle';
 const App = () => {
     return (
         <StoreProvider>
-            <ThemeToggle />
-            <Wizard />
+            <section className="grid-item-1">
+                <ThemeToggle />
+            </section>
+            <section className="grid-item-2">
+                <Wizard />
+            </section>
         </StoreProvider>
     );
 };

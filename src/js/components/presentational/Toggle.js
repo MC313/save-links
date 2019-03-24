@@ -1,8 +1,9 @@
 import React from 'react';
 
-const Toggle = ({ onToggleChange, value }) => {
+const Toggle = ({ label, onToggleChange, value }) => {
     return (
         <div className="toggle">
+            <p className="toggle__text">{label}</p>
             <input
                 className="toggle__input"
                 type="checkbox"
@@ -10,7 +11,7 @@ const Toggle = ({ onToggleChange, value }) => {
                 checked={value}
                 onChange={onToggleChange}
             />
-            <label htmlFor="switch" className="toggle__label">Toggle</label>
+            <label htmlFor="switch" className="toggle__label" />
         </div>
     );
 };
