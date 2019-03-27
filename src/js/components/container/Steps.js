@@ -1,9 +1,22 @@
 import React from 'react';
 
+import { css } from '@emotion/core';
+import styled from '@emotion/styled';
+
+import { flex } from '../../styles/styles';
 import { StoreConsumer } from '../../store';
 import Step1 from './Step1';
 import Step2 from './step2';
 import Step3 from './Step3';
+
+const styles = css`
+    ${flex.row};
+    width: $width-full;
+    overflow-x: hidden;
+    scroll-snap-coordinate: 0 0;
+    scroll-snap-points-x: repeat(100%);
+    scroll-snap-type: mandatory;
+`;
 
 class Steps extends React.Component {
     constructor (props) {
@@ -36,7 +49,7 @@ class Steps extends React.Component {
                         this.navigateThroughSteps(scrollValue);
 
                         return (
-                            <ul className="steps" ref={this.stepsContainer}>
+                            <ul className={this.props.className} ref={this.stepsContainer}>
                                 <Step1
                                     title={'Link'}
                                     backButton={false}
@@ -60,4 +73,8 @@ class Steps extends React.Component {
     }
 }
 
-export default Steps;
+const StyledSteps = styled(Steps)`
+    ${styles}
+`;
+
+export default StyledSteps;

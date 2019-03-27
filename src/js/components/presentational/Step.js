@@ -1,20 +1,50 @@
 import React, { useContext } from 'react';
+
+import { css, jsx } from '@emotion/core';
+import styled from '@emotion/styled';
+
+import { flex, font, width } from '../../styles/styles';
 import { StoreContext } from '../../store';
 
-const Step = ({ children, backButton, title }) => {
-    const { actions, dispatch, currentStep } = useContext(StoreContext);
+const styles = css`
+    ${flex.column};
+    min-width: ${width.full};
+    width: 388px;
+    padding: 0px 15px;
+    header {
+    ${flex.row};
+    ${flex.center};
+    width: ${width.full};
+    text-align: center;
+    margin-bottom: 40px;
+    }
+    header h2 {
+        flex: 1;
+        font-size: ${font.large};
+    }
+    & > div {
+        flex: 1;
+    }
+`;
+
+const Step = ({ backButton, children, className, title }) => {
+    const { actions, dispatch, currentStep, theme } = useContext(StoreContext);
+
     const navigateBack = () => dispatch(actions.navigateBackward(currentStep));
-    const backButtonEl = <button type="button" className="btn--back" onClick={navigateBack} />;
 
     return (
-        <li className="step">
-            <div className="step__header">
-                {backButton && backButtonEl}
-                <h2 className="title">{title}</h2>
-            </div>
+        <li className={className}>
+            <header>
+                {backButton && <button type="button" className="btn--back" onClick={navigateBack} />}
+                <h2 style={{ color: theme.primaryText }}>{title}</h2>
+            </header>
             {children}
         </li>
     );
 };
 
-export default Step;
+const StyledStep = styled(Step)`
+    ${styles}
+`;
+
+export default StyledStep;

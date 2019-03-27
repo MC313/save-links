@@ -1,11 +1,15 @@
 import React, { useContext } from 'react';
 
+import { css, jsx } from '@emotion/core';
+import styled from '@emotion/styled';
+
 import { hasError } from '../../utils';
 import { StoreContext } from '../../store';
+import Button from '../presentational/Button';
 import Step from '../presentational/Step';
 import FormField from '../presentational/FormField';
 
-const Step1 = ({ backButton, stepId, title }) => {
+const Step1 = ({ backButton, stepId, title, className }) => {
     const { formData, actions, dispatch } = useContext(StoreContext);
 
     const onInputBlur = ({ currentTarget }) => {
@@ -26,7 +30,7 @@ const Step1 = ({ backButton, stepId, title }) => {
 
     return (
         <Step title={title} backButton={backButton}>
-            <div className="step__content">
+            <div>
                 <FormField
                     inputType="text"
                     name="name"
@@ -54,9 +58,7 @@ const Step1 = ({ backButton, stepId, title }) => {
                     isRequired={false} />
             </div>
 
-            <button className="btn--primary" type="button" onClick={() => nextStep(stepId)}>
-                Next Step
-            </button>
+            <Button className={className} label={'Next Step'} onClickFn={(stepId) => nextStep} />
         </Step>
     );
 };

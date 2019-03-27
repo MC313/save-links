@@ -10,6 +10,8 @@ import {
     UPDATE_TOGGLE_SWITCH
 } from "../actions/action-types";
 
+import { colorTheme } from '../../styles/styles';
+
 const initialState = {
     currentStep: 1,
     isSubmitting: false,
@@ -52,6 +54,7 @@ export const rootReducer = (state, action) => {
 
         case RESET_STATE:
             return {
+                themeType: state.themeType,
                 ...initialState
             };
 
@@ -86,7 +89,8 @@ export const rootReducer = (state, action) => {
             return {
                 ...state,
                 toggleOn: action.payload,
-                theme: action.payload ? 'DARK' : 'LIGHT'
+                themeType: action.payload ? 'DARK' : 'LIGHT',
+                theme: action.payload ? colorTheme.dark : colorTheme.light
             };
 
         default:

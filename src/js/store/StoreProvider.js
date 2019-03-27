@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 
 import * as actions from './actions';
 import rootReducer from './reducers';
+import { colorTheme } from '../styles/styles';
 
 const initialState = {
     toggleOn: false,
@@ -17,7 +18,8 @@ const initialState = {
     isSubmitting: false,
     scrollValue: 0,
     showOverlay: false,
-    theme: 'LIGHT'
+    themeType: 'LIGHT',
+    theme: colorTheme.light
 };
 
 let StoreContext;
