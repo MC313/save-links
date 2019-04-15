@@ -10,12 +10,12 @@ import Step2 from './step2';
 import Step3 from './Step3';
 
 const styles = css`
-    ${flex.row};
-    width: $width-full;
-    overflow-x: hidden;
-    scroll-snap-coordinate: 0 0;
-    scroll-snap-points-x: repeat(100%);
-    scroll-snap-type: mandatory;
+  ${flex.row};
+  width: $width-full;
+  overflow-x: hidden;
+  scroll-snap-coordinate: 0 0;
+  scroll-snap-points-x: repeat(100%);
+  scroll-snap-type: mandatory;
 `;
 
 class Steps extends React.Component {
@@ -31,50 +31,39 @@ class Steps extends React.Component {
         });
     }
 
-    navigateThroughSteps = (offsetValue) => {
-        if (!this.stepsContainer.current) return;
-        const { current: stepsElement } = this.stepsContainer;
-        stepsElement.scrollTo({
-            top: 0,
-            left: offsetValue,
-            behavior: 'smooth'
-        });
-    }
+  navigateThroughSteps = (offsetValue) => {
+      if (!this.stepsContainer.current) return;
+      const { current: stepsElement } = this.stepsContainer;
+      stepsElement.scrollTo({
+          top: 0,
+          left: offsetValue,
+          behavior: 'smooth'
+      });
+  }
 
-    render () {
-        return (
-            <StoreConsumer>
-                {
-                    ({ scrollValue }) => {
-                        this.navigateThroughSteps(scrollValue);
+  render () {
+      return (
+          <StoreConsumer>
+              {({ scrollValue }) => {
+                  this.navigateThroughSteps(scrollValue);
 
-                        return (
-                            <ul className={this.props.className} ref={this.stepsContainer}>
-                                <Step1
-                                    title={'Link'}
-                                    backButton={false}
-                                    stepId={1} />
+                  return (
+                      <ul className={this.props.className} ref={this.stepsContainer}>
+                          <Step1 title={'Link'} backButton={false} stepId={1} />
 
-                                <Step2
-                                    title={'Reminder'}
-                                    backButton
-                                    stepId={2} />
+                          <Step2 title={'Reminder'} backButton stepId={2} />
 
-                                <Step3
-                                    title={'Review'}
-                                    backButton
-                                    stepId={3} />
-                            </ul>
-                        );
-                    }
-                }
-            </StoreConsumer>
-        );
-    }
+                          <Step3 title={'Review'} backButton stepId={3} />
+                      </ul>
+                  );
+              }}
+          </StoreConsumer>
+      );
+  }
 }
 
 const StyledSteps = styled(Steps)`
-    ${styles}
+  ${styles}
 `;
 
 export default StyledSteps;

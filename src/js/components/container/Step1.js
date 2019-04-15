@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 
-import { css, jsx } from '@emotion/core';
 import styled from '@emotion/styled';
 
 import { hasError } from '../../utils';
@@ -38,7 +37,7 @@ const Step1 = ({ backButton, stepId, title, className }) => {
                     value={formData.name.value}
                     onChangeFn={onInputChange}
                     onBlurFn={onInputBlur}
-                    isRequired />
+                    isRequired/>
 
                 <FormField
                     inputType="url"
@@ -47,7 +46,7 @@ const Step1 = ({ backButton, stepId, title, className }) => {
                     value={formData.url.value}
                     onChangeFn={onInputChange}
                     onBlurFn={onInputBlur}
-                    isRequired />
+                    isRequired/>
 
                 <FormField
                     inputType="text"
@@ -55,10 +54,13 @@ const Step1 = ({ backButton, stepId, title, className }) => {
                     placeholder={'TDD, unit test, jest, fb'}
                     value={formData.tags.value}
                     onChangeFn={onInputChange}
-                    isRequired={false} />
+                    isRequired={false}/>
             </div>
 
-            <Button className={className} label={'Next Step'} onClickFn={(stepId) => nextStep} />
+            <Button
+                className={className}
+                label={'Next Step'}
+                onClickFn={() => nextStep(stepId)}/>
         </Step>
     );
 };

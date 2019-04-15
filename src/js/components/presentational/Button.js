@@ -6,6 +6,7 @@ import { StoreContext } from '../../store';
 import { button } from '../../styles/styles';
 
 const Button = ({ className, label, onClickFn }) => {
+    // Move this up into a HOC
     const { theme } = useContext(StoreContext);
 
     const styles = {
@@ -13,13 +14,18 @@ const Button = ({ className, label, onClickFn }) => {
         color: theme.secondaryText
     };
     return (
-        <button style={styles} className={className} type="button" onClick={onClickFn()}>
+        <button
+            style={styles}
+            className={className}
+            type="button"
+            onClick={onClickFn}
+        >
             {label}
         </button>
     );
 };
 
 const StyledButton = styled(Button)`
-    ${button}
+  ${button}
 `;
 export default StyledButton;

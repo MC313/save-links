@@ -1,32 +1,32 @@
-import React from "react";
+import React from 'react';
 
 const spinner = {
-    width: "85px",
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "0px auto"
+    width: '85px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: '0px auto'
 };
 
 const bounce = {
-    width: "18px",
-    height: "18px",
-    backgroundColor: "#fff",
-    borderRadius: "100%",
-    display: "inline-block",
-    WebkitAnimation: "sk-bouncedelay 1.4s infinite ease-in-out both",
-    animation: "sk-bouncedelay 1.4s infinite ease-in-out both"
+    width: '18px',
+    height: '18px',
+    backgroundColor: '#fff',
+    borderRadius: '100%',
+    display: 'inline-block',
+    WebkitAnimation: 'sk-bouncedelay 1.4s infinite ease-in-out both',
+    animation: 'sk-bouncedelay 1.4s infinite ease-in-out both'
 };
 
 const bounce1 = {
     ...bounce,
-    WebkitAnimationDelay: "-0.32s",
-    animationDelay: "-0.32s"
+    WebkitAnimationDelay: '-0.32s',
+    animationDelay: '-0.32s'
 };
 
 const bounce2 = {
     ...bounce,
-    WebkitAnimationDelay: "-0.16s",
-    animationDelay: "-0.16s"
+    WebkitAnimationDelay: '-0.16s',
+    animationDelay: '-0.16s'
 };
 
 const animations = `
@@ -46,7 +46,7 @@ const animations = `
     }
 `;
 
-document.querySelector('style').append(animations);
+//document.querySelector('style').append(animations);
 
 const LoadingElement = () => (
     <div style={spinner}>

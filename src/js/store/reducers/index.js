@@ -8,7 +8,7 @@ import {
     SAVE_LINK_SUCCESS,
     SAVE_LINK_ERROR,
     UPDATE_TOGGLE_SWITCH
-} from "../actions/action-types";
+} from '../actions/action-types';
 
 import { colorTheme } from '../../styles/styles';
 
@@ -43,7 +43,7 @@ export const rootReducer = (state, action) => {
             return {
                 ...state,
                 currentStep,
-                scrollValue: (offsetValue * currentStep) - offsetValue
+                scrollValue: offsetValue * currentStep - offsetValue
             };
 
         case UPDATE_FORM:
@@ -63,7 +63,10 @@ export const rootReducer = (state, action) => {
             const formFieldData = state.formData[name];
             return {
                 ...state,
-                formData: { ...state.formData, [name]: { ...formFieldData, error: errorValue } }
+                formData: {
+                    ...state.formData,
+                    [name]: { ...formFieldData, error: errorValue }
+                }
             };
 
         case SAVE_LINK_REQUEST:

@@ -3,7 +3,15 @@ import React, { useContext } from 'react';
 import { css, jsx } from '@emotion/core';
 import styled from '@emotion/styled';
 
-import { flex, font, height, margin, padding, radius, width } from '../../styles/styles';
+import {
+    flex,
+    font,
+    height,
+    margin,
+    padding,
+    radius,
+    width
+} from '../../styles/styles';
 import { StoreContext } from '../../store';
 
 const styles = css`
@@ -51,8 +59,14 @@ const FormField = ({
 
     return (
         <div className={className}>
-            <label style={{ color: theme.primaryText }} className={`form-field__label ${formData[name].error ? 'form-field__label--error' : ''}`} htmlFor={name}>
-                {label ? capitalize(label) : capitalize(name)} { isRequired ? '(required)' : ''}
+            <label
+                style={{
+                    color: formData[name].error ? theme.error : theme.primaryText
+                }}
+                htmlFor={name}
+            >
+                {label ? capitalize(label) : capitalize(name)}{' '}
+                {isRequired ? '(required)' : ''}
             </label>
             <input
                 id={`${name}Id`}
@@ -62,13 +76,14 @@ const FormField = ({
                 onChange={onChangeFn}
                 onBlur={onBlurFn}
                 required={isRequired}
-                noValidate/>
+                noValidate
+            />
         </div>
     );
 };
 
 const StyledFormField = styled(FormField)`
-    ${styles}
+  ${styles}
 `;
 
 export default StyledFormField;

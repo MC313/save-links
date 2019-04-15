@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --open --mode development",
     "format": "prettier --write \"src/**/*.js\"",
-    "eslint-fix": "eslint --fix \"src/**/*.js\"",
+    "fix": "eslint --fix \"src/**/*.js\"",
     "build": "webpack --mode production"
   },
   "keywords": [],
@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.4",
+    "@emotion/babel-preset-css-prop": "^10.0.9",
     "react": "16.8.2",
     "react-dom": "16.8.2",
     "redux": "4.0.1"

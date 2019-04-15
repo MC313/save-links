@@ -1,12 +1,29 @@
+/** @jsx jsx */
 import React, { useContext } from 'react';
 
+import { css, jsx } from '@emotion/core';
+
+import { font, margin } from '../../styles/styles';
 import { formatDataForAPI } from '../../utils';
 import { StoreContext } from '../../store';
+import Button from '../presentational/Button';
 import LoadingElement from '../presentational/LoadingElement';
 import Step from '../presentational/Step';
 
+const styles = css`
+    margin-bottom: ${margin.medium};
+    label {
+      margin-bottom: ${margin.small};
+    }
+    p {
+      font-size: ${font.medium};
+  }
+`;
+
 const Step3 = ({ backButton, title }) => {
-    const { formData, isSubmitting, actions, dispatch } = useContext(StoreContext);
+    const { className, formData, isSubmitting, actions, dispatch, theme } = useContext(
+        StoreContext
+    );
 
     const saveLink = async (event) => {
         event.preventDefault();
@@ -15,61 +32,65 @@ const Step3 = ({ backButton, title }) => {
         //is this action really neccessary
         dispatch(actions.saveLinkRequest(formData));
         try {
-            await fetch('https://r65032qxcg.execute-api.us-east-1.amazonaws.com/dev/links', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestPayload)
-            });
+            await fetch(
+                'https://r65032qxcg.execute-api.us-east-1.amazonaws.com/dev/links',
+                {
+                    method: 'POST',
+                    headers: {
+                        "Accept": 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestPayload)
+                }
+            );
             dispatch(actions.saveLinkSuccess());
         } catch (error) {
-            console.error('An error occurred when creating the link. Please try again.', error);
+            console.error(
+                'An error occurred when creating the link. Please try again.',
+                error
+            );
             dispatch(actions.saveLinkError());
         }
     };
-
-    // const saveLink = (event) => {
-    //     event.preventDefault();
-    //     console.log('running save link');
-    //     const requestPayload = formatDataForAPI(formData);
-    //     dispatch(actions.saveLinkRequest(formData));
-    //     setTimeout(() => {
-    //         dispatch(actions.saveLinkSuccess());
-    //         console.log('dispatching save link action');
-    //     }, 3000);
-    // };
 
     const { name, url, tags, phone, timeValue, timeUnit } = formData;
 
     return (
         <Step title={title} backButton={backButton}>
-            <div className="step__content">
-                <div className="review-text">
-                    <label className="review-text__label">Link Title</label>
-                    <p className="review-text__value">{name.value || '-'}</p>
+            <div>
+                <div css={styles}>
+                    <label css={{ color: theme.primaryText }}>Link Title</label>
+                    <p>{name.value || '-'}</p>
                 </div>
-                <div className="review-text">
-                    <label className="review-text__label">Link Url</label>
-                    <p className="review-text__value">{url.value || '-'}</p>
+                <div css={styles}>
+                    <label css={{ color: theme.primaryText }}>Link Url</label>
+                    <p>{url.value || '-'}</p>
                 </div>
-                <div className="review-text">
-                    <label className="review-text__label">Link Tags</label>
-                    <p className="review-text__value">{tags.value || '-'}</p>
+                <div css={styles}>
+                    <label css={{ color: theme.primaryText }}>Link Tags</label>
+                    <p>{tags.value || '-'}</p>
                 </div>
-                <div className="review-text">
-                    <label className="review-text__label">Reminder Phone Number</label>
-                    <p className="review-text__value">{phone.value || '-'}</p>
+                <div css={styles}>
+                    <label css={{ color: theme.primaryText }}>Reminder Phone Number</label>
+                    <p>{phone.value || '-'}</p>
                 </div>
-                <div className="review-text">
-                    <label className="review-text__label">Reminder Time</label>
-                    <p className="review-text__value">{+timeValue.value > 0 ? `${timeValue.value} ${timeUnit.value} from now` : '-'}</p>
+                <div css={styles}>
+                    <label css={{ color: theme.primaryText }}>Reminder Time</label>
+                    <p>
+                        {
+                            +timeValue.value > 0 ?
+                                `${timeValue.value} ${timeUnit.value} from now` :
+                                '-'
+                        }
+                    </p>
                 </div>
             </div>
-            <button className="btn--primary" disabled={isSubmitting} onClick={saveLink}>
-                {isSubmitting ? <LoadingElement /> : 'Save Link'}
-            </button>
+
+            <Button
+                className={className}
+                label={isSubmitting ? <LoadingElement /> : 'Save Link'}
+                onClickFn={() => saveLink}
+            />
         </Step>
     );
 };
