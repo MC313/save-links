@@ -4,7 +4,7 @@ import React from 'react';
 
 import { css, Global, jsx } from '@emotion/core';
 
-import { flex, reset } from '../js/styles/styles';
+import { flex, padding, reset } from '../js/styles/styles';
 import { StoreProvider, StoreConsumer } from './store';
 import Wizard from './components/container/Wizard';
 import ThemeToggle from './components/container/ThemeToggle';
@@ -16,7 +16,14 @@ const styles = css`
   flex-direction: column;
   lineheight: 1;
   fontsize: 16px;
-  & > div, & > header {
+  & > header {
+    ${flex.row}
+    justify-content: flex-end;
+    flex: 0 0 50px;
+    padding-right: ${padding.large};
+  }
+  & > div {
+      flex: 1;
     ${flex.center}
   }
 `;
@@ -30,10 +37,10 @@ class App extends React.Component {
                         return (
                             <section css={[styles, { backgroundColor: theme.background }]}>
                                 <Global styles={reset} />
-                                <header css={{ flex: '0 0 50px' }}>
+                                <header>
                                     <ThemeToggle />
                                 </header>
-                                <div css={{ flex: 1 }}>
+                                <div>
                                     <Wizard />
                                 </div>
                             </section>
