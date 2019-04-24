@@ -51,7 +51,7 @@ const Step2 = ({ className, stepId, title }) => {
                 <FormField
                     inputType="tel"
                     name="phone"
-                    label="Text a reminder about this article to:"
+                    label="Text a reminder about this link to:"
                     placeholder={'313-414-2217'}
                     value={formData.phone.value}
                     onChangeFn={onInputChange}

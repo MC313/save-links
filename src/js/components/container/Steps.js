@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { flex } from '../../styles/styles';
 import { StoreConsumer } from '../../store';
 import Step1 from './Step1';
-import Step2 from './step2';
+import Step2 from './Step2';
 import Step3 from './Step3';
 
 const styles = css`
