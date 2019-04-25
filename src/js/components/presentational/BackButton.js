@@ -1,6 +1,8 @@
-import React, { useContext } from 'react';
+/** @jsx jsx */
 
-import { css } from '@emotion/core';
+import React from 'react';
+
+import { css, jsx } from '@emotion/core';
 import styled from '@emotion/styled';
 
 import { font, flex, radius } from '../../styles/styles';
@@ -17,7 +19,7 @@ const BackButton = ({ className, onClickFn, themeStyles }) => {
     return (
         <button
             type="button"
-            style={{ backgroundColor: themeStyles.primaryText }}
+            css={{ backgroundColor: themeStyles.primaryText }}
             className={className}
             onClick={onClickFn}
         >

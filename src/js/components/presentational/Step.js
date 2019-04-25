@@ -1,3 +1,5 @@
+/** @jsx jsx */
+
 import React, { useContext } from 'react';
 
 import { css, jsx } from '@emotion/core';
@@ -50,7 +52,7 @@ const Step = ({ backButton, children, className, title }) => {
                         onClickFn={() => navigateBack()}
                     />
                 )}
-                <h2 style={{ color: theme.primaryText }}>{title}</h2>
+                <h2 css={{ color: theme.primaryText }}>{title}</h2>
             </header>
             {children}
         </li>

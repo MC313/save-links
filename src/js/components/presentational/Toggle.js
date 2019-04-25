@@ -1,6 +1,8 @@
+/** @jsx jsx */
+
 import React from 'react';
 
-import { css } from '@emotion/core';
+import { css, jsx } from '@emotion/core';
 import styled from '@emotion/styled';
 
 import { flex, radius } from '../../styles/styles';
@@ -44,7 +46,7 @@ const styles = css`
 const Toggle = ({ className, text, onToggleChange, themeStyles, value }) => {
     return (
         <div className={className}>
-            <p style={{ color: themeStyles.primaryText }}>{text}</p>
+            <p css={{ color: themeStyles.primaryText }}>{text}</p>
             <input
                 type="checkbox"
                 id="switch"
@@ -53,7 +55,7 @@ const Toggle = ({ className, text, onToggleChange, themeStyles, value }) => {
             />
             <label
                 htmlFor="switch"
-                style={{ backgroundColor: themeStyles.toggleBackground }}
+                css={{ backgroundColor: themeStyles.toggleBackground }}
             />
         </div>
     );

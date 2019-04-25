@@ -1,3 +1,5 @@
+/** @jsx jsx */
+
 import React, { useContext } from 'react';
 
 import { css, jsx } from '@emotion/core';
@@ -60,7 +62,7 @@ const FormField = ({
     return (
         <div className={className}>
             <label
-                style={{
+                css={{
                     color: formData[name].error ? theme.error : theme.primaryText
                 }}
                 htmlFor={name}
