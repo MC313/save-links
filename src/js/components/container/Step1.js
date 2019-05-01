@@ -8,8 +8,8 @@ import Button from '../presentational/Button';
 import Step from '../presentational/Step';
 import FormField from '../presentational/FormField';
 
-const Step1 = ({ backButton, stepId, title, className }) => {
-    const { formData, actions, dispatch } = useContext(StoreContext);
+const Step1 = ({ backButton, className, stepId, title }) => {
+    const { formData, actions, dispatch, theme } = useContext(StoreContext);
 
     const onInputBlur = ({ currentTarget }) => {
         dispatch(actions.setInputError({
@@ -59,8 +59,11 @@ const Step1 = ({ backButton, stepId, title, className }) => {
 
             <Button
                 className={className}
+                disabled={!formData.name.value || !formData.url.value}
                 label={'Next Step'}
-                onClickFn={() => nextStep(stepId)}/>
+                onClickFn={() => nextStep(stepId)}
+                themeStyles={{ ...theme }}
+            />
         </Step>
     );
 };

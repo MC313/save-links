@@ -90,6 +90,7 @@ const Step3 = ({ backButton, title }) => {
                 className={className}
                 label={isSubmitting ? <LoadingElement /> : 'Save Link'}
                 onClickFn={() => saveLink}
+                themeStyles={{ ...theme }}
             />
         </Step>
     );

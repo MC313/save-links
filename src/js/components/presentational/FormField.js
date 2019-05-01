@@ -25,7 +25,6 @@ const styles = css`
       margin-bottom: ${margin.extraSmall};
       &--error {
         color: red;
-        color: var(--error, red);
       }
     }
     input {

@@ -45,6 +45,13 @@ const Step2 = ({ className, stepId, title }) => {
         dispatch(actions.navigateForward(stepId));
     };
 
+    const pluralize = (number, text) => {
+        const a = number === 1 ? text : `${text}s`;
+        console.log('a', a);
+        return a;
+    };
+
+
     return (
         <Step title={title} backButton>
             <div>
@@ -64,6 +71,7 @@ const Step2 = ({ className, stepId, title }) => {
                         <input
                             name="timeValue"
                             type="number"
+                            min="0"
                             value={formData.timeValue.value}
                             onChange={onInputChange}
                         />
@@ -72,6 +80,7 @@ const Step2 = ({ className, stepId, title }) => {
                             value={formData.timeUnit.value}
                             onChange={onInputChange}
                         >
+
                             <option value="minutes">Minutes</option>
                             <option value="hours">Hours</option>
                             <option value="days">Days</option>
@@ -83,6 +92,7 @@ const Step2 = ({ className, stepId, title }) => {
                 className={className}
                 label={'Next Step'}
                 onClickFn={() => nextStep(stepId)}
+                themeStyles={{ ...theme }}
             />
         </Step>
     );

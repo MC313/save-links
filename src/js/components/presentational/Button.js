@@ -1,28 +1,22 @@
 /** @jsx jsx */
 
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { css, jsx } from '@emotion/core';
 import styled from '@emotion/styled';
 
-import { StoreContext } from '../../store';
 import { button } from '../../styles/styles';
 
-const Button = ({ className, label, onClickFn, themeStyles }) => {
-    // Move this up into a HOC
-    const { theme } = useContext(StoreContext);
-
-    const styles = {
-
-    };
+const Button = ({ className, disabled, label, onClickFn, themeStyles }) => {
     return (
         <button
+            type="button"
             css={{
-                backgroundColor: theme.primaryText,
-                color: theme.secondaryText
+                backgroundColor: themeStyles && themeStyles.primaryText,
+                color: themeStyles && themeStyles.secondaryText
             }}
             className={className}
-            type="button"
+            disabled={disabled}
             onClick={onClickFn}
         >
             {label}
