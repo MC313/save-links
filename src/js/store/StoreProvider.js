@@ -18,7 +18,6 @@ const initialState = {
     isSubmitting: false,
     scrollValue: 0,
     showOverlay: false,
-    themeType: 'LIGHT',
     theme: colorTheme.light
 };
 

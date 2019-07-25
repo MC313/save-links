@@ -18,12 +18,12 @@ const initialState = {
     scrollValue: 0,
     showOverlay: false,
     formData: {
-        name: { value: '', error: false },
-        url: { value: '', error: false },
-        tags: { value: '', error: false },
-        phone: { value: '', error: false },
-        timeValue: { value: '', error: false },
-        timeUnit: { value: '', error: false }
+        name: { value: '', error: '' },
+        url: { value: '', error: '' },
+        tags: { value: '', error: '' },
+        phone: { value: '', error: '' },
+        timeValue: { value: '', error: '' },
+        timeUnit: { value: '', error: '' }
     }
 };
 
@@ -59,13 +59,13 @@ export const rootReducer = (state, action) => {
             };
 
         case SET_INPUT_ERROR:
-            const { name, errorValue } = action.payload;
+            const { name, error } = action.payload;
             const formFieldData = state.formData[name];
             return {
                 ...state,
                 formData: {
                     ...state.formData,
-                    [name]: { ...formFieldData, error: errorValue }
+                    [name]: { ...formFieldData, error }
                 }
             };
 
@@ -92,7 +92,6 @@ export const rootReducer = (state, action) => {
             return {
                 ...state,
                 toggleOn: action.payload,
-                themeType: action.payload ? 'DARK' : 'LIGHT',
                 theme: action.payload ? colorTheme.dark : colorTheme.light
             };
 

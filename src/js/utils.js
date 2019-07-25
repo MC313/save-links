@@ -39,18 +39,13 @@ export const formatDataForAPI = ({
     reminder: formatReminderTimeIntoUTC(timeValue.value, timeUnit.value)
 });
 
-export const hasError = (input) => {
-    let inputError = null;
+export const getError = (input) => {
+    if (!input) return;
+
     for (const type in input.validity) {
         if (type !== 'valid' && input.validity[type]) {
-            inputError = input.validity[type];
-            return {
-                value: inputError,
-                message: _errorMsgs[type]
-            };
+            return _errorMsgs[type];
         }
     }
-    return {
-        value: inputError
-    };
+    return '';
 };

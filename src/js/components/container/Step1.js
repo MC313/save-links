@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 
-import styled from '@emotion/styled';
-
-import { hasError } from '../../utils';
+import { getError } from '../../utils';
 import { StoreContext } from '../../store';
 import Button from '../presentational/Button';
 import Step from '../presentational/Step';
@@ -14,7 +12,7 @@ const Step1 = ({ backButton, className, stepId, title }) => {
     const onInputBlur = ({ currentTarget }) => {
         dispatch(actions.setInputError({
             name: currentTarget.name,
-            errorValue: hasError(currentTarget) && hasError(currentTarget).value
+            error: getError(currentTarget)
         }));
     };
 
@@ -23,6 +21,7 @@ const Step1 = ({ backButton, className, stepId, title }) => {
         dispatch(actions.updateForm({ ...formData, [name]: { value } }));
     };
 
+    // Extract this into a reusable function
     const nextStep = (stepId) => {
         dispatch(actions.navigateForward(stepId));
     };

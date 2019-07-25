@@ -17,7 +17,7 @@ import {
 import { StoreContext } from '../../store';
 
 const styles = css`
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     label {
       ${flex.row};
       font-size: ${font.medium};
@@ -36,9 +36,16 @@ const styles = css`
       border-radius: ${radius.small};
       font-size: ${font.medium};
     }
+    p {
+        min-height: 30px;
+        height: 30px;
+        padding: 5px 0px 0px 0px;
+        font-size: ${font.small};
+    }
   }
 `;
 // Should className be passed down eventhough all components have access to it
+// Refactor label and input into their own components and create error message component
 
 const FormField = ({
     inputType = 'text',
@@ -79,6 +86,7 @@ const FormField = ({
                 required={isRequired}
                 noValidate
             />
+            <p>{formData[name].error}</p>
         </div>
     );
 };
