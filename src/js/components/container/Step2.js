@@ -48,9 +48,7 @@ const Step2 = ({ className, stepId, title }) => {
     };
 
     const pluralize = (number, text) => {
-        const a = number === 1 ? text : `${text}s`;
-        console.log('a', a);
-        return a;
+        return number === 1 ? text : `${text}s`;
     };
 
     return (
@@ -66,7 +64,7 @@ const Step2 = ({ className, stepId, title }) => {
                     isRequired={false}
                 />
 
-                {/* Convert thsi into a MultiFormField Component */}
+                {/* Convert this into a MultiFormField Component
                 <MultiFormField
                     inputTypes={["number", "number"]}
                     names={["timeValue", "timeUnit"]}
@@ -74,8 +72,8 @@ const Step2 = ({ className, stepId, title }) => {
                     values={[formData.timeValue.value, formData.timeUnit.value]}
                     onChangeFn={onInputChange}
                 />
+                */}
 
-                {/*
                 <div css={styles}>
                     <label css={{ color: theme.primaryText }} htmlFor="reminder">Send reminder in:</label>
                     <div id="reminder">
@@ -98,7 +96,6 @@ const Step2 = ({ className, stepId, title }) => {
                         </select>
                     </div>
                 </div>
-                */}
             </div>
 
             <Button
