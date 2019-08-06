@@ -9,6 +9,8 @@ import { flex, font, height, margin, padding, width } from '../../styles/styles'
 import Button from '../presentational/Button';
 import Step from '../presentational/Step';
 import FormField from '../presentational/FormField';
+import MultiFormField from '../presentational/MultiFormField';
+
 
 const styles = css`
     margin-bottom: ${margin.large};
@@ -51,7 +53,6 @@ const Step2 = ({ className, stepId, title }) => {
         return a;
     };
 
-
     return (
         <Step title={title} backButton>
             <div>
@@ -59,12 +60,22 @@ const Step2 = ({ className, stepId, title }) => {
                     inputType="tel"
                     name="phone"
                     label="Text a reminder about this link to:"
-                    placeholder={'313-414-2217'}
+                    placeholder="313-414-2217"
                     value={formData.phone.value}
                     onChangeFn={onInputChange}
                     isRequired={false}
                 />
 
+                {/* Convert thsi into a MultiFormField Component */}
+                <MultiFormField
+                    inputTypes={["number", "number"]}
+                    names={["timeValue", "timeUnit"]}
+                    label="Send reminder in:"
+                    values={[formData.timeValue.value, formData.timeUnit.value]}
+                    onChangeFn={onInputChange}
+                />
+
+                {/*
                 <div css={styles}>
                     <label css={{ color: theme.primaryText }} htmlFor="reminder">Send reminder in:</label>
                     <div id="reminder">
@@ -81,15 +92,18 @@ const Step2 = ({ className, stepId, title }) => {
                             onChange={onInputChange}
                         >
 
-                            <option value="minutes">Minutes</option>
+                            <option value="minutes">Minute</option>
                             <option value="hours">Hours</option>
                             <option value="days">Days</option>
                         </select>
                     </div>
                 </div>
+                */}
             </div>
+
             <Button
                 className={className}
+                disabled={formData.timeUnit.value && !formData.phone.value}
                 label={'Next Step'}
                 onClickFn={() => nextStep(stepId)}
                 themeStyles={{ ...theme }}

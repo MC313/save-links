@@ -58,7 +58,7 @@ const Step1 = ({ backButton, className, stepId, title }) => {
 
             <Button
                 className={className}
-                disabled={!formData.name.value || !formData.url.value}
+                disabled={formData.name.error || formData.url.error}
                 label={'Next Step'}
                 onClickFn={() => nextStep(stepId)}
                 themeStyles={{ ...theme }}
