@@ -35,7 +35,7 @@ const Wizard = ({ className }) => {
             css={{ backgroundColor: theme.cardBackground }}
             className={className}
         >
-            <SuccessOverlay show={showOverlay} />
+            <SuccessOverlay themeStyles={theme} show={showOverlay} />
             <Steps />
             <StepIndicator />
         </section>

@@ -28,29 +28,29 @@ const Step3 = ({ backButton, title }) => {
     const saveLink = async (event) => {
         event.preventDefault();
         const requestPayload = formatDataForAPI(formData);
-
+        const SAVE_LINK_URL = 'https://r65032qxcg.execute-api.us-east-1.amazonaws.com/dev/links';
         //is this action really neccessary
-        dispatch(actions.saveLinkRequest(formData));
+        //dispatch(actions.saveLinkRequest(formData));
         try {
-            await fetch(
-                'https://r65032qxcg.execute-api.us-east-1.amazonaws.com/dev/links',
-                {
-                    method: 'POST',
-                    headers: {
-                        "Accept": 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestPayload)
-                }
-            );
+            await fetch(SAVE_LINK_URL, {
+                method: 'POST',
+                headers: {
+                    "Accept": 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestPayload)
+            });
             dispatch(actions.saveLinkSuccess());
         } catch (error) {
-            console.error(
-                'An error occurred when creating the link. Please try again.',
-                error
-            );
+            console.error('An error occurred while saving the link. Please try again.', error);
             dispatch(actions.saveLinkError());
         }
+    };
+
+    const fakeSaveLink = () => {
+        setTimeout(() => {
+            dispatch(actions.saveLinkSuccess());
+        }, 1000);
     };
 
     const { name, url, tags, phone, timeValue, timeUnit } = formData;
@@ -89,7 +89,7 @@ const Step3 = ({ backButton, title }) => {
             <Button
                 className={className}
                 label={isSubmitting ? <LoadingElement /> : 'Save Link'}
-                onClickFn={() => saveLink}
+                onClickFn={() => fakeSaveLink()}
                 themeStyles={{ ...theme }}
             />
         </Step>

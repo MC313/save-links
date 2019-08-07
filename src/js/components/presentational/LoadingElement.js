@@ -46,7 +46,8 @@ const animations = `
     }
 `;
 
-//document.querySelector('style').append(animations);
+const styleEl = document.createElement('style').append(animations);
+document.querySelector('head').append(styleEl);
 
 const LoadingElement = () => (
     <div style={spinner}>

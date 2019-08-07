@@ -5,6 +5,7 @@ import {
     RESET_STATE,
     SAVE_LINK_REQUEST,
     SAVE_LINK_SUCCESS,
+    SAVE_LINK_ERROR,
     SET_INPUT_ERROR,
     UPDATE_TOGGLE_SWITCH
 } from './action-types';
@@ -31,5 +32,7 @@ export const saveLinkRequest = (payload) => ({
     payload
 });
 export const saveLinkSuccess = () => ({ type: SAVE_LINK_SUCCESS });
+
+export const saveLinkError = () => ({ type: SAVE_LINK_ERROR });
 
 export const resetState = () => ({ type: RESET_STATE });
