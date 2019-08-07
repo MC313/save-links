@@ -22,6 +22,7 @@ const Overlay = styled.div`
     background-color: ${({ themeStyles }) => themeStyles.toggleBackground};
 
     p {
+      color: #ffffff;
       font-size: ${font.medium};
       padding: ${padding.medium};
     }

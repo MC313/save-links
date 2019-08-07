@@ -54,7 +54,7 @@ export const rootReducer = (state, action) => {
 
         case RESET_STATE:
             return {
-                themeType: state.themeType,
+                theme: state.theme,
                 ...initialState
             };
 
