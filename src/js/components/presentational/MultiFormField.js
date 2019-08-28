@@ -77,7 +77,7 @@ const MultiFormField = ({
                 css={{
                     color: formData[names[0]].error ? theme.error : theme.primaryText
                 }}
-                htmlFor={name}
+                htmlFor={names[0]}
             >
                 {capitalize(label)}{' '}
                 {isRequired ? '(required)' : ''}

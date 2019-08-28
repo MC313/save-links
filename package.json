@@ -1,51 +1,33 @@
 {
-  "name": "react-sample",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open --mode development",
-    "format": "prettier --write \"src/**/*.js\"",
-    "fix": "eslint --fix \"src/**/*.js\"",
-    "build": "webpack --mode production"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@babel/core": "7.3.3",
-    "@babel/plugin-proposal-class-properties": "7.3.3",
-    "@babel/plugin-transform-regenerator": "7.3.4",
-    "@babel/plugin-transform-runtime": "^7.3.4",
-    "@babel/preset-env": "7.3.1",
-    "@babel/preset-react": "7.0.0",
-    "@emotion/core": "10.0.9",
-    "@emotion/styled": "10.0.10",
-    "babel-eslint": "10.0.1",
-    "babel-loader": "8.0.5",
-    "css-loader": "2.1.0",
-    "emotion-theming": "10.0.10",
-    "eslint": "5.14.1",
-    "eslint-config-react": "1.1.7",
-    "eslint-loader": "2.1.2",
-    "eslint-plugin-react": "7.12.4",
-    "html-loader": "0.5.5",
-    "html-webpack-plugin": "3.2.0",
-    "node-sass": "4.11.0",
-    "prettier": "1.16.4",
-    "sass": "1.17.0",
-    "sass-loader": "7.1.0",
-    "style-loader": "0.23.1",
-    "webpack": "4.29.5",
-    "webpack-cli": "3.2.3",
-    "webpack-dev-server": "3.1.14"
-  },
+  "name": "links-locker-2.0",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "@babel/runtime": "^7.3.4",
-    "@emotion/babel-preset-css-prop": "^10.0.9",
-    "react": "16.8.2",
-    "react-dom": "16.8.2",
-    "redux": "4.0.1"
+    "@emotion/core": "^10.0.16",
+    "@emotion/styled": "^10.0.15",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "3.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
