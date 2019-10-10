@@ -145,12 +145,7 @@ const reset = css`
   }
 `;
 
-const radius = {
-    small: '4px',
-    medium: '8px',
-    large: '12px',
-    round: '100%'
-};
+
 
 const displayFlex = css`
   display: flex;
@@ -239,6 +234,14 @@ const padding = {
     small: '10px',
     medium: '15px',
     large: '40px'
+};
+
+
+const radius = {
+  small: '4px',
+  medium: '8px',
+  large: '12px',
+  round: '100%'
 };
 
 const button = {
