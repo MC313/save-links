@@ -4,7 +4,7 @@ import React from 'react';
 
 import { css, Global, jsx } from '@emotion/core';
 
-import { flex, padding, reset } from '../js/styles/styles';
+import { flex, padding, reset } from '../js/styles';
 import { StoreProvider, StoreConsumer } from './store';
 import Wizard from './components/container/Wizard';
 import ThemeToggle from './components/container/ThemeToggle';
