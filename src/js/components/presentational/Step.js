@@ -1,13 +1,13 @@
 /** @jsx jsx */
 
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
-import { css, jsx } from '@emotion/core';
-import styled from '@emotion/styled';
+import { css, jsx } from "@emotion/core";
+import styled from "@emotion/styled";
 
-import BackButton from '../presentational/BackButton';
-import { flex, font, width } from '../../styles/styles';
-import { StoreContext } from '../../store';
+import BackButton from "../presentational/BackButton";
+import { flex, font, width } from "../../styles/styles";
+import { StoreContext } from "../../store";
 
 const styles = css`
   position: relative;
@@ -19,11 +19,9 @@ const styles = css`
     ${flex.row};
     ${flex.center};
     width: ${width.full};
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  header {
     height: 50px;
+    text-align: center;
+    margin-bottom: 25px;
   }
   header h2 {
     flex: 1;
@@ -39,24 +37,24 @@ const styles = css`
 `;
 
 const Step = ({ backButton, children, className, title }) => {
-    const { actions, dispatch, currentStep, theme } = useContext(StoreContext);
+  const { actions, dispatch, currentStep, theme } = useContext(StoreContext);
 
-    const navigateBack = () => dispatch(actions.navigateBackward(currentStep));
+  const navigateBack = () => dispatch(actions.navigateBackward(currentStep));
 
-    return (
-        <li className={className}>
-            <header>
-                {backButton && (
-                    <BackButton
-                        themeStyles={{ ...theme }}
-                        onClickFn={() => navigateBack()}
-                    />
-                )}
-                <h2 css={{ color: theme.primaryText }}>{title}</h2>
-            </header>
-            {children}
-        </li>
-    );
+  return (
+    <li className={className}>
+      <header>
+        {backButton && (
+          <BackButton
+            themeStyles={{ ...theme }}
+            onClickFn={() => navigateBack()}
+          />
+        )}
+        <h2 css={{ color: theme.primaryText }}>{title}</h2>
+      </header>
+      {children}
+    </li>
+  );
 };
 
 const StyledStep = styled(Step)`
