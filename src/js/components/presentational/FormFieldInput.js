@@ -1,13 +1,12 @@
 /** @jsx jsx */
 
-import React, { useContext } from "react";
+import React from "react";
 
 import { css, jsx } from "@emotion/core";
 
 import { font, height, padding, radius, width } from "../../styles";
 
-import { StoreContext } from "../../store";
-import withStyles from "./WithStyles";
+import withStyles from "../hoc/WithStyles";
 
 const inputStyles = {
   width: width.full,
@@ -19,11 +18,12 @@ const inputStyles = {
   fontSize: font.medium,
 };
 
-const FormFieldInput = (props) => {
-  const Input = (props) => <input {...props} noValidate />;
-  const styles = withStyles({ styles: inputStyles });
-  const InputWithStyles = styles(Input);
-  return <InputWithStyles {...props} />;
-};
+const Input = (props) => <input {...props} noValidate />;
+
+const styles = withStyles({ styles: inputStyles });
+
+const InputWithStyles = styles(Input);
+
+const FormFieldInput = (props) => <InputWithStyles {...props} />;
 
 export default FormFieldInput;
