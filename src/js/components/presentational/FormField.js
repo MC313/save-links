@@ -15,6 +15,8 @@ import {
     width
 } from '../../styles/styles';
 import { StoreContext } from '../../store';
+import WithStyles from '../presentational/WithStyles';
+import FormFieldInput from '../presentational/FormFieldInput';
 
 const styles = css`
     margin-bottom: 10px;
@@ -26,15 +28,6 @@ const styles = css`
       &--error {
         color: red;
       }
-    }
-    input {
-      width: ${width.full};
-      min-height: 40px;
-      height: 7vh;
-      max-height: ${height.medium};
-      padding-left: ${padding.medium};
-      border-radius: ${radius.small};
-      font-size: ${font.medium};
     }
     p {
         min-height: 30px;
@@ -65,6 +58,21 @@ const FormField = ({
         return strArray.join('');
     };
 
+    const Input = () => (
+        <input
+            id={`${name}Id`}
+            name={name}
+            type={inputType}
+            placeholder={placeholder}
+            onChange={onChangeFn}
+            onBlur={onBlurFn}
+            required={isRequired}
+            noValidate
+        />
+    );
+    
+    const StyledInput = WithStyles(Input);
+
     return (
         <div className={className}>
             <label
@@ -76,16 +84,15 @@ const FormField = ({
                 {label ? capitalize(label) : capitalize(name)}{' '}
                 {isRequired ? '(required)' : ''}
             </label>
-            <input
+            <FormFieldInput
                 id={`${name}Id`}
                 name={name}
-                type={inputType}
-                placeholder={placeholder}
                 onChange={onChangeFn}
                 onBlur={onBlurFn}
-                required={isRequired}
-                noValidate
-            />
+                placeholder={placeholder}
+                required={isRequired} 
+                type={inputType} />
+            
             <p>{formData[name].error}</p>
         </div>
     );
