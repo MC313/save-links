@@ -13,10 +13,10 @@ import {
   padding,
   width,
 } from "../../styles/styles";
-import Button from "../presentational/Button";
 import Step from "../presentational/Step";
 import FormField from "../presentational/FormField";
-import MultiFormField from "../presentational/MultiFormField";
+import FormFieldInput from "../presentational/FormFieldInput";
+import FormFieldLabel from "../presentational/FormFieldLabel";
 
 const styles = css`
     margin-bottom: ${margin.large};
@@ -41,7 +41,7 @@ const styles = css`
     }
 `;
 
-const Step2 = ({ className, stepId, title }) => {
+const Step2 = ({ stepId, title }) => {
   const { actions, dispatch, formData, theme } = useContext(StoreContext);
 
   const onInputChange = ({ target }) => {

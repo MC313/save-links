@@ -20,7 +20,7 @@ const styles = css`
 `;
 
 const Steps = ({ className }) => {
-  const { actions, currentStep, dispatch, scrollValue, theme } = useContext(
+  const { actions, currentStep, dispatch, scrollValue } = useContext(
     StoreContext
   );
 

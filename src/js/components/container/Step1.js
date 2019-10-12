@@ -5,8 +5,8 @@ import { StoreContext } from "../../store";
 import Step from "../presentational/Step";
 import FormField from "../presentational/FormField";
 
-const Step1 = ({ backButton, className, stepId, title }) => {
-  const { formData, actions, dispatch, theme } = useContext(StoreContext);
+const Step1 = ({ backButton, stepId, title }) => {
+  const { formData, actions, dispatch } = useContext(StoreContext);
 
   const onInputBlur = ({ currentTarget }) => {
     dispatch(
