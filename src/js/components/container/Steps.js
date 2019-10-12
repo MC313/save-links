@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useContext, useEffect, useRef } from "react";
 
-import { css } from '@emotion/core';
-import styled from '@emotion/styled';
+import { css } from "@emotion/core";
+import styled from "@emotion/styled";
 
-import { flex } from '../../styles/styles';
-import { StoreConsumer } from '../../store';
-import Step1 from './Step1';
-import Step2 from './Step2';
-import Step3 from './Step3';
+import { flex } from "../../styles/styles";
+import { StoreContext } from "../../store";
+import Step1 from "./Step1";
+import Step2 from "./Step2";
+import Step3 from "./Step3";
 
 const styles = css`
   ${flex.row};
@@ -18,49 +18,44 @@ const styles = css`
   scroll-snap-type: mandatory;
 `;
 
-class Steps extends React.Component {
-    constructor (props) {
-        super(props);
-        this.stepsContainer = React.createRef();
-    }
+const Steps = ({ className }) => {
+  const { scrollValue } = useContext(StoreContext);
 
-    componentDidMount () {
-        this.stepsContainer.current.scrollTo({
-            top: 0,
-            left: 0
-        });
-    }
+  const stepsContainer = useRef(null);
 
-  navigateThroughSteps = (offsetValue) => {
-      if (!this.stepsContainer.current) return;
-      const { current: stepsElement } = this.stepsContainer;
-      stepsElement.scrollTo({
-          top: 0,
-          left: offsetValue,
-          behavior: 'smooth'
-      });
+  if (stepsContainer && stepsContainer.current) {
+    stepsContainer.current.scrollTo({
+      top: 0,
+      left: 0,
+    });
   }
 
-  render () {
-      return (
-          <StoreConsumer>
-              {({ scrollValue }) => {
-                  this.navigateThroughSteps(scrollValue);
+  const navigateToStep = (offsetValue) => {
+    if (!stepsContainer.current) return;
 
-                  return (
-                      <ul className={this.props.className} ref={this.stepsContainer}>
-                          <Step1 title={'Link'} backButton={false} stepId={1} />
+    const { current: stepsElement } = stepsContainer;
 
-                          <Step2 title={'Reminder'} backButton stepId={2} />
+    stepsElement.scrollTo({
+      top: 0,
+      left: offsetValue,
+      behavior: "smooth",
+    });
+  };
 
-                          <Step3 title={'Review'} backButton stepId={3} />
-                      </ul>
-                  );
-              }}
-          </StoreConsumer>
-      );
-  }
-}
+  useEffect(() => {
+    navigateToStep(scrollValue);
+  }, [scrollValue]);
+
+  return (
+    <ul className={className} ref={stepsContainer}>
+      <Step1 title={"Link"} backButton={false} stepId={1} />
+
+      <Step2 title={"Reminder"} backButton stepId={2} />
+
+      <Step3 title={"Review"} backButton stepId={3} />
+    </ul>
+  );
+};
 
 const StyledSteps = styled(Steps)`
   ${styles}
