@@ -28,21 +28,13 @@ const styles = css`
       ${flex.row}
       font-size: ${font.medium};
     }
-    input {
-        margin-right: ${margin.small};
-        min-width: ${width.small};
-        min-height: 40px;
-        height: 7vh;
-        max-height: ${height.medium};
-        padding-left: ${padding.small};
-    }
     select {
         width: ${width.full};
     }
 `;
 
 const Step2 = ({ stepId, title }) => {
-  const { actions, dispatch, formData, theme } = useContext(StoreContext);
+  const { actions, dispatch, formData } = useContext(StoreContext);
 
   const onInputChange = ({ target }) => {
     const { name, value } = target;
@@ -66,11 +58,9 @@ const Step2 = ({ stepId, title }) => {
       />
 
       <div css={styles}>
-        <label css={{ color: theme.primaryText }} htmlFor='reminder'>
-          Send reminder in:
-        </label>
+        <FormFieldLabel htmlFor='reminder' text='Send reminder in:' />
         <div id='reminder'>
-          <input
+          <FormFieldInput
             name='timeValue'
             type='number'
             min='0'
