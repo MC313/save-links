@@ -1,30 +1,31 @@
 /** @jsx jsx */
 
-import React from 'react';
+import React, { useContext } from "react";
 
-import { css, jsx } from '@emotion/core';
-import styled from '@emotion/styled';
+import { jsx } from "@emotion/core";
 
-import { button } from '../../styles/styles';
+import { button } from "../../styles/styles";
+import { StoreContext } from "../../store";
+import withStyles from "../hoc/WithStyles";
 
-const Button = ({ className, disabled, label, onClickFn, themeStyles }) => {
-    return (
-        <button
-            type="button"
-            css={{
-                backgroundColor: themeStyles && themeStyles.primaryText,
-                color: themeStyles && themeStyles.secondaryText
-            }}
-            className={className}
-            disabled={disabled}
-            onClick={onClickFn}
-        >
-            {label}
-        </button>
-    );
+const btn = ({ text, ...props }) => <button {...props}>{text}</button>;
+
+const Button = (props) => {
+  const { theme } = useContext(StoreContext);
+
+  const themeStyles = {
+    ...button,
+    backgroundColor: theme.primaryText,
+    color: theme.secondaryText,
+    maxWidth: "358px",
+    margin: "0px 13px",
+  };
+
+  const styles = withStyles({ styles: themeStyles });
+
+  const ButtonWithStyles = styles(btn);
+
+  return <ButtonWithStyles {...props} />;
 };
 
-const StyledButton = styled(Button)`
-  ${button}
-`;
-export default StyledButton;
+export default Button;

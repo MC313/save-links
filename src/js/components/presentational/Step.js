@@ -42,18 +42,18 @@ const Step = ({ backButton, children, className, title }) => {
   const navigateBack = () => dispatch(actions.navigateBackward(currentStep));
 
   return (
-    <li className={className}>
+    <section className={className}>
       <header>
         {backButton && (
           <BackButton
             themeStyles={{ ...theme }}
-            onClickFn={() => navigateBack()}
+            onsectionckFn={() => navigateBack()}
           />
         )}
         <h2 css={{ color: theme.primaryText }}>{title}</h2>
       </header>
       {children}
-    </li>
+    </section>
   );
 };
 
