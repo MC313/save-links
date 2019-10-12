@@ -8,6 +8,7 @@ import { StoreContext } from "../../store";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
+import Button from "../presentational/Button";
 
 const styles = css`
   ${flex.row};
@@ -19,7 +20,9 @@ const styles = css`
 `;
 
 const Steps = ({ className }) => {
-  const { scrollValue } = useContext(StoreContext);
+  const { actions, currentStep, dispatch, scrollValue, theme } = useContext(
+    StoreContext
+  );
 
   const stepsContainer = useRef(null);
 
@@ -29,6 +32,10 @@ const Steps = ({ className }) => {
       left: 0,
     });
   }
+
+  const nextStep = (stepId) => {
+    dispatch(actions.navigateForward(stepId));
+  };
 
   const navigateToStep = (offsetValue) => {
     if (!stepsContainer.current) return;
@@ -47,13 +54,18 @@ const Steps = ({ className }) => {
   }, [scrollValue]);
 
   return (
-    <ul className={className} ref={stepsContainer}>
-      <Step1 title={"Link"} backButton={false} stepId={1} />
-
-      <Step2 title={"Reminder"} backButton stepId={2} />
-
-      <Step3 title={"Review"} backButton stepId={3} />
-    </ul>
+    <form>
+      <div className={className} ref={stepsContainer}>
+        <Step1 title={"Link"} backButton={false} stepId={1} />
+        <Step2 title={"Reminder"} backButton stepId={2} />
+        <Step3 title={"Review"} backButton stepId={3} />
+      </div>
+      <Button
+        // disabled={formData.name.error || formData.url.error}
+        text={currentStep === 3 ? "Submit" : "Next Step"}
+        onClickFn={() => nextStep(currentStep)}
+      />
+    </form>
   );
 };
 
