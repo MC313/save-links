@@ -54,19 +54,46 @@ const Steps = ({ className }) => {
     navigateToStep(scrollValue);
   }, [scrollValue]);
 
+  const submit = (actions, values) => {
+    console.log("ACTIONS", actions);
+    console.log("VALUES", values);
+  };
+
+  const vals = {
+    name: "",
+    url: "",
+    tags: "",
+    phone: "",
+    timeValue: "",
+    timeUnit: "",
+  };
   return (
-    <Formik>
+    <Formik handleSubmit={submit} initialValues={vals}>
       {({ handleSubmit, handleChange, handleBlur, values, errors }) => (
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className={className} ref={stepsContainer}>
-            <Step1 title={"Link"} backButton={false} stepId={1} />
-            <Step2 title={"Reminder"} backButton stepId={2} />
-            <Step3 title={"Review"} backButton stepId={3} />
+            <Step1 backButton={false} stepId={1} title='Link' values={values} />
+            <Step2
+              backButton={true}
+              stepId={2}
+              title='Reminder'
+              values={values}
+            />
+            <Step3
+              backButton={true}
+              stepId={3}
+              title='Review'
+              values={values}
+            />
           </div>
           <Button
             // disabled={formData.name.error || formData.url.error}
-            text={currentStep === 3 ? "Submit" : "Next Step"}
-            onClickFn={() => nextStep(currentStep)}
+            onClickFn={() => {
+              nextStep(currentStep);
+              console.log("FORM VALUES", values);
+            }}
+            text={currentStep !== 3 ? "Next Step" : "Submit"}
+            type={currentStep !== 3 ? "button" : "submit"}
           />
         </form>
       )}

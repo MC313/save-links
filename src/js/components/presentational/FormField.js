@@ -26,8 +26,6 @@ const FormField = ({
   name,
   label,
   placeholder,
-  onBlurFn,
-  onChangeFn,
   isRequired = false,
   className,
 }) => {
@@ -38,8 +36,7 @@ const FormField = ({
       <FormFieldLabel name={name} required={isRequired} text={label || name} />
       <FormFieldInput
         id={name}
-        onChange={onChangeFn}
-        onBlur={onBlurFn}
+        name={name}
         placeholder={placeholder}
         required={isRequired}
         type={inputType}

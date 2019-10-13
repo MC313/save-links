@@ -5,8 +5,9 @@ import { StoreContext } from "../../store";
 import Step from "../presentational/Step";
 import FormField from "../presentational/FormField";
 
-const Step1 = ({ backButton, stepId, title }) => {
+const Step1 = ({ backButton, stepId, title, values }) => {
   const { formData, actions, dispatch } = useContext(StoreContext);
+  const { name, tags, url } = values;
 
   const onInputBlur = ({ currentTarget }) => {
     dispatch(
@@ -28,26 +29,18 @@ const Step1 = ({ backButton, stepId, title }) => {
         inputType='text'
         name='name'
         placeholder='React Unit Testing'
-        value={formData.name.value}
-        onChangeFn={onInputChange}
-        onBlurFn={onInputBlur}
-        isRequired
+        isRequired={true}
       />
       <FormField
         inputType='url'
         name='url'
         placeholder='https://www.reactjs.com'
-        value={formData.url.value}
-        onChangeFn={onInputChange}
-        onBlurFn={onInputBlur}
-        isRequired
+        isRequired={true}
       />
       <FormField
         inputType='text'
         name='tags'
         placeholder='TDD, unit test, jest, fb'
-        value={formData.tags.value}
-        onChangeFn={onInputChange}
         isRequired={false}
       />
     </Step>

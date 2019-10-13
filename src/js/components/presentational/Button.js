@@ -8,7 +8,11 @@ import { button } from "../../styles/styles";
 import { StoreContext } from "../../store";
 import withStyles from "../hoc/WithStyles";
 
-const btn = ({ text, ...props }) => <button {...props}>{text}</button>;
+const btn = ({ onClickFn, text, ...props }) => (
+  <button onClick={onClickFn} {...props}>
+    {text}
+  </button>
+);
 
 const Button = (props) => {
   const { theme } = useContext(StoreContext);

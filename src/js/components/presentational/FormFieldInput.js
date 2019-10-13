@@ -1,8 +1,4 @@
-/** @jsx jsx */
-
 import React from "react";
-
-import { css, jsx } from "@emotion/core";
 
 import { font, height, padding, radius, width } from "../../styles";
 

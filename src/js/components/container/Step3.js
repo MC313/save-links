@@ -8,6 +8,7 @@ import { formatDataForAPI } from "../../utils";
 import { StoreContext } from "../../store";
 import LoadingElement from "../presentational/LoadingElement";
 import Step from "../presentational/Step";
+import InfoItem from "../presentational/InfoItem";
 
 const styles = css`
   margin-bottom: ${margin.medium};
@@ -19,19 +20,12 @@ const styles = css`
   }
 `;
 
-const Step3 = ({ backButton, title }) => {
-  const {
-    className,
-    formData,
-    isSubmitting,
-    actions,
-    dispatch,
-    theme,
-  } = useContext(StoreContext);
+const Step3 = ({ backButton, stepId, title, values }) => {
+  const { isSubmitting, actions, dispatch, theme } = useContext(StoreContext);
 
   const saveLink = async (event) => {
     event.preventDefault();
-    const requestPayload = formatDataForAPI(formData);
+    const requestPayload = formatDataForAPI(values);
     const SAVE_LINK_URL =
       "https://r65032qxcg.execute-api.us-east-1.amazonaws.com/dev/links";
     //is this action really neccessary
@@ -61,26 +55,15 @@ const Step3 = ({ backButton, title }) => {
     }, 1000);
   };
 
-  const { name, url, tags, phone, timeValue, timeUnit } = formData;
+  const { name, url, tags, phone, timeValue, timeUnit } = values;
 
   return (
     <Step title={title} backButton={backButton}>
-      <div css={styles}>
-        <label css={{ color: theme.primaryText }}>Link Title</label>
-        <p>{name.value || "-"}</p>
-      </div>
-      <div css={styles}>
-        <label css={{ color: theme.primaryText }}>Link Url</label>
-        <p>{url.value || "-"}</p>
-      </div>
-      <div css={styles}>
-        <label css={{ color: theme.primaryText }}>Link Tags</label>
-        <p>{tags.value || "-"}</p>
-      </div>
-      <div css={styles}>
-        <label css={{ color: theme.primaryText }}>Reminder Phone Number</label>
-        <p>{phone.value || "-"}</p>
-      </div>
+      <InfoItem value={name} label='Link Title' />
+      <InfoItem value={url} label='Link Url' />
+      <InfoItem value={tags} label='Link Tags' />
+      <InfoItem value={phone} label='Reminder Phone Number' />
+      {/* <InfoItem value={timeValue} label="Reminder Time" /> */}
       <div css={styles}>
         <label css={{ color: theme.primaryText }}>Reminder Time</label>
         <p>
