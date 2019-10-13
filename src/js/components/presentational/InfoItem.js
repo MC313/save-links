@@ -32,8 +32,6 @@ const InfoItem = (props) => {
 
   const InfoWithStyles = withStyles({ styles: themeStyles })(InfoElement);
 
-  console.log("stlyes", InfoWithStyles);
-
   return <InfoWithStyles {...props} />;
 };
 

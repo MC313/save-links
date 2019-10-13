@@ -1,12 +1,12 @@
 /** @jsx jsx */
 
-import React, { useContext } from "react";
+import React from "react";
 
 import { css, jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import { ErrorMessage } from "formik";
 
 import { font } from "../../styles/styles";
-import { StoreContext } from "../../store";
 import FormFieldInput from "../presentational/FormFieldInput";
 import FormFieldLabel from "../presentational/FormFieldLabel";
 
@@ -22,15 +22,14 @@ const styles = css`
 `;
 
 const FormField = ({
-  inputType = "text",
-  name,
-  label,
-  placeholder,
-  isRequired = false,
   className,
+  inputType = "text",
+  isRequired = false,
+  label,
+  name,
+  placeholder,
+  validate,
 }) => {
-  const { formData } = useContext(StoreContext);
-
   return (
     <div className={className}>
       <FormFieldLabel name={name} required={isRequired} text={label || name} />
@@ -40,9 +39,9 @@ const FormField = ({
         placeholder={placeholder}
         required={isRequired}
         type={inputType}
+        validate={validate}
       />
-
-      <p>{formData[name].error}</p>
+      <ErrorMessage component='p' name={name} />
     </div>
   );
 };

@@ -4,20 +4,17 @@ import { css } from "@emotion/core";
 import styled from "@emotion/styled";
 import { Formik } from "formik";
 
-import { flex } from "../../styles/styles";
-import { StoreContext } from "../../store";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
+import { flex } from "../../styles/styles";
+import { StoreContext } from "../../store";
 import Button from "../presentational/Button";
 
 const styles = css`
   ${flex.row};
   width: $width-full;
   overflow-x: hidden;
-  scroll-snap-coordinate: 0 0;
-  scroll-snap-points-x: repeat(100%);
-  scroll-snap-type: mandatory;
 `;
 
 const Steps = ({ className }) => {
@@ -34,6 +31,27 @@ const Steps = ({ className }) => {
     });
   }
 
+  // const untouched = (values, fieldNames) => {
+  //   fieldNames.forEach((field) => {
+  //     if(values[field])
+  //   })
+  // };
+
+  const hasError = (errors, touched, fieldNames) => {
+    console.log("ERRORS", errors);
+    console.log("TOUCHED", touched);
+    console.log("FIELDS", fieldNames);
+    fieldNames.forEach((field) => {
+      if (touched[field] && errors[field]) return true;
+    });
+  };
+
+  // const hasErrors = (currentStep, ) => {
+  //   if(currentStep === 1) {
+
+  //   }
+  // };
+
   const nextStep = (stepId) => {
     dispatch(actions.navigateForward(stepId));
   };
@@ -41,7 +59,7 @@ const Steps = ({ className }) => {
   const navigateToStep = (offsetValue) => {
     if (!stepsContainer.current) return;
 
-    const { current: stepsElement } = stepsContainer;
+    const stepsElement = stepsContainer.current;
 
     stepsElement.scrollTo({
       top: 0,
@@ -50,14 +68,14 @@ const Steps = ({ className }) => {
     });
   };
 
-  useEffect(() => {
-    navigateToStep(scrollValue);
-  }, [scrollValue]);
-
   const submit = (actions, values) => {
     console.log("ACTIONS", actions);
     console.log("VALUES", values);
   };
+
+  useEffect(() => {
+    navigateToStep(scrollValue);
+  }, [scrollValue]);
 
   const vals = {
     name: "",
@@ -67,9 +85,10 @@ const Steps = ({ className }) => {
     timeValue: "",
     timeUnit: "",
   };
+
   return (
     <Formik handleSubmit={submit} initialValues={vals}>
-      {({ handleSubmit, handleChange, handleBlur, values, errors }) => (
+      {({ handleSubmit, touched, errors, values }) => (
         <form onSubmit={handleSubmit}>
           <div className={className} ref={stepsContainer}>
             <Step1 backButton={false} stepId={1} title='Link' values={values} />
@@ -87,11 +106,8 @@ const Steps = ({ className }) => {
             />
           </div>
           <Button
-            // disabled={formData.name.error || formData.url.error}
-            onClickFn={() => {
-              nextStep(currentStep);
-              console.log("FORM VALUES", values);
-            }}
+            disabled={hasError(errors, touched, ["name", "url"])}
+            onClickFn={() => nextStep(currentStep)}
             text={currentStep !== 3 ? "Next Step" : "Submit"}
             type={currentStep !== 3 ? "button" : "submit"}
           />

@@ -63,14 +63,9 @@ const Step3 = ({ backButton, stepId, title, values }) => {
       <InfoItem value={url} label='Link Url' />
       <InfoItem value={tags} label='Link Tags' />
       <InfoItem value={phone} label='Reminder Phone Number' />
-      {/* <InfoItem value={timeValue} label="Reminder Time" /> */}
       <div css={styles}>
         <label css={{ color: theme.primaryText }}>Reminder Time</label>
-        <p>
-          {+timeValue.value > 0
-            ? `${timeValue.value} ${timeUnit.value} from now`
-            : "-"}
-        </p>
+        <p>{+timeValue > 0 ? `${timeValue} ${timeUnit} from now` : "-"}</p>
       </div>
     </Step>
   );
