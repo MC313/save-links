@@ -4,11 +4,12 @@ import React from "react";
 
 import { css, jsx } from "@emotion/core";
 import { Field } from "formik";
-import { flex, font, margin, width } from "../../styles/styles";
-import Step from "../presentational/Step";
+
+import { flex, font, margin, width } from "../../styles";
 import FormField from "../presentational/FormField";
 import FormFieldInput from "../presentational/FormFieldInput";
 import FormFieldLabel from "../presentational/FormFieldLabel";
+import Step from "../presentational/Step";
 import { validatePhone } from "../../utils/validators";
 
 const styles = css`
@@ -19,11 +20,11 @@ const styles = css`
     }
 `;
 
-const Step2 = ({ stepId, title, values }) => {
+const Step2 = ({ backButton, stepId, title, values }) => {
   const { phone, timeUnit, timeValue } = values;
 
   return (
-    <Step title={title} backButton>
+    <Step title={title} backButton={backButton}>
       <FormField
         inputType='tel'
         isRequired={false}
@@ -46,17 +47,20 @@ const Step2 = ({ stepId, title, values }) => {
           />
           <Field
             name='timeUnit'
-            render={({ field, form }) => (
-              <select
-                style={{ marginLeft: "10px", width: "70%" }}
-                value={timeUnit}
-                disabled={!phone || !timeValue}
-              >
-                <option value='minutes'>Minute</option>
-                <option value='hours'>Hours</option>
-                <option value='days'>Days</option>
-              </select>
-            )}
+            render={({ field, form }) => {
+              console.log("FIELD", field);
+              console.log("FORM", form);
+              return (
+                <select
+                  style={{ marginLeft: "10px", width: "70%" }}
+                  disabled={!phone || !timeValue}
+                >
+                  <option value='minutes'>Minute</option>
+                  <option value='hours'>Hours</option>
+                  <option value='days'>Days</option>
+                </select>
+              );
+            }}
           />
         </div>
       </div>

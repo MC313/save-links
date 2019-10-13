@@ -37,18 +37,13 @@ const styles = css`
 `;
 
 const Step = ({ backButton, children, className, title }) => {
-  const { actions, dispatch, currentStep, theme } = useContext(StoreContext);
-
-  const navigateBack = () => dispatch(actions.navigateBackward(currentStep));
+  const { theme } = useContext(StoreContext);
 
   return (
     <section className={className}>
       <header>
         {backButton && (
-          <BackButton
-            themeStyles={{ ...theme }}
-            onsectionckFn={() => navigateBack()}
-          />
+          <BackButton themeStyles={{ ...theme }} onClickFn={backButton} />
         )}
         <h2 css={{ color: theme.primaryText }}>{title}</h2>
       </header>

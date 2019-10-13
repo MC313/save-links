@@ -46,15 +46,9 @@ const Steps = ({ className }) => {
     });
   };
 
-  // const hasErrors = (currentStep, ) => {
-  //   if(currentStep === 1) {
+  const nextStep = () => dispatch(actions.navigateForward(currentStep));
 
-  //   }
-  // };
-
-  const nextStep = (stepId) => {
-    dispatch(actions.navigateForward(stepId));
-  };
+  const previousStep = () => dispatch(actions.navigateBackward(currentStep));
 
   const navigateToStep = (offsetValue) => {
     if (!stepsContainer.current) return;
@@ -91,15 +85,15 @@ const Steps = ({ className }) => {
       {({ handleSubmit, touched, errors, values }) => (
         <form onSubmit={handleSubmit}>
           <div className={className} ref={stepsContainer}>
-            <Step1 backButton={false} stepId={1} title='Link' values={values} />
+            <Step1 stepId={1} title='Link' values={values} />
             <Step2
-              backButton={true}
+              backButton={previousStep}
               stepId={2}
               title='Reminder'
               values={values}
             />
             <Step3
-              backButton={true}
+              backButton={previousStep}
               stepId={3}
               title='Review'
               values={values}
@@ -107,7 +101,7 @@ const Steps = ({ className }) => {
           </div>
           <Button
             disabled={hasError(errors, touched, ["name", "url"])}
-            onClickFn={() => nextStep(currentStep)}
+            onClickFn={() => nextStep()}
             text={currentStep !== 3 ? "Next Step" : "Submit"}
             type={currentStep !== 3 ? "button" : "submit"}
           />

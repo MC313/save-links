@@ -5,8 +5,6 @@ import FormField from "../presentational/FormField";
 import { validateTitle, validateUrl } from "../../utils/validators";
 
 const Step1 = ({ backButton, stepId, title, values }) => {
-  const { name, tags, url } = values;
-
   return (
     <Step title={title} backButton={backButton}>
       <FormField
