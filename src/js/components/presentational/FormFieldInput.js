@@ -1,11 +1,8 @@
-/** @jsx jsx */
-
 import React from "react";
-
-import { css, jsx } from "@emotion/core";
 
 import { font, height, padding, radius, width } from "../../styles";
 
+import withFormikField from "../hoc/WithFormikField";
 import withStyles from "../hoc/WithStyles";
 
 const inputStyles = {
@@ -20,10 +17,10 @@ const inputStyles = {
 
 const Input = (props) => <input {...props} noValidate />;
 
-const styles = withStyles({ styles: inputStyles });
+const InputWithStyles = withStyles({ styles: inputStyles })(Input);
 
-const InputWithStyles = styles(Input);
+const InputWithFormik = withFormikField(InputWithStyles);
 
-const FormFieldInput = (props) => <InputWithStyles {...props} />;
+const FormFieldInput = (props) => <InputWithFormik {...props} />;
 
 export default FormFieldInput;

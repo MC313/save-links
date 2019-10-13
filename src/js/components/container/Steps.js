@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useRef } from "react";
 
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
+import { Formik } from "formik";
 
 import { flex } from "../../styles/styles";
 import { StoreContext } from "../../store";
@@ -24,7 +25,7 @@ const styles = css`
 `;
 
 const Steps = ({ className }) => {
-  const { actions, currentStep, dispatch, scrollValue, theme } = useContext(
+  const { actions, currentStep, dispatch, scrollValue } = useContext(
     StoreContext
   );
 
@@ -57,19 +58,50 @@ const Steps = ({ className }) => {
     navigateToStep(scrollValue);
   }, [scrollValue]);
 
+  const submit = (actions, values) => {
+    console.log("ACTIONS", actions);
+    console.log("VALUES", values);
+  };
+
+  const vals = {
+    name: "",
+    url: "",
+    tags: "",
+    phone: "",
+    timeValue: "",
+    timeUnit: "",
+  };
   return (
-    <form>
-      <div className={className} ref={stepsContainer}>
-        <Step1 title={"Link"} backButton={false} stepId={1} />
-        <Step2 title={"Reminder"} backButton stepId={2} />
-        <Step3 title={"Review"} backButton stepId={3} />
-      </div>
-      <Button
-        // disabled={formData.name.error || formData.url.error}
-        text={currentStep === 3 ? "Submit" : "Next Step"}
-        onClickFn={() => nextStep(currentStep)}
-      />
-    </form>
+    <Formik handleSubmit={submit} initialValues={vals}>
+      {({ handleSubmit, handleChange, handleBlur, values, errors }) => (
+        <form onSubmit={handleSubmit}>
+          <div className={className} ref={stepsContainer}>
+            <Step1 backButton={false} stepId={1} title='Link' values={values} />
+            <Step2
+              backButton={true}
+              stepId={2}
+              title='Reminder'
+              values={values}
+            />
+            <Step3
+              backButton={true}
+              stepId={3}
+              title='Review'
+              values={values}
+            />
+          </div>
+          <Button
+            // disabled={formData.name.error || formData.url.error}
+            onClickFn={() => {
+              nextStep(currentStep);
+              console.log("FORM VALUES", values);
+            }}
+            text={currentStep !== 3 ? "Next Step" : "Submit"}
+            type={currentStep !== 3 ? "button" : "submit"}
+          />
+        </form>
+      )}
+    </Formik>
   );
 };
 
