@@ -23,6 +23,9 @@ const Button = (props) => {
     color: theme.secondaryText,
     maxWidth: "358px",
     margin: "0px 13px",
+    "&:disabled": {
+      opacity: "0.7",
+    },
   };
 
   const styles = withStyles({ styles: themeStyles });

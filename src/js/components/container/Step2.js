@@ -1,81 +1,62 @@
 /** @jsx jsx */
 
-import React, { useContext } from "react";
+import React from "react";
 
 import { css, jsx } from "@emotion/core";
+import { Field } from "formik";
 
-import { StoreContext } from "../../store";
-import {
-  flex,
-  font,
-  height,
-  margin,
-  padding,
-  width,
-} from "../../styles/styles";
-import Step from "../presentational/Step";
+import { flex, font, margin, width } from "../../styles";
 import FormField from "../presentational/FormField";
 import FormFieldInput from "../presentational/FormFieldInput";
 import FormFieldLabel from "../presentational/FormFieldLabel";
+import Step from "../presentational/Step";
+import { validatePhone } from "../../utils/validators";
 
 const styles = css`
     margin-bottom: ${margin.large};
-    label {
-      ${flex.row}
-      margin-bottom: ${margin.extraSmall};
-    }
     & > div {
       ${flex.row}
       font-size: ${font.medium};
     }
-    select {
-        width: ${width.full};
-    }
 `;
 
-const Step2 = ({ stepId, title }) => {
-  const { actions, dispatch, formData } = useContext(StoreContext);
-
-  const onInputChange = ({ target }) => {
-    const { name, value } = target;
-    dispatch(actions.updateForm({ ...formData, [name]: { value } }));
-  };
-
-  const pluralize = (number, text) => {
-    return number === 1 ? text : `${text}s`;
-  };
-
+const Step2 = ({ backButton, stepId, title, values }) => {
+  const { phone, timeValue } = values;
   return (
-    <Step title={title} backButton>
+    <Step title={title} backButton={backButton}>
       <FormField
         inputType='tel'
+        isRequired={false}
         name='phone'
         label='Text a reminder about this link to:'
         placeholder='313-414-2217'
-        value={formData.phone.value}
-        onChangeFn={onInputChange}
-        isRequired={false}
+        validate={validatePhone}
       />
 
       <div css={styles}>
         <FormFieldLabel htmlFor='reminder' text='Send reminder in:' />
-        <div id='reminder'>
+        <div id='reminder' style={{ width: width.full }}>
           <FormFieldInput
             name='timeValue'
+            style={{ width: "25%" }}
             type='number'
-            min='0'
-            value={formData.timeValue.value}
-            onChange={onInputChange}
+            disabled={!phone}
           />
-          <select
-            name='timeUnit'
-            value={formData.timeUnit.value}
-            onChange={onInputChange}
-          >
-            <option value='minutes'>Minute</option>
-            <option value='hours'>Hours</option>
-            <option value='days'>Days</option>
-          </select>
+          <Field
+            render={({ field, form }) => {
+              return (
+                <select
+                  name='timeUnit'
+                  style={{ marginLeft: "10px", width: "70%" }}
+                  disabled={!phone || !timeValue}
+                >
+                  <option value='minutes'>Minute</option>
+                  <option value='hours'>Hours</option>
+                  <option value='days'>Days</option>
+                </select>
+              );
+            }}
+          />
         </div>
       </div>
     </Step>

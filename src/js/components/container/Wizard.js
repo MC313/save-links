@@ -1,16 +1,16 @@
 /** @jsx jsx */
 
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 
-import { css, jsx } from '@emotion/core';
-import styled from '@emotion/styled';
+import { css, jsx } from "@emotion/core";
+import styled from "@emotion/styled";
 
-import { radius } from '../../styles/styles';
+import { radius } from "../../styles/styles";
 
-import Steps from './Steps';
-import StepIndicator from './StepIndicator';
-import SuccessOverlay from '../presentational/SuccessOverlay';
-import { StoreContext } from '../../store';
+import Steps from "./Steps";
+import StepIndicator from "./StepIndicator";
+import SuccessOverlay from "../presentational/SuccessOverlay";
+import { StoreContext } from "../../store";
 
 const styles = css`
   width: 80%;
@@ -20,7 +20,7 @@ const styles = css`
   display: block;
   overflow: hidden;
   margin: 0px auto;
-  padding: 30px 30px 0px 30px;
+  padding: 15px 30px 0px 30px;
   border: 1px solid rgba(162, 136, 166, 0.26);
   border-bottom-color: rgba(162, 136, 166, 0.26);
   border-radius: ${radius.medium};
@@ -28,18 +28,18 @@ const styles = css`
 `;
 
 const Wizard = ({ className }) => {
-    const { showOverlay, theme } = useContext(StoreContext);
+  const { showOverlay, theme } = useContext(StoreContext);
 
-    return (
-        <section
-            css={{ backgroundColor: theme.cardBackground }}
-            className={className}
-        >
-            <SuccessOverlay themeStyles={theme} show={showOverlay} />
-            <Steps />
-            <StepIndicator />
-        </section>
-    );
+  return (
+    <section
+      css={{ backgroundColor: theme.cardBackground }}
+      className={className}
+    >
+      <SuccessOverlay themeStyles={theme} show={showOverlay} />
+      <Steps />
+      <StepIndicator />
+    </section>
+  );
 };
 
 const StyledWizard = styled(Wizard)`

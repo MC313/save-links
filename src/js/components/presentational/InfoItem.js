@@ -9,6 +9,8 @@ const infoStyles = {
   label: {
     color: "inherit",
     marginBottom: margin.small,
+    fontWeight: 600,
+    letterSpacing: "2px",
   },
   p: {
     color: "inherit",
@@ -31,8 +33,6 @@ const InfoItem = (props) => {
   const themeStyles = { ...infoStyles, color: theme.primaryText };
 
   const InfoWithStyles = withStyles({ styles: themeStyles })(InfoElement);
-
-  console.log("stlyes", InfoWithStyles);
 
   return <InfoWithStyles {...props} />;
 };

@@ -8,24 +8,22 @@ import { css } from "@emotion/core";
 import styled from "@emotion/styled";
 import { Formik } from "formik";
 
-import { flex } from "../../styles/styles";
-import { StoreContext } from "../../store";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
+import { flex } from "../../styles";
+import { StoreContext } from "../../store";
+import log from "../../utils/logger";
 import Button from "../presentational/Button";
 
 const styles = css`
   ${flex.row};
   width: ${width.full};
   overflow-x: hidden;
-  scroll-snap-coordinate: 0 0;
-  scroll-snap-points-x: repeat(100%);
-  scroll-snap-type: mandatory;
 `;
 
 const Steps = ({ className }) => {
-  const { actions, currentStep, dispatch, scrollValue } = useContext(
+  const { actions, currentStep, dispatch, formData, scrollValue } = useContext(
     StoreContext
   );
 
@@ -38,14 +36,34 @@ const Steps = ({ className }) => {
     });
   }
 
-  const nextStep = (stepId) => {
-    dispatch(actions.navigateForward(stepId));
+  const untouched = (touched, fieldNames) => {
+    let untouched = false;
+    for (let i = 0; i < fieldNames.length; i++) {
+      const fieldName = fieldNames[i];
+      untouched = !touched[fieldName];
+      if (untouched) break;
+    }
+    return untouched;
   };
+
+  const hasError = (errors, touched, fieldNames) => {
+    let error = false;
+    for (let i = 0; i < fieldNames.length; i++) {
+      const fieldName = fieldNames[i];
+      error = !!(touched[fieldName] && errors[fieldName]);
+      if (error) break;
+    }
+    return error;
+  };
+
+  const nextStep = () => dispatch(actions.navigateForward(currentStep));
+
+  const previousStep = () => dispatch(actions.navigateBackward(currentStep));
 
   const navigateToStep = (offsetValue) => {
     if (!stepsContainer.current) return;
 
-    const { current: stepsElement } = stepsContainer;
+    const stepsElement = stepsContainer.current;
 
     stepsElement.scrollTo({
       top: 0,
@@ -54,48 +72,39 @@ const Steps = ({ className }) => {
     });
   };
 
-  useEffect(() => {
-    navigateToStep(scrollValue);
-  }, [scrollValue]);
-
   const submit = (actions, values) => {
     console.log("ACTIONS", actions);
     console.log("VALUES", values);
   };
 
-  const vals = {
-    name: "",
-    url: "",
-    tags: "",
-    phone: "",
-    timeValue: "",
-    timeUnit: "",
+  const disableButton = (stepId, touched, errors, values) => {
+    if (stepId === 1) {
+      return (
+        untouched(touched, ["title", "url"]) ||
+        hasError(errors, touched, ["title", "url"])
+      );
+    }
+    if (stepId === 2) {
+      if (!values["phone"] && !values["timeValue"]) return false;
+    }
   };
+
+  useEffect(() => {
+    navigateToStep(scrollValue);
+  }, [scrollValue]);
+
   return (
-    <Formik handleSubmit={submit} initialValues={vals}>
-      {({ handleSubmit, handleChange, handleBlur, values, errors }) => (
+    <Formik handleSubmit={submit} initialValues={formData}>
+      {({ handleSubmit, touched, errors, values }) => (
         <form onSubmit={handleSubmit}>
           <div className={className} ref={stepsContainer}>
-            <Step1 backButton={false} stepId={1} title='Link' values={values} />
-            <Step2
-              backButton={true}
-              stepId={2}
-              title='Reminder'
-              values={values}
-            />
-            <Step3
-              backButton={true}
-              stepId={3}
-              title='Review'
-              values={values}
-            />
+            <Step1 title='Link' values={values} />
+            <Step2 backButton={previousStep} title='Reminder' values={values} />
+            <Step3 backButton={previousStep} title='Review' values={values} />
           </div>
           <Button
-            // disabled={formData.name.error || formData.url.error}
-            onClickFn={() => {
-              nextStep(currentStep);
-              console.log("FORM VALUES", values);
-            }}
+            disabled={disableButton(currentStep, touched, errors, values)}
+            onClickFn={() => nextStep()}
             text={currentStep !== 3 ? "Next Step" : "Submit"}
             type={currentStep !== 3 ? "button" : "submit"}
           />
