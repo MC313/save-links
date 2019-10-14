@@ -57,9 +57,9 @@ const Steps = ({ className }) => {
   const previousStep = () => dispatch(actions.navigateBackward(currentStep));
 
   const navigateToStep = (offsetValue) => {
-    if (!stepsContainer.current) return;
-
     const stepsElement = stepsContainer.current;
+
+    if (!stepsElement) return;
 
     stepsElement.scrollTo({
       top: 0,

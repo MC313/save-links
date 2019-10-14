@@ -5,7 +5,7 @@ import React from "react";
 import { css, jsx } from "@emotion/core";
 
 import { ArrowLeftIcon } from "../../constants/svg-icons";
-import { font, flex, radius } from "../../styles";
+import { font, radius } from "../../styles";
 
 const styles = {
   display: "flex",

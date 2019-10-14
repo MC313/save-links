@@ -31,14 +31,11 @@ const Wizard = ({ className }) => {
   const { showOverlay, theme } = useContext(StoreContext);
 
   return (
-    <section
-      css={{ backgroundColor: theme.cardBackground }}
-      className={className}
-    >
+    <div css={{ backgroundColor: theme.cardBackground }} className={className}>
       <SuccessOverlay themeStyles={theme} show={showOverlay} />
       <Steps />
       <StepIndicator />
-    </section>
+    </div>
   );
 };
 
