@@ -7,8 +7,9 @@ import { Formik } from "formik";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
-import { flex } from "../../styles/styles";
+import { flex } from "../../styles";
 import { StoreContext } from "../../store";
+import log from "../../utils/logger";
 import Button from "../presentational/Button";
 
 const styles = css`
@@ -18,7 +19,7 @@ const styles = css`
 `;
 
 const Steps = ({ className }) => {
-  const { actions, currentStep, dispatch, scrollValue } = useContext(
+  const { actions, currentStep, dispatch, formData, scrollValue } = useContext(
     StoreContext
   );
 
@@ -31,19 +32,24 @@ const Steps = ({ className }) => {
     });
   }
 
-  // const untouched = (values, fieldNames) => {
-  //   fieldNames.forEach((field) => {
-  //     if(values[field])
-  //   })
-  // };
+  const untouched = (touched, fieldNames) => {
+    let untouched = false;
+    for (let i = 0; i < fieldNames.length; i++) {
+      const fieldName = fieldNames[i];
+      untouched = !touched[fieldName];
+      if (untouched) break;
+    }
+    return untouched;
+  };
 
   const hasError = (errors, touched, fieldNames) => {
-    console.log("ERRORS", errors);
-    console.log("TOUCHED", touched);
-    console.log("FIELDS", fieldNames);
-    fieldNames.forEach((field) => {
-      if (touched[field] && errors[field]) return true;
-    });
+    let error = false;
+    for (let i = 0; i < fieldNames.length; i++) {
+      const fieldName = fieldNames[i];
+      error = !!(touched[fieldName] && errors[fieldName]);
+      if (error) break;
+    }
+    return error;
   };
 
   const nextStep = () => dispatch(actions.navigateForward(currentStep));
@@ -67,40 +73,33 @@ const Steps = ({ className }) => {
     console.log("VALUES", values);
   };
 
+  const disableButton = (stepId, touched, errors, values) => {
+    if (stepId === 1) {
+      return (
+        untouched(touched, ["title", "url"]) ||
+        hasError(errors, touched, ["title", "url"])
+      );
+    }
+    if (stepId === 2) {
+      if (!values["phone"] && !values["timeValue"]) return false;
+    }
+  };
+
   useEffect(() => {
     navigateToStep(scrollValue);
   }, [scrollValue]);
 
-  const vals = {
-    name: "",
-    url: "",
-    tags: "",
-    phone: "",
-    timeValue: "",
-    timeUnit: "",
-  };
-
   return (
-    <Formik handleSubmit={submit} initialValues={vals}>
+    <Formik handleSubmit={submit} initialValues={formData}>
       {({ handleSubmit, touched, errors, values }) => (
         <form onSubmit={handleSubmit}>
           <div className={className} ref={stepsContainer}>
-            <Step1 stepId={1} title='Link' values={values} />
-            <Step2
-              backButton={previousStep}
-              stepId={2}
-              title='Reminder'
-              values={values}
-            />
-            <Step3
-              backButton={previousStep}
-              stepId={3}
-              title='Review'
-              values={values}
-            />
+            <Step1 title='Link' values={values} />
+            <Step2 backButton={previousStep} title='Reminder' values={values} />
+            <Step3 backButton={previousStep} title='Review' values={values} />
           </div>
           <Button
-            disabled={hasError(errors, touched, ["name", "url"])}
+            disabled={disableButton(currentStep, touched, errors, values)}
             onClickFn={() => nextStep()}
             text={currentStep !== 3 ? "Next Step" : "Submit"}
             type={currentStep !== 3 ? "button" : "submit"}

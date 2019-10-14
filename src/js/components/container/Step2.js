@@ -21,8 +21,7 @@ const styles = css`
 `;
 
 const Step2 = ({ backButton, stepId, title, values }) => {
-  const { phone, timeUnit, timeValue } = values;
-
+  const { phone, timeValue } = values;
   return (
     <Step title={title} backButton={backButton}>
       <FormField
@@ -31,7 +30,6 @@ const Step2 = ({ backButton, stepId, title, values }) => {
         name='phone'
         label='Text a reminder about this link to:'
         placeholder='313-414-2217'
-        value={phone}
         validate={validatePhone}
       />
 
@@ -42,16 +40,13 @@ const Step2 = ({ backButton, stepId, title, values }) => {
             name='timeValue'
             style={{ width: "25%" }}
             type='number'
-            value={timeValue}
             disabled={!phone}
           />
           <Field
-            name='timeUnit'
             render={({ field, form }) => {
-              console.log("FIELD", field);
-              console.log("FORM", form);
               return (
                 <select
+                  name='timeUnit'
                   style={{ marginLeft: "10px", width: "70%" }}
                   disabled={!phone || !timeValue}
                 >
