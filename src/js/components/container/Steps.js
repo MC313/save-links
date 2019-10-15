@@ -59,7 +59,7 @@ const Steps = ({ className }) => {
     stepsElement.scrollTo({ left: offsetValue, behavior: "smooth" });
   };
 
-  const submit = (actions, values) => {
+  const submitFormInfo = (actions, values) => {
     console.log("ACTIONS", actions);
     console.log("VALUES", values);
   };
@@ -81,7 +81,7 @@ const Steps = ({ className }) => {
   }, [scrollValue]);
 
   return (
-    <Formik handleSubmit={submit} initialValues={formData}>
+    <Formik onSubmit={(values, actions) => {console.log('values', values)}} initialValues={formData}>
       {({ handleSubmit, touched, errors, values }) => (
         <form onSubmit={handleSubmit}>
           <div css={styles} ref={stepsContainer}>

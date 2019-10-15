@@ -6,7 +6,7 @@ export default {
   scrollValue: 0,
   showOverlay: false,
   formData: {
-    name: "",
+    title: "",
     url: "",
     tags: "",
     phone: "",
