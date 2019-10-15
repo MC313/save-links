@@ -1,6 +1,8 @@
+/** @jsx jsx */
+
 import React, { useContext, useEffect, useRef } from "react";
 
-import { css } from "@emotion/core";
+import { css, jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import { Formik } from "formik";
 
@@ -24,13 +26,6 @@ const Steps = ({ className }) => {
   );
 
   const stepsContainer = useRef(null);
-
-  if (stepsContainer && stepsContainer.current) {
-    stepsContainer.current.scrollTo({
-      top: 0,
-      left: 0,
-    });
-  }
 
   const untouched = (touched, fieldNames) => {
     let untouched = false;
@@ -61,11 +56,7 @@ const Steps = ({ className }) => {
 
     if (!stepsElement) return;
 
-    stepsElement.scrollTo({
-      top: 0,
-      left: offsetValue,
-      behavior: "smooth",
-    });
+    stepsElement.scrollTo({ left: offsetValue, behavior: "smooth" });
   };
 
   const submit = (actions, values) => {
@@ -93,7 +84,7 @@ const Steps = ({ className }) => {
     <Formik handleSubmit={submit} initialValues={formData}>
       {({ handleSubmit, touched, errors, values }) => (
         <form onSubmit={handleSubmit}>
-          <div className={className} ref={stepsContainer}>
+          <div css={styles} ref={stepsContainer}>
             <Step1 title='Link' values={values} />
             <Step2 backButton={previousStep} title='Reminder' values={values} />
             <Step3 backButton={previousStep} title='Review' values={values} />
@@ -110,8 +101,4 @@ const Steps = ({ className }) => {
   );
 };
 
-const StyledSteps = styled(Steps)`
-  ${styles}
-`;
-
-export default StyledSteps;
+export default Steps;

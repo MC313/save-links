@@ -56,7 +56,6 @@ const Step3 = ({ backButton, title, values }) => {
   };
 
   const { title: linkTitle, url, tags, phone, timeValue, timeUnit } = values;
-  console.log("TIME UNIT", timeUnit);
   return (
     <Step title={title} backButton={backButton}>
       <InfoItem value={linkTitle} label='Link Title' />
