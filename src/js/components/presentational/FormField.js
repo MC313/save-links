@@ -27,6 +27,7 @@ const FormField = ({
   isRequired = false,
   label,
   name,
+  onChange,
   placeholder,
   validate,
 }) => {
@@ -36,6 +37,7 @@ const FormField = ({
       <FormFieldInput
         id={name}
         name={name}
+        onChange={onChange}
         placeholder={placeholder}
         required={isRequired}
         type={inputType}
