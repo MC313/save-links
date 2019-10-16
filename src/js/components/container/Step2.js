@@ -20,7 +20,7 @@ const styles = css`
     }
 `;
 
-const Step2 = ({ backButton, stepId, title, values }) => {
+const Step2 = ({ backButton, title, values }) => {
   const { phone, timeValue } = values;
   return (
     <Step title={title} backButton={backButton}>
@@ -42,21 +42,17 @@ const Step2 = ({ backButton, stepId, title, values }) => {
             type='number'
             disabled={!phone}
           />
+
           <Field
-            render={({ field, form }) => {
-              return (
-                <select
-                  name='timeUnit'
-                  style={{ marginLeft: "10px", width: "70%" }}
-                  disabled={!phone || !timeValue}
-                >
-                  <option value='minutes'>Minute</option>
-                  <option value='hours'>Hours</option>
-                  <option value='days'>Days</option>
-                </select>
-              );
-            }}
-          />
+            component='select'
+            name='timeUnit'
+            style={{ marginLeft: "10px", width: "70%" }}
+            disabled={!phone || !timeValue}
+          >
+            <option value='minutes'>Minute</option>
+            <option value='hours'>Hours</option>
+            <option value='days'>Days</option>
+          </Field>
         </div>
       </div>
     </Step>

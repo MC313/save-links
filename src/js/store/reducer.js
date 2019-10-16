@@ -14,7 +14,7 @@ import initialState from "./state";
 
 const offsetValue = 388;
 
-export const rootReducer = (state, action) => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case NAVIGATE_FORWARD:
       return {
@@ -68,4 +68,4 @@ export const rootReducer = (state, action) => {
   }
 };
 
-export default rootReducer;
+export default reducer;

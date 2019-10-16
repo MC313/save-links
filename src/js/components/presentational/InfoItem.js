@@ -9,8 +9,9 @@ const infoStyles = {
   label: {
     color: "inherit",
     marginBottom: margin.small,
+    fontFamily: 'Arial',
     fontWeight: 600,
-    letterSpacing: "2px",
+    letterSpacing: "1px",
   },
   p: {
     color: "inherit",

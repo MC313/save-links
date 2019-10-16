@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+/** @jsx jsx */
 
-import { css } from '@emotion/core';
-import styled from '@emotion/styled';
+import React from 'react';
+
+import { css, jsx } from '@emotion/core';
 
 import { flex, height, radius, width } from '../../styles/styles';
-import { StoreContext } from '../../store';
 
 const styles = css`
   width: ${width.full};
@@ -26,20 +26,16 @@ const styles = css`
   }
 `;
 
-const _setActiveIndicator = (stepId, bgColor, activeBgColor) =>
+const setActiveIndicator = (stepId) =>
     [...Array(3)].map((_, index) => {
         if (index + 1 === stepId) {
-            return <li className={'active'} key={index} />;
+            return <li className='active' key={index} />;
         }
         return <li key={index} />;
     });
 
-const StepIndicator = ({ className }) => {
-    const { currentStep, theme } = useContext(StoreContext);
-    return <ul className={className}>{_setActiveIndicator(currentStep)}</ul>;
+const StepIndicator = ({ currentStep }) => {
+    return <ul css={styles}>{setActiveIndicator(currentStep)}</ul>;
 };
 
-const StyledStepIndicator = styled(StepIndicator)`
-  ${styles}
-`;
-export default StyledStepIndicator;
+export default StepIndicator;

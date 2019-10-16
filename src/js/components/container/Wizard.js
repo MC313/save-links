@@ -3,11 +3,10 @@
 import React, { useContext } from "react";
 
 import { css, jsx } from "@emotion/core";
-import styled from "@emotion/styled";
 
 import { radius } from "../../styles/styles";
 
-import Steps from "./Steps";
+import BasicForm from "./BasicForm";
 import StepIndicator from "./StepIndicator";
 import SuccessOverlay from "../presentational/SuccessOverlay";
 import { StoreContext } from "../../store";
@@ -27,23 +26,19 @@ const styles = css`
   box-shadow: 5px 5px 25px 0 rgba(46, 61, 73, 0.3);
 `;
 
-const Wizard = ({ className }) => {
-  const { showOverlay, theme } = useContext(StoreContext);
-
+const Wizard = () => {
+  const { currentStep, showOverlay, theme } = useContext(StoreContext);
+  const wizardStyles = css`
+    background-color: ${theme.cardBackground};
+    ${styles}
+  `;
   return (
-    <section
-      css={{ backgroundColor: theme.cardBackground }}
-      className={className}
-    >
+    <div css={wizardStyles}>
       <SuccessOverlay themeStyles={theme} show={showOverlay} />
-      <Steps />
-      <StepIndicator />
-    </section>
+      <BasicForm />
+      <StepIndicator currentStep={currentStep} />
+    </div>
   );
 };
 
-const StyledWizard = styled(Wizard)`
-  ${styles}
-`;
-
-export default StyledWizard;
+export default Wizard;
