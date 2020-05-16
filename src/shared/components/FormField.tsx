@@ -7,17 +7,18 @@ import styled from "@emotion/styled";
 
 import { FormalWebFieldProps } from "@kevinwolf/formal-web";
 
-import { font } from "../styles";
+import { font, margin } from "../styles";
 import FormFieldInput from "./FormFieldInput";
 import FormFieldLabel from "./FormFieldLabel";
 
 const StyledFormField = styled.div({
   overflow: "hidden",
-  marginBottom: "10px",
+  width: "100%",
+  marginBottom: margin.large,
   p: {
     minHeight: "20px",
     height: "20px",
-    padding: "5px 0px 0px 0px",
+    paddingTop: "5px",
     fontSize: font.small
   }
 });

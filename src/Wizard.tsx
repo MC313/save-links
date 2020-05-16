@@ -97,7 +97,7 @@ class Wizard extends React.Component<WizardProps, WizardState> {
 	};
 
 	static Container = ({ children, currentStep }: WizardContainerProps) => (
-		<div style={ { overflow: "hidden", width: "auto" } }>
+		<div style={ { overflow: "hidden", width: "100%" } }>
 			<StyledList currentStep={ currentStep }>
 				{ children }
 			</StyledList>

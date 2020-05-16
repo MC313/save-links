@@ -2,7 +2,7 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { height, radius, width } from "../styles";
+import { font, height, radius, width } from "../styles";
 
 //import { StoreContext } from "../../store";
 const StyledButton = styled.button({
@@ -12,6 +12,7 @@ const StyledButton = styled.button({
   maxHeight: height.medium,
   margin: "0px 13px",
   borderRadius: radius.medium,
+  fontSize: font.medium,
   backgroundColor: "black",
   color: "white",
   "&:disabled": {

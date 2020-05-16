@@ -2,12 +2,12 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { font, padding, radius, width } from "../styles";
+import { font, padding, radius, height } from "../styles";
 import { FormalWebFieldProps } from "@kevinwolf/formal-web";
 
 const StyledInput = styled.input({
-  maxWidth: width.full,
-  minHeight: "30px",
+  width: "95%",
+  minHeight: height.small,
   height: "7vh",
   maxHeight: "40px",
   paddingLeft: padding.medium,
@@ -16,6 +16,7 @@ const StyledInput = styled.input({
 });
 
 type CustomInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "id"> & FormalWebFieldProps;
+
 interface FormFieldInputProps extends CustomInputProps {
   className?: string;
   onBlur?: () => void;

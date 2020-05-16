@@ -25,7 +25,7 @@ interface InfoElementProps {
 
 const InfoElement: React.FC<InfoElementProps> = ({ value, label }) => {
     return (
-        <div>
+        <div style={ infoStyles }>
             <label style={ { color: "black" } }>{ label }</label>
             <p style={ { color: "#333" } }>{ value || "-" }</p>
         </div>
