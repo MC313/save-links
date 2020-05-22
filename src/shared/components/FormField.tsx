@@ -5,6 +5,7 @@ import React from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
+import { FormalFieldProps } from '@kevinwolf/formal';
 import { FormalWebFieldProps } from "@kevinwolf/formal-web";
 
 import { font, margin } from "../styles";
@@ -14,16 +15,17 @@ import FormFieldLabel from "./FormFieldLabel";
 const StyledFormField = styled.div({
   overflow: "hidden",
   width: "100%",
-  marginBottom: margin.large,
+  marginBottom: margin.medium,
   p: {
     minHeight: "20px",
     height: "20px",
-    paddingTop: "5px",
-    fontSize: font.small
+    margin: "5px 0px 0px 0px",
+    fontSize: font.medium,
+    color: "red"
   }
 });
 
-interface FormFieldProps extends FormalWebFieldProps {
+export interface FormFieldProps extends FormalFieldProps, FormalWebFieldProps {
   label?: string;
   placeholder?: string;
   required?: boolean;
@@ -31,7 +33,8 @@ interface FormFieldProps extends FormalWebFieldProps {
   validate?: boolean;
 };
 
-const FormField: React.FC<FormFieldProps> = ({
+export const FormField: React.FC<FormFieldProps> = ({
+  error,
   label,
   name,
   placeholder,
@@ -57,9 +60,7 @@ const FormField: React.FC<FormFieldProps> = ({
         type={ type }
         validate={ validate }
       />
+      <p>{ error }</p>
     </StyledFormField>
   );
 };
-
-
-export default FormField;

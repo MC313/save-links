@@ -17,7 +17,7 @@ const StyledInput = styled.input({
 
 type CustomInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "id"> & FormalWebFieldProps;
 
-interface FormFieldInputProps extends CustomInputProps {
+export interface FormFieldInputProps extends CustomInputProps {
   className?: string;
   onBlur?: () => void;
   type?: string;
@@ -25,8 +25,6 @@ interface FormFieldInputProps extends CustomInputProps {
   validate?: boolean;
 };
 
-const FormFieldInput: React.FC<FormFieldInputProps> = (props) => (
+export const FormFieldInput: React.FC<FormFieldInputProps> = (props) => (
   <StyledInput { ...props } />
 );
-
-export default FormFieldInput;

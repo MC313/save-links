@@ -2,7 +2,7 @@ import React from "react";
 
 import useFormal from "@kevinwolf/formal-web";
 
-import { Button, Card, FormField } from "../shared/components";
+import { Button, Card, FormField, FormFieldGroup } from "../shared/components";
 import Wizard from "../Wizard";
 import { Inputs } from "../shared/types/Inputs";
 import ConfirmInfo from "../ConfirmInfo/ConfirmInfo";
@@ -31,7 +31,8 @@ const SaveLink = () => {
         url: "",
         tags: "",
         date: "",
-        time: "",
+        timeUnit: "",
+        timeValue: "",
         description: ""
     };
 
@@ -50,6 +51,7 @@ const SaveLink = () => {
                 <Wizard>
                     {
                         ({ currentStep, nextStep, totalSteps }) => {
+
                             const getAttr = setAttribute(currentStep, totalSteps);
 
                             return (
@@ -59,10 +61,12 @@ const SaveLink = () => {
                                         <Wizard.Item>
                                             <FormField
                                                 { ...formal.getFieldProps("name") }
+                                                label="Link name"
                                                 required={ true }
                                             />
                                             <FormField
                                                 { ...formal.getFieldProps("url") }
+                                                label="Link url"
                                                 required={ true }
                                             />
                                         </Wizard.Item>
@@ -79,7 +83,10 @@ const SaveLink = () => {
                                         { /** Wizard Section 3 */ }
                                         <Wizard.Item>
                                             <FormField { ...formal.getFieldProps("date") } />
-                                            <FormField { ...formal.getFieldProps("time") } />
+                                            <FormFieldGroup>
+                                                <FormField { ...formal.getFieldProps("timeValue") } />
+                                                <FormField { ...formal.getFieldProps("timeUnit") } />
+                                            </FormFieldGroup>
                                         </Wizard.Item>
                                         <Wizard.Item>
                                             <ConfirmInfo inputs={ formal.values } />

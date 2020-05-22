@@ -3,6 +3,7 @@ export interface Inputs extends Object {
     url: string;
     tags: string;
     date: string;
-    time: string;
+    timeUnit: string;
+    timeValue: string;
     description: string;
 };
