@@ -16,10 +16,9 @@ const StyledLabel = styled.label({
 });
 
 interface FormFieldLabelProps {
-  id?: string;
-  name?: string;
+  inputId?: string;
   required?: boolean;
-  text?: string;
+  label: string;
 };
 
 const _capitalize = (strValue: string) => {
@@ -28,20 +27,17 @@ const _capitalize = (strValue: string) => {
   return strArray.join("");
 };
 
-const FormFieldLabel: React.FC<FormFieldLabelProps> = ({
-  id,
-  name,
+export const FormFieldLabel: React.FC<FormFieldLabelProps> = ({
+  inputId,
   required = false,
-  text = "",
+  label = "",
   ...props
 }) => {
   //const { theme } = useContext(StoreContext);
   return (
-    <StyledLabel htmlFor={ id } { ...props }>
-      { _capitalize(text) }
+    <StyledLabel htmlFor={ inputId } { ...props }>
+      { _capitalize(label) }
       { required ? " (Required)" : "" }
     </StyledLabel>
   );
 };
-
-export default FormFieldLabel;

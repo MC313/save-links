@@ -9,8 +9,8 @@ import { FormalFieldProps } from '@kevinwolf/formal';
 import { FormalWebFieldProps } from "@kevinwolf/formal-web";
 
 import { font, margin } from "../styles";
-import FormFieldInput from "./FormFieldInput";
-import FormFieldLabel from "./FormFieldLabel";
+import { FormFieldInput } from "./FormFieldInput";
+import { FormFieldLabel } from "./FormFieldLabel";
 
 const StyledFormField = styled.div({
   overflow: "hidden",
@@ -25,7 +25,11 @@ const StyledFormField = styled.div({
   }
 });
 
-export interface FormFieldProps extends FormalFieldProps, FormalWebFieldProps {
+interface FormalProps extends Partial<FormalFieldProps>, Omit<FormalWebFieldProps, "id"> {
+  id?: string;
+};
+
+export interface FormFieldProps extends FormalProps {
   label?: string;
   placeholder?: string;
   required?: boolean;
@@ -35,9 +39,9 @@ export interface FormFieldProps extends FormalFieldProps, FormalWebFieldProps {
 
 export const FormField: React.FC<FormFieldProps> = ({
   error,
+  id,
   label,
   name,
-  placeholder,
   required = false,
   type = "text",
   validate = false,
@@ -45,20 +49,19 @@ export const FormField: React.FC<FormFieldProps> = ({
 }) => {
   return (
     <StyledFormField>
-      <FormFieldLabel
-        id={ `${name}-Id` }
-        name={ name }
-        required={ required }
-        text={ label || name }
-      />
+      {
+        label &&
+        <FormFieldLabel
+          inputId={ id ? id : `${name}-Id` }
+          required={ required }
+          label={ label }
+        />
+      }
       <FormFieldInput
         { ...props }
-        id={ `${name}-Id` }
+        id={ id ? id : `${name}-Id` }
         name={ name }
-        placeholder={ placeholder }
         required={ required }
-        type={ type }
-        validate={ validate }
       />
       <p>{ error }</p>
     </StyledFormField>

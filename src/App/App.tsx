@@ -2,9 +2,9 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import "./App.style.ts";
 import SaveLink from "../SaveLink/SaveLink";
 import { colors, flex, height, width } from "../shared/styles";
+import { AppProvider } from "../store";
 
 const AppContainer = styled.div({
     width: width.full,
@@ -15,7 +15,9 @@ const AppContainer = styled.div({
 const App = () => {
     return (
         <AppContainer className="app">
-            <SaveLink />
+            <AppProvider>
+                <SaveLink />
+            </AppProvider>
         </AppContainer>
     );
 }

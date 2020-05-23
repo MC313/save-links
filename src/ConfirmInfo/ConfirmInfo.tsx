@@ -2,12 +2,13 @@ import React from "react";
 
 import { font, margin } from "../shared/styles";
 import { Inputs } from "../shared/types/Inputs";
+import { useApp } from "../store";
 
 const infoStyles = {
-    marginBottom: margin.medium,
+    marginBottom: margin.small,
     label: {
         color: "inherit",
-        marginBottom: margin.small,
+        marginBottom: 5,
         fontFamily: 'Arial',
         fontWeight: 600,
         letterSpacing: "1px",
@@ -33,7 +34,8 @@ const InfoElement: React.FC<InfoElementProps> = ({ value, label }) => {
 };
 
 const ConfirmInfo: React.FC<{ inputs: Inputs }> = ({ inputs }) => {
-    console.log("VALUES: ", inputs)
+    const [state] = useApp();
+    console.log("APP STATE: ", state)
     return (
         <div>
             {

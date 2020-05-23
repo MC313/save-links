@@ -17,7 +17,7 @@ const StyledInput = styled.input({
 
 type CustomInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "id"> & FormalWebFieldProps;
 
-export interface FormFieldInputProps extends CustomInputProps {
+interface FormFieldInputProps extends CustomInputProps {
   className?: string;
   onBlur?: () => void;
   type?: string;

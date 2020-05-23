@@ -6,6 +6,7 @@ export interface AppState {
         description?: string;
         reminder?: number;
     },
+    formError: boolean;
     step: number;
     links: string[] | [];
 };
@@ -18,6 +19,7 @@ export const appState: AppState = {
         description: undefined,
         reminder: undefined
     },
-    step: 0,
+    formError: false,
+    step: 1,
     links: []
 };
