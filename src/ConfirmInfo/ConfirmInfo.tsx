@@ -1,8 +1,9 @@
 import React from "react";
 
-import { font, margin } from "../shared/styles";
-import { Inputs } from "../shared/types/Inputs";
+import Wizard from "../Wizard";
 import { useApp } from "../store";
+import { font, margin } from "../shared/styles";
+import { capitalize } from "../shared/utils";
 
 const infoStyles = {
     marginBottom: margin.small,
@@ -21,30 +22,37 @@ const infoStyles = {
 
 interface InfoElementProps {
     label: string;
-    value: Inputs[keyof Inputs];
+    value: string | number | undefined;
 };
 
-const InfoElement: React.FC<InfoElementProps> = ({ value, label }) => {
+const InfoElement: React.FC<InfoElementProps> = ({ value = "-", label }) => {
     return (
         <div style={ infoStyles }>
-            <label style={ { color: "black" } }>{ label }</label>
-            <p style={ { color: "#333" } }>{ value || "-" }</p>
+            <label style={ { color: "#909090" } }>{ label }</label>
+            <p style={ { color: "black" } }>{ value }</p>
         </div>
     );
 };
 
-const ConfirmInfo: React.FC<{ inputs: Inputs }> = ({ inputs }) => {
+export const ConfirmInfo: React.FC<{}> = () => {
     const [state] = useApp();
-    console.log("APP STATE: ", state)
-    return (
-        <div>
-            {
-                Object.entries(inputs).map(([key, value], index) =>
-                    <InfoElement label={ key } value={ value } key={ index } />
-                )
-            }
-        </div>
-    );
-}
+    const { formData } = state;
 
-export default ConfirmInfo;
+    return (
+        <Wizard.Item>
+            <div>
+                {
+                    Object.entries(formData).map(([key, value], index) => {
+                        return (
+                            <InfoElement
+                                label={ capitalize(key) }
+                                value={ value }
+                                key={ index }
+                            />
+                        )
+                    })
+                }
+            </div>
+        </Wizard.Item>
+    );
+};

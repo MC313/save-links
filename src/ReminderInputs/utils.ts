@@ -16,8 +16,6 @@ const convertToMilliseconds = (timeValue: number, timeUnit: TimeUnit) =>
     (timeValue * getMillisecByUnit[timeUnit]);
 
 export const toUtcTime = (timeValue: number, timeUnit: TimeUnit) => {
-    console.log("TIME UNIT: ", timeUnit)
-    console.log("TIME VALUE: ", timeValue)
     if (!timeValue) return undefined;
     return Date.now() + convertToMilliseconds(timeValue, timeUnit);
 };

@@ -2,7 +2,7 @@ export interface AppState {
     formData: {
         name: string | undefined;
         url: string | undefined;
-        tags?: [];
+        tags?: string;
         description?: string;
         reminder?: number;
     },

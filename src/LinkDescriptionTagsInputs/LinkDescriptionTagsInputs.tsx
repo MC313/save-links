@@ -6,7 +6,7 @@ import Wizard from "../Wizard";
 import { FormField } from "../shared/components";
 import { useApp } from "../store";
 
-export const FormSectionTwo: React.FC<{}> = () => {
+export const LinkDescriptionTagsInputs: React.FC<{}> = () => {
 
     const [, dispatch] = useApp();
 

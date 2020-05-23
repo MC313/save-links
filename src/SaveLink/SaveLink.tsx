@@ -1,90 +1,73 @@
 import React from "react";
 
+import styled from "@emotion/styled";
 import useFormal from "@kevinwolf/formal-web";
 
 import Wizard from "../Wizard";
-import { Reminder } from "../Reminder/Reminder";
-import { Button, Card, FormField } from "../shared/components";
-import { Inputs } from "../shared/types/Inputs";
-import ConfirmInfo from "../ConfirmInfo/ConfirmInfo";
-import { FormSectionOne } from "../FormSection1";
-import { FormSectionTwo } from "../FormSectionTwo";
+import { formSchema } from "./schema";
+import { Card } from "../shared/components";
+import { FormData } from "../shared/types/FormData";
+import { ConfirmInfo } from "../ConfirmInfo/ConfirmInfo";
+import { LinkNameUrlInputs } from "../LinkNameUrlInputs";
+import { LinkDescriptionTagsInputs } from "../LinkDescriptionTagsInputs";
+import { ReminderInputs } from "../ReminderInputs";
+import { ContinueButton } from "../ContinueButton";
+import { SubmitButton } from "../SubmitButton";
+import { AppProvider } from "../store";
 
-interface AttributeTypes {
-    title: "Submit" | "Contine";
-    type: "button" | "reset" | "submit";
-};
-
-type AttributeTypesKeys = keyof AttributeTypes;
+const StyledForm = styled.form({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    paddingBottom: 30
+});
 
 const SaveLink = () => {
-    const setAttribute = (current: number, total: number) =>
-        <T extends AttributeTypesKeys> (attrName: T): AttributeTypes[T] => {
-            const result = (current === total);
-            const attrObjects: AttributeTypes = {
-                title: result ? "Submit" : "Contine",
-                type: result ? "submit" : "button"
-            };
-            return attrObjects[attrName];
-        }
 
-    const initialValues: Inputs = {
+    const initialValues: FormData = {
         name: "",
         url: "",
         tags: "",
-        date: "",
-        timeUnit: "",
-        timeValue: "",
+        reminder: undefined,
         description: ""
     };
 
     const formal = useFormal(initialValues, {
-        onSubmit: (values) => console.log("FORM VALUES: ", values)
+        onSubmit: (values) => console.log("FORM VALUES: ", values),
+        schema: formSchema
     });
 
     return (
         <Card>
-            <form { ...formal.getFormProps() } style={ {
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                paddingBottom: 30
-            } }>
+            <StyledForm { ...formal.getFormProps() }>
                 <Wizard>
                     {
                         ({ currentStep, nextStep, totalSteps }) => {
 
-                            const getAttr = setAttribute(currentStep, totalSteps);
-
                             return (
                                 <React.Fragment>
                                     <Wizard.Container currentStep={ currentStep }>
-                                        <FormSectionOne />
-                                        <FormSectionTwo />
-
-                                        { /** Wizard Section 3 */ }
-                                        <Wizard.Item>
-                                            <Reminder />
-                                        </Wizard.Item>
-                                        <Wizard.Item>
-                                            <ConfirmInfo inputs={ formal.values } />
-                                        </Wizard.Item>
+                                        <LinkNameUrlInputs />
+                                        <LinkDescriptionTagsInputs />
+                                        <ReminderInputs />
+                                        <ConfirmInfo />
                                     </Wizard.Container>
-                                    <Button
-                                        { ...formal.getSubmitButtonProps() }
-                                        disabled={
-                                            !formal.validate || formal.isSubmitting
-                                        }
-                                        title={ getAttr("title") }
-                                        type={ getAttr("type") }
-                                        onClick={ () => nextStep() }
-                                    />
+
+                                    {
+                                        currentStep === totalSteps ?
+                                            <SubmitButton formal={ formal } />
+                                            :
+                                            <ContinueButton
+                                                formal={ formal }
+                                                nextStep={ nextStep }
+                                            />
+                                    }
                                 </React.Fragment>
                             )
                         }
                     }
                 </Wizard>
-            </form>
+            </StyledForm>
         </Card>
     )
 }
