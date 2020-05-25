@@ -77,23 +77,14 @@ export const ReminderInputs: React.FC<FormFieldGroupProps> = () => {
     const { timeUnit, timeValue } = reminderState;
 
     const handleChange = (propName: string) =>
-        (timeValue: number, timeUnit: TimeUnit) => {
+        ({ target: { value } }: FormalWebTextFieldEvent) => {
             dispatch.updateFormData({
-                [propName]: toUtcTime(timeValue, timeUnit)
+                [propName]: value
             })
         };
 
-    const onSetReminder = handleChange("reminder");
-
-    const onTimeUnitChange = ({ target: { value } }: FormalWebTextFieldEvent) => {
-        setReminder({ ...reminderState, timeUnit: value })
-        if (timeValue !== 0) onSetReminder(timeValue, value as TimeUnit)
-    };
-
-    const onTimeValueChange = ({ target: { value } }: FormalWebTextFieldEvent) => {
-        setReminder({ ...reminderState, timeValue: +value })
-        if (+value !== 0) onSetReminder(+value, timeUnit as TimeUnit)
-    };
+    const onSetReminderValue = handleChange("reminderValue");
+    const onSetReminderUnit = handleChange("reminderUnit");
 
 
     return (
@@ -104,10 +95,11 @@ export const ReminderInputs: React.FC<FormFieldGroupProps> = () => {
                     <FormFieldInput
                         id="timeValue"
                         type="number"
+                        min={ 1 }
                         max={ 24 }
                         maxLength={ 2 }
                         name="name"
-                        onChange={ onTimeValueChange }
+                        onChange={ onSetReminderValue }
                         style={ {
                             flex: 1,
                             flexBasis: 100,
@@ -116,7 +108,7 @@ export const ReminderInputs: React.FC<FormFieldGroupProps> = () => {
                         } }
                     />
                     <StyledSelectInput
-                        onChange={ onTimeUnitChange }
+                        onChange={ onSetReminderUnit }
                         value={ timeUnit }
                     >
                         <SelectOptions timeValue={ timeValue } />

@@ -25,6 +25,11 @@ interface InfoElementProps {
     value: string | number | undefined;
 };
 
+interface ReminderInfoElementProps {
+    reminderUnit: string | undefined;
+    reminderValue: number | undefined;
+};
+
 const InfoElement: React.FC<InfoElementProps> = ({ value = "-", label }) => {
     return (
         <div style={ infoStyles }>
@@ -34,24 +39,51 @@ const InfoElement: React.FC<InfoElementProps> = ({ value = "-", label }) => {
     );
 };
 
+const ReminderInfoElement: React.FC<ReminderInfoElementProps> = ({
+    reminderUnit,
+    reminderValue
+}) => {
+    const formatValue = (unit: string | undefined, value: number | undefined) => {
+        if (!unit || !value) return " - ";
+        return `${reminderValue} ${reminderUnit} from now.`;
+    };
+
+    return (
+        <div style={ infoStyles }>
+            <label style={ { color: "#909090" } }>Reminder</label>
+            <p style={ { color: "black" } }>
+                { formatValue(reminderUnit, reminderValue) }
+            </p>
+        </div>
+    );
+};
+
 export const ConfirmInfo: React.FC<{}> = () => {
     const [state] = useApp();
-    const { formData } = state;
+    const { reminderUnit, reminderValue, ...otherFormData } = state.formData;
 
     return (
         <Wizard.Item>
             <div>
                 {
-                    Object.entries(formData).map(([key, value], index) => {
+                    Object.entries(otherFormData).map(([key, value], index) => {
                         return (
-                            <InfoElement
-                                label={ capitalize(key) }
-                                value={ value }
-                                key={ index }
-                            />
+                            <React.Fragment>
+                                {
+                                    <InfoElement
+                                        label={ capitalize(key) }
+                                        value={ value }
+                                        key={ index }
+                                    />
+                                }
+                            </React.Fragment>
                         )
                     })
                 }
+                <ReminderInfoElement
+                    reminderUnit={ reminderUnit }
+                    reminderValue={ reminderValue }
+                />
             </div>
         </Wizard.Item>
     );

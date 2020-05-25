@@ -19,7 +19,7 @@ type CustomInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "id"> 
 
 interface FormFieldInputProps extends CustomInputProps {
   className?: string;
-  onBlur?: () => void;
+  onBlur?: (event: React.FormEvent<HTMLInputElement>) => void;
   type?: string;
   value?: string;
   validate?: boolean;

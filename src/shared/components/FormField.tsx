@@ -31,6 +31,7 @@ interface FormalProps extends Partial<FormalFieldProps>, Omit<FormalWebFieldProp
 
 export interface FormFieldProps extends FormalProps {
   label?: string;
+  onBlur?: (event: React.FormEvent<HTMLInputElement>) => void;
   placeholder?: string;
   required?: boolean;
   type?: string;
@@ -38,10 +39,10 @@ export interface FormFieldProps extends FormalProps {
 };
 
 export const FormField: React.FC<FormFieldProps> = ({
-  error,
   id,
   label,
   name,
+  onBlur,
   required = false,
   type = "text",
   validate = false,
@@ -61,9 +62,10 @@ export const FormField: React.FC<FormFieldProps> = ({
         { ...props }
         id={ id ? id : `${name}-Id` }
         name={ name }
+        onBlur={ onBlur }
         required={ required }
       />
-      <p>{ error }</p>
+      <p>{ props.error }</p>
     </StyledFormField>
   );
 };

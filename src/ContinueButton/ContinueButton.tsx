@@ -18,7 +18,7 @@ export const ContinueButton: React.FC<NextStepButtonProps> = ({
     nextStep
 }) => {
     const [state] = useApp();
-    const isDisabled = !formal.validate || formal.isSubmitting || state.formError;
+    const isDisabled = !formal.validate || formal.isSubmitting || !!Object.values(formal.errors).length;
 
     return (
         <Button

@@ -7,12 +7,12 @@ const log = (data: any, message = "[LOG]: ", type: (keyof Console) = "log") => {
 	return data;
 };
 
-let StyledList = styled.ul<{ currentStep: number }>(props => ({
+let StyledList = styled.ul<{ step: number }>(props => ({
 	margin: "0px",
 	padding: "0px",
 	display: "flex",
 	flexDirection: "row",
-	transform: `translateX(-${100 * (props.currentStep - 1)}%)`,
+	transform: `translateX(-${100 * (props.step - 1)}%)`,
 	transition: "transform 0.4s linear"
 }));
 
@@ -36,7 +36,7 @@ const StyledChild = styled.div({
 
 
 interface WizardState {
-	currentStep: number;
+	step: number;
 	totalSteps: number;
 };
 
@@ -44,7 +44,7 @@ interface ChildrenParams extends WizardState {
 	nextStep: () => void;
 };
 
-interface WizardContainerProps extends Pick<WizardState, "currentStep"> {
+interface WizardContainerProps extends Pick<WizardState, "step"> {
 	children: React.ReactNode;
 };
 
@@ -64,27 +64,27 @@ class Wizard extends React.Component<WizardProps, WizardState> {
 	constructor(props: WizardProps) {
 		super(props);
 		this.state = {
-			currentStep: 1,
+			step: 1,
 			totalSteps: 4
 		};
 	}
 
 	componentDidMount () {
-		this.setState(({ currentStep, totalSteps }, { initialStep }) => ({
-			currentStep: initialStep || currentStep,
+		this.setState(({ step, totalSteps }, { initialStep }) => ({
+			step: initialStep || step,
 			totalSteps
 		}));
 	};
 
 	nextStep = () => {
-		this.setState(({ currentStep, totalSteps }) => ({
-			currentStep: currentStep === totalSteps ? 1 : currentStep + 1
+		this.setState(({ step, totalSteps }) => ({
+			step: step === totalSteps ? 1 : step + 1
 		}));
 	};
 
 	render () {
 		const childrenParams: ChildrenParams = {
-			currentStep: this.state.currentStep,
+			step: this.state.step,
 			nextStep: this.nextStep,
 			totalSteps: this.state.totalSteps
 		};
@@ -96,9 +96,9 @@ class Wizard extends React.Component<WizardProps, WizardState> {
 		);
 	};
 
-	static Container = ({ children, currentStep }: WizardContainerProps) => (
+	static Container = ({ children, step }: WizardContainerProps) => (
 		<div style={ { overflow: "hidden", width: "100%" } }>
-			<StyledList currentStep={ currentStep }>
+			<StyledList step={ step }>
 				{ children }
 			</StyledList>
 		</div>

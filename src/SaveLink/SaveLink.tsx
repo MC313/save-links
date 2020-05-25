@@ -13,7 +13,6 @@ import { LinkDescriptionTagsInputs } from "../LinkDescriptionTagsInputs";
 import { ReminderInputs } from "../ReminderInputs";
 import { ContinueButton } from "../ContinueButton";
 import { SubmitButton } from "../SubmitButton";
-import { AppProvider } from "../store";
 
 const StyledForm = styled.form({
     display: "flex",
@@ -28,7 +27,8 @@ const SaveLink = () => {
         name: "",
         url: "",
         tags: "",
-        reminder: undefined,
+        reminderUnit: "",
+        reminderValue: 0,
         description: ""
     };
 
@@ -37,24 +37,26 @@ const SaveLink = () => {
         schema: formSchema
     });
 
+    console.log("Errors: ", formal.errors)
+
     return (
         <Card>
             <StyledForm { ...formal.getFormProps() }>
                 <Wizard>
                     {
-                        ({ currentStep, nextStep, totalSteps }) => {
+                        ({ step, nextStep, totalSteps }) => {
 
                             return (
                                 <React.Fragment>
-                                    <Wizard.Container currentStep={ currentStep }>
-                                        <LinkNameUrlInputs />
+                                    <Wizard.Container step={ step }>
+                                        <LinkNameUrlInputs formal={ formal } />
                                         <LinkDescriptionTagsInputs />
                                         <ReminderInputs />
                                         <ConfirmInfo />
                                     </Wizard.Container>
 
                                     {
-                                        currentStep === totalSteps ?
+                                        step === totalSteps ?
                                             <SubmitButton formal={ formal } />
                                             :
                                             <ContinueButton

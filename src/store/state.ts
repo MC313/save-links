@@ -4,7 +4,8 @@ export interface AppState {
         url: string | undefined;
         tags?: string;
         description?: string;
-        reminder?: number;
+        reminderUnit?: string;
+        reminderValue?: number;
     },
     formError: boolean;
     step: number;
@@ -17,7 +18,8 @@ export const appState: AppState = {
         url: undefined,
         tags: undefined,
         description: undefined,
-        reminder: undefined
+        reminderUnit: undefined,
+        reminderValue: undefined
     },
     formError: false,
     step: 1,
