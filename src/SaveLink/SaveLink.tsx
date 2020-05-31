@@ -13,6 +13,7 @@ import { LinkDescriptionTagsInputs } from "../LinkDescriptionTagsInputs";
 import { ReminderInputs } from "../ReminderInputs";
 import { ContinueButton } from "../ContinueButton";
 import { SubmitButton } from "../SubmitButton";
+import { BackButton } from "../BackButton";
 
 const StyledForm = styled.form({
     display: "flex",
@@ -44,10 +45,11 @@ const SaveLink = () => {
             <StyledForm { ...formal.getFormProps() }>
                 <Wizard>
                     {
-                        ({ step, nextStep, totalSteps }) => {
+                        ({ step, nextStep, previousStep, totalSteps }) => {
 
                             return (
                                 <React.Fragment>
+                                    <BackButton onClick={ previousStep } />
                                     <Wizard.Container step={ step }>
                                         <LinkNameUrlInputs formal={ formal } />
                                         <LinkDescriptionTagsInputs />

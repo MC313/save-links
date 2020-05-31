@@ -42,6 +42,7 @@ interface WizardState {
 
 interface ChildrenParams extends WizardState {
 	nextStep: () => void;
+	previousStep: () => void;
 };
 
 interface WizardContainerProps extends Pick<WizardState, "step"> {
@@ -82,10 +83,17 @@ class Wizard extends React.Component<WizardProps, WizardState> {
 		}));
 	};
 
+	previousStep = () => {
+		this.setState(({ step, totalSteps }) => ({
+			step: step === 1 ? step : step - 1
+		}));
+	};
+
 	render () {
 		const childrenParams: ChildrenParams = {
 			step: this.state.step,
 			nextStep: this.nextStep,
+			previousStep: this.previousStep,
 			totalSteps: this.state.totalSteps
 		};
 

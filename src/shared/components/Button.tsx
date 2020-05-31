@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 
 import { font, height, radius, width } from "../styles";
 
-//import { StoreContext } from "../../store";
 const StyledButton = styled.button({
   width: width.full,
   minHeight: "40px",
