@@ -8,6 +8,18 @@ import { appState, AppState } from "./state";
  *    Types Definitions
  * =======================
  */
+
+interface ReactContextDevToolParams {
+    id: string;
+    displayName: string;
+    values: any;
+};
+type ReactContextDevTool = (params: ReactContextDevToolParams) => void;
+
+type AppWindow = Window & typeof globalThis & {
+    _REACT_CONTEXT_DEVTOOL?: ReactContextDevTool
+};
+
 enum AppTypeKeys {
     UPDATE_FORM_DATA = "UPDATE_FORM_DATA",
     SUBMIT_FORM_DATA = "SUBMIT_FORM_DATA",
@@ -88,6 +100,7 @@ const {
 } = AppDispatchContext = React.createContext<AppDispatch | undefined>(undefined);
 
 const {
+    Consumer: AppConsumer,
     Provider: AppStateProvider
 } = AppStateContext = React.createContext<AppState | undefined>(undefined);
 
@@ -99,11 +112,27 @@ const {
  */
 const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     let [state, dispatch] = React.useReducer<AppReducer>(appReducer, appState);
+    let _window: AppWindow = window;
 
     return (
         <AppStateProvider value={ state }>
             <AppDispatchProvider value={ dispatch }>
-                { children }
+                <AppConsumer>
+                    { (values) => {
+                        if (_window && _window._REACT_CONTEXT_DEVTOOL) {
+                            _window._REACT_CONTEXT_DEVTOOL({
+                                id: 'AppContextId',
+                                displayName: 'AppContext',
+                                values
+                            });
+                        }
+                        return (
+                            <React.Fragment>
+                                { children }
+                            </React.Fragment>
+                        )
+                    } }
+                </AppConsumer>
             </AppDispatchProvider>
         </AppStateProvider>
     );
@@ -147,5 +176,6 @@ const useApp = (): [AppState, AppDispatchHook] =>
 
 export {
     useApp,
+    AppConsumer,
     AppProvider
 };

@@ -1,1 +1,1 @@
-export { AppProvider, useApp } from "./AppProvider";
+export { AppConsumer, AppProvider, useApp } from "./AppProvider";
