@@ -1,36 +1,45 @@
 import React from "react";
 
-import { FormalWebTextFieldEvent } from "@kevinwolf/formal-web";
+import { FormalWebTextFieldEvent, FormalWebState } from "@kevinwolf/formal-web";
 
 import Wizard from "../Wizard";
 import { FormField } from "../shared/components";
+import { FormData } from "../shared/types/FormData";
 import { useApp } from "../store";
 
-export const LinkDescriptionTagsInputs: React.FC<{}> = () => {
+interface LinkNameUrlInputs {
+    formal: FormalWebState<FormData>;
+};
+
+export const LinkDescriptionTagsInputs: React.FC<LinkNameUrlInputs> = ({
+    formal
+}) => {
 
     const [, dispatch] = useApp();
 
     const handleChange = (propName: string) =>
         ({ target }: FormalWebTextFieldEvent) => {
-            dispatch.updateFormData({ [propName]: target.value })
+            dispatch.updateFormData({ [propName]: target.value });
         };
 
-    const updateDescription = handleChange("description")
-    const updateTags = handleChange("tags")
+    const updateDescription = handleChange("description");
+    const updateTags = handleChange("tags");
 
     return (
         <React.Fragment>
             <Wizard.Item>
                 <FormField
-                    onChange={ updateDescription }
+                    { ...formal.getFieldProps("description") }
                     label="Description"
                     name="description"
+                    placeholder="Description of the saved link"
                     required={ false }
                 />
                 <FormField
-                    onChange={ updateTags }
+                    { ...formal.getFieldProps("tags") }
                     label="Tags"
                     name="tags"
+                    placeholder="Separate, Each, Tag, With, A, Comma"
                     required={ false }
                 />
             </Wizard.Item>

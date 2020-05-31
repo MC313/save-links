@@ -38,8 +38,6 @@ const SaveLink = () => {
         schema: formSchema
     });
 
-    console.log("Errors: ", formal.errors)
-
     return (
         <Card>
             <StyledForm { ...formal.getFormProps() }>
@@ -49,12 +47,15 @@ const SaveLink = () => {
 
                             return (
                                 <React.Fragment>
-                                    <BackButton onClick={ previousStep } />
+                                    {
+                                        step > 1 &&
+                                        <BackButton onClick={ previousStep } />
+                                    }
                                     <Wizard.Container step={ step }>
                                         <LinkNameUrlInputs formal={ formal } />
-                                        <LinkDescriptionTagsInputs />
-                                        <ReminderInputs />
-                                        <ConfirmInfo />
+                                        <LinkDescriptionTagsInputs formal={ formal } />
+                                        <ReminderInputs formal={ formal } />
+                                        <ConfirmInfo formal={ formal } />
                                     </Wizard.Container>
 
                                     {

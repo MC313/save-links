@@ -21,8 +21,8 @@ const StyledButton = styled.button({
 export const BackButton: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 
     return (
-        <StyledButton onClick={ onClick } title="Go back" >
-            { <BackIcon /> }
+        <StyledButton onClick={ onClick } title="Go back" type="button">
+            <BackIcon />
         </StyledButton>
     );
 };

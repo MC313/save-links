@@ -17,15 +17,16 @@ export const ContinueButton: React.FC<NextStepButtonProps> = ({
     formal,
     nextStep
 }) => {
-    const [state] = useApp();
-    const isDisabled = !formal.validate || formal.isSubmitting || !!Object.values(formal.errors).length;
+    const [{ formError }] = useApp();
+
+    console.log("FORM ERROR: ", formError)
 
     return (
         <Button
-            disabled={ isDisabled }
+            disabled={ formError }
             title="Continue"
             type="button"
-            onClick={ () => nextStep() }
+            onClick={ nextStep }
         />
     );
 };

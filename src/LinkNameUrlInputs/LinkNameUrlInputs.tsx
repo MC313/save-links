@@ -1,6 +1,6 @@
 import React from "react";
 
-import { FormalWebTextFieldEvent, FormalWebState } from "@kevinwolf/formal-web";
+import { FormalWebState } from "@kevinwolf/formal-web";
 
 import Wizard from "../Wizard";
 import { FormField } from "../shared/components";
@@ -11,40 +11,39 @@ interface LinkNameUrlInputs {
     formal: FormalWebState<FormData>;
 };
 
-type SetError = (fieldName: keyof FormData) => void | undefined;
-
 export const LinkNameUrlInputs: React.FC<LinkNameUrlInputs> = ({ formal }) => {
     const [, dispatch] = useApp();
 
-    const handleChange = (propName: string) =>
-        ({ target }: FormalWebTextFieldEvent) => {
-            dispatch.updateFormData({ [propName]: target.value })
-        };
-
-    const updateName = handleChange("name")
-    const updateUrl = handleChange("url")
-
-    const setError: SetError = (fieldName: keyof FormData) => {
-        if (!formal.getFieldProps(fieldName).error) return;
-        const error = { [fieldName]: formal.getFieldProps(fieldName).error };
-        formal.setErrors({ ...formal.errors, ...error })
-    };
+    const handleError = async () => {
+        try {
+            await formal.validate()
+            dispatch.updateFormError(false)
+        } catch (error) {
+            console.log("Error validating input field")
+            dispatch.updateFormError(true)
+        }
+    }
 
     return (
         <Wizard.Item>
             <FormField
                 { ...formal.getFieldProps("name") }
-                onBlur={ () => setError("name") }
+                onBlur={ handleError }
                 label="Link name"
+                placeholder="React Testing"
                 required={ true }
             />
             <FormField
                 { ...formal.getFieldProps("url") }
-                onBlur={ () => setError("url") }
+                onBlur={ handleError }
                 label="Link url"
+                placeholder="https://testing-library.com/docs/"
                 required={ true }
                 type="url"
             />
         </Wizard.Item>
     );
 };
+
+
+// https://testing-library.com/docs/react-testing-library/intro

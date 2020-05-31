@@ -1,8 +1,11 @@
 import React from "react";
 
+import { FormalWebState } from "@kevinwolf/formal-web";
+
 import Wizard from "../Wizard";
 import { useApp } from "../store";
 import { font, margin } from "../shared/styles";
+import { FormData } from "../shared/types/FormData";
 import { capitalize } from "../shared/utils";
 
 const infoStyles = {
@@ -30,11 +33,15 @@ interface ReminderInfoElementProps {
     reminderValue: number | undefined;
 };
 
+interface ConfirmInfoProps {
+    formal: FormalWebState<FormData>;
+};
+
 const InfoElement: React.FC<InfoElementProps> = ({ value = "-", label }) => {
     return (
         <div style={ infoStyles }>
             <label style={ { color: "#909090" } }>{ label }</label>
-            <p style={ { color: "black" } }>{ value }</p>
+            <p style={ { color: "black", margin: "5px 0px 15px 0px" } }>{ value }</p>
         </div>
     );
 };
@@ -44,23 +51,23 @@ const ReminderInfoElement: React.FC<ReminderInfoElementProps> = ({
     reminderValue
 }) => {
     const formatValue = (unit: string | undefined, value: number | undefined) => {
-        if (!unit || !value) return " - ";
-        return `${reminderValue} ${reminderUnit} from now.`;
+        if (!unit || !value) return "-";
+        return `${reminderValue} ${reminderUnit} from now`;
     };
 
     return (
         <div style={ infoStyles }>
             <label style={ { color: "#909090" } }>Reminder</label>
-            <p style={ { color: "black" } }>
+            <p style={ { color: "black", margin: "5px 0px 15px 0px" } }>
                 { formatValue(reminderUnit, reminderValue) }
             </p>
         </div>
     );
 };
 
-export const ConfirmInfo: React.FC<{}> = () => {
-    const [state] = useApp();
-    const { reminderUnit, reminderValue, ...otherFormData } = state.formData;
+export const ConfirmInfo: React.FC<ConfirmInfoProps> = ({ formal }) => {
+    const [{ formData }] = useApp();
+    const { reminderUnit, reminderValue, ...otherFormData } = formal.values;
 
     return (
         <Wizard.Item>
@@ -68,12 +75,11 @@ export const ConfirmInfo: React.FC<{}> = () => {
                 {
                     Object.entries(otherFormData).map(([key, value], index) => {
                         return (
-                            <React.Fragment>
+                            <React.Fragment key={ index }>
                                 {
                                     <InfoElement
                                         label={ capitalize(key) }
                                         value={ value }
-                                        key={ index }
                                     />
                                 }
                             </React.Fragment>

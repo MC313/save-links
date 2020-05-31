@@ -5,13 +5,14 @@ import styled from "@emotion/styled";
 import { FormalFieldProps } from '@kevinwolf/formal';
 import {
     FormalWebFieldProps,
-    FormalWebTextFieldEvent
+    FormalWebTextFieldEvent,
+    FormalWebState
 } from "@kevinwolf/formal-web";
 
 import { font, margin } from "../shared/styles";
 import { FormFieldLabel, FormFieldInput } from "../shared/components";
+import { FormData } from "../shared/types/FormData";
 import { useApp } from "../store";
-import { toUtcTime, TimeUnit } from "./utils";
 import Wizard from "../Wizard";
 
 const StyledFormFieldGroup = styled.div({
@@ -45,9 +46,8 @@ interface FormFieldGroupProps extends Partial<FormalFieldProps>, Partial<FormalW
     validate?: boolean;
 };
 
-interface ReminderState {
-    timeValue: number;
-    timeUnit: string;
+interface ReminderInputsProps {
+    formal: FormalWebState<FormData>;
 };
 
 const TIME_UNIT_OPTS = ["minute", "hour", "day"];
@@ -64,17 +64,12 @@ const SelectOptions: React.FC<{ timeValue: number }> = ({ timeValue }) => (
     </React.Fragment>
 );
 
-export const ReminderInputs: React.FC<FormFieldGroupProps> = () => {
-    const [, dispatch] = useApp();
+export const ReminderInputs: React.FC<ReminderInputsProps> = ({
+    formal
+}) => {
+    const [{ formData }, dispatch] = useApp();
 
-    const initialState: ReminderState = {
-        timeValue: 0,
-        timeUnit: TIME_UNIT_OPTS[0]
-    };
-
-    const [reminderState, setReminder] = React.useState<ReminderState>(initialState);
-
-    const { timeUnit, timeValue } = reminderState;
+    const { reminderValue } = formData;
 
     const handleChange = (propName: string) =>
         ({ target: { value } }: FormalWebTextFieldEvent) => {
@@ -93,13 +88,13 @@ export const ReminderInputs: React.FC<FormFieldGroupProps> = () => {
                 <FormFieldLabel label="Remind me about this link in" />
                 <div>
                     <FormFieldInput
-                        id="timeValue"
+                        { ...formal.getFieldProps("reminderValue") }
+                        id="reminderValue"
                         type="number"
                         min={ 1 }
                         max={ 24 }
                         maxLength={ 2 }
-                        name="name"
-                        onChange={ onSetReminderValue }
+                        name="reminderValue"
                         style={ {
                             flex: 1,
                             flexBasis: 100,
@@ -108,10 +103,11 @@ export const ReminderInputs: React.FC<FormFieldGroupProps> = () => {
                         } }
                     />
                     <StyledSelectInput
-                        onChange={ onSetReminderUnit }
-                        value={ timeUnit }
+                        { ...formal.getFieldProps("reminderUnit") }
                     >
-                        <SelectOptions timeValue={ timeValue } />
+                        <SelectOptions timeValue={
+                            formal.getFieldProps("reminderValue").value || 0
+                        } />
                     </StyledSelectInput>
                 </div>
             </StyledFormFieldGroup>

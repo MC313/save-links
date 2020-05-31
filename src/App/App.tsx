@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import SaveLink from "../SaveLink/SaveLink";
 import { colors, flex, height, width } from "../shared/styles";
-import { AppProvider } from "../store";
+import { AppConsumer, AppProvider } from "../store";
 
 const AppContainer = styled.div({
     width: width.full,

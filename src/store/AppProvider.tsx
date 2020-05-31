@@ -23,7 +23,7 @@ type AppWindow = Window & typeof globalThis & {
 enum AppTypeKeys {
     UPDATE_FORM_DATA = "UPDATE_FORM_DATA",
     SUBMIT_FORM_DATA = "SUBMIT_FORM_DATA",
-    SET_FORM_ERROR = "SET_FORM_ERROR",
+    UPDATE_FORM_ERROR = "UPDATE_FORM_ERROR",
     SET_LIST_ITEMS = "SET_LIST_ITEMS",
     ADD_LIST_ITEM = "ADD_LIST_ITEM",
     REMOVE_LIST_ITEM = "REMOVE_LIST_ITEM",
@@ -33,6 +33,11 @@ enum AppTypeKeys {
 interface UpdateFormAction {
     type: AppTypeKeys.UPDATE_FORM_DATA;
     payload: Partial<AppState["formData"]>;
+};
+
+interface UpdateFormErrorAction {
+    type: AppTypeKeys.UPDATE_FORM_ERROR;
+    payload: AppState["formError"];
 };
 
 interface SubmitFormAction {
@@ -47,6 +52,7 @@ interface UpdateStepAction {
 
 type AppActions =
     UpdateFormAction |
+    UpdateFormErrorAction |
     SubmitFormAction |
     UpdateStepAction;
 
@@ -58,10 +64,10 @@ interface AppProviderProps {
     children: React.ReactNode;
 };
 
-type ActionName = "updateFormData" | "updateStep";
+type ActionName = "updateFormData" | "updateFormError" | "updateStep";
 
 type AppDispatchHook = {
-    [k in ActionName]: (payload: AppActions["payload"]) => void
+    [k in ActionName]: (payload: any) => void
 };
 
 
@@ -80,6 +86,14 @@ const appReducer: AppReducer = (state, action) => {
                     ...action.payload,
                 }
             };
+
+        case AppTypeKeys.UPDATE_FORM_ERROR:
+            const a = {
+                ...state,
+                formError: action.payload
+            };
+            console.log("UPDATE FORM ERROR: ", a)
+            return a;
 
         case AppTypeKeys.UPDATE_STEP:
             return {
@@ -150,6 +164,11 @@ const useAppDispatch = () => {
         throw new Error('useAppDispatch can only be used with AppProvider component.')
     };
     return {
+        updateFormError: (payload: any) =>
+            dispatch({
+                type: AppTypeKeys.UPDATE_FORM_ERROR,
+                payload
+            }),
         updateFormData: (payload: any) =>
             dispatch({
                 type: AppTypeKeys.UPDATE_FORM_DATA,

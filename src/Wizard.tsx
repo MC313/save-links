@@ -19,21 +19,11 @@ let StyledList = styled.ul<{ step: number }>(props => ({
 const StyledListItem = styled.li<{ style?: React.CSSProperties }>(props => ({
 	...props.style,
 	minWidth: "100%",
-	height: "400px",
-	display: "flex",
-	flexDirection: "column"
-}));
-
-const StyledChild = styled.div({
-	color: "white",
-	height: "100%",
+	height: "325px",
 	display: "flex",
 	flexDirection: "column",
-	justifyContent: "center",
-	alignItems: "center",
-	margin: "0px"
-});
-
+	marginTop: 20
+}));
 
 interface WizardState {
 	step: number;
@@ -52,7 +42,6 @@ interface WizardContainerProps extends Pick<WizardState, "step"> {
 interface WizardItemProps {
 	children: React.ReactNode;
 	styles?: object;
-	title?: string;
 };
 
 interface WizardProps {
@@ -112,17 +101,9 @@ class Wizard extends React.Component<WizardProps, WizardState> {
 		</div>
 	);
 
-	static Item = ({ children, styles, title }: WizardItemProps) => (
+	static Item = ({ children, styles }: WizardItemProps) => (
 		<StyledListItem style={ styles }>
-			{
-				title &&
-				<p style={ { fontWeight: "bold", color: "white" } }>
-					{ title }
-				</p>
-			}
-			<StyledChild>
-				{ children }
-			</StyledChild>
+			{ children }
 		</StyledListItem>
 	);
 };
