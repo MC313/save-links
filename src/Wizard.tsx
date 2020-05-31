@@ -22,6 +22,7 @@ const StyledListItem = styled.li<{ style?: React.CSSProperties }>(props => ({
 	height: "325px",
 	display: "flex",
 	flexDirection: "column",
+	margin: "auto",
 	marginTop: 20
 }));
 

@@ -52,7 +52,7 @@ const ReminderInfoElement: React.FC<ReminderInfoElementProps> = ({
 }) => {
     const formatValue = (unit: string | undefined, value: number | undefined) => {
         if (!unit || !value) return "-";
-        return `${reminderValue} ${reminderUnit} from now`;
+        return `${reminderValue} ${reminderUnit}s from now`;
     };
 
     return (
@@ -66,7 +66,6 @@ const ReminderInfoElement: React.FC<ReminderInfoElementProps> = ({
 };
 
 export const ConfirmInfo: React.FC<ConfirmInfoProps> = ({ formal }) => {
-    const [{ formData }] = useApp();
     const { reminderUnit, reminderValue, ...otherFormData } = formal.values;
 
     return (

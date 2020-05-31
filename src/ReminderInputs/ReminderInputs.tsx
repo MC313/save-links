@@ -16,11 +16,12 @@ import { useApp } from "../store";
 import Wizard from "../Wizard";
 
 const StyledFormFieldGroup = styled.div({
-    width: "100%",
+    width: "98%",
+    margin: "0 auto",
     marginBottom: margin.medium,
     div: {
         display: "flex",
-        flexFlow: "row wrap"
+        flexFlow: "row"
     },
     p: {
         minHeight: "20px",
@@ -33,8 +34,6 @@ const StyledFormFieldGroup = styled.div({
 
 const StyledSelectInput = styled.select({
     flex: 1,
-    flexBasis: 265,
-    flexShrink: 0,
     height: 45
 });
 
@@ -67,9 +66,7 @@ const SelectOptions: React.FC<{ timeValue: number }> = ({ timeValue }) => (
 export const ReminderInputs: React.FC<ReminderInputsProps> = ({
     formal
 }) => {
-    const [{ formData }, dispatch] = useApp();
-
-    const { reminderValue } = formData;
+    const [, dispatch] = useApp();
 
     const handleChange = (propName: string) =>
         ({ target: { value } }: FormalWebTextFieldEvent) => {
@@ -80,7 +77,6 @@ export const ReminderInputs: React.FC<ReminderInputsProps> = ({
 
     const onSetReminderValue = handleChange("reminderValue");
     const onSetReminderUnit = handleChange("reminderUnit");
-
 
     return (
         <Wizard.Item>
@@ -96,10 +92,8 @@ export const ReminderInputs: React.FC<ReminderInputsProps> = ({
                         maxLength={ 2 }
                         name="reminderValue"
                         style={ {
-                            flex: 1,
-                            flexBasis: 100,
-                            flexGrow: 1,
-                            flexShrink: 0
+                            flexBasis: 50,
+                            marginRight: 15
                         } }
                     />
                     <StyledSelectInput

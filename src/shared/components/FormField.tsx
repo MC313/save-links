@@ -14,7 +14,8 @@ import { FormFieldLabel } from "./FormFieldLabel";
 
 const StyledFormField = styled.div({
   overflow: "hidden",
-  width: "100%",
+  width: "98%",
+  margin: "0 auto",
   marginBottom: margin.medium,
   p: {
     minHeight: "20px",
