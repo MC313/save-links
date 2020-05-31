@@ -13,6 +13,7 @@ const StyledButton = styled.button({
   borderRadius: radius.medium,
   fontSize: font.medium,
   backgroundColor: "black",
+  borderColor: "black",
   color: "white",
   "&:disabled": {
     opacity: "0.7",
@@ -22,7 +23,7 @@ const StyledButton = styled.button({
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> { };
 
 const Button: React.FC<ButtonProps> = ({ title, ...props }) => {
-  //const { theme } = useContext(StoreContext);
+
   return (
     <StyledButton { ...props }>
       { title }

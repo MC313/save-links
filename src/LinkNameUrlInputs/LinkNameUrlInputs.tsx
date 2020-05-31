@@ -14,12 +14,12 @@ interface LinkNameUrlInputs {
 export const LinkNameUrlInputs: React.FC<LinkNameUrlInputs> = ({ formal }) => {
     const [, dispatch] = useApp();
 
-    const handleError = async () => {
+    const showError = async () => {
         try {
             await formal.validate()
             dispatch.updateFormError(false)
         } catch (error) {
-            console.log("Error validating input field")
+            console.log("Input values are invalid.")
             dispatch.updateFormError(true)
         }
     }
@@ -28,14 +28,14 @@ export const LinkNameUrlInputs: React.FC<LinkNameUrlInputs> = ({ formal }) => {
         <Wizard.Item>
             <FormField
                 { ...formal.getFieldProps("name") }
-                onBlur={ handleError }
+                onBlur={ showError }
                 label="Link name"
                 placeholder="React Testing"
                 required={ true }
             />
             <FormField
                 { ...formal.getFieldProps("url") }
-                onBlur={ handleError }
+                onBlur={ showError }
                 label="Link url"
                 placeholder="https://testing-library.com/docs/"
                 required={ true }

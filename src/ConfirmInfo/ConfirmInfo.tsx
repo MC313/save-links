@@ -3,7 +3,6 @@ import React from "react";
 import { FormalWebState } from "@kevinwolf/formal-web";
 
 import Wizard from "../Wizard";
-import { useApp } from "../store";
 import { font, margin } from "../shared/styles";
 import { FormData } from "../shared/types/FormData";
 import { capitalize } from "../shared/utils";
@@ -25,7 +24,7 @@ const infoStyles = {
 
 interface InfoElementProps {
     label: string;
-    value: string | number | undefined;
+    value?: string | number;
 };
 
 interface ReminderInfoElementProps {
@@ -37,11 +36,13 @@ interface ConfirmInfoProps {
     formal: FormalWebState<FormData>;
 };
 
-const InfoElement: React.FC<InfoElementProps> = ({ value = "-", label }) => {
+const InfoElement: React.FC<InfoElementProps> = ({ value, label }) => {
     return (
         <div style={ infoStyles }>
             <label style={ { color: "#909090" } }>{ label }</label>
-            <p style={ { color: "black", margin: "5px 0px 15px 0px" } }>{ value }</p>
+            <p style={ { color: "black", margin: "5px 0px 20px 0px" } }>
+                { value || "-" }
+            </p>
         </div>
     );
 };

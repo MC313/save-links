@@ -21,13 +21,15 @@ type AppWindow = Window & typeof globalThis & {
 };
 
 enum AppTypeKeys {
+    FORM_ERROR = "FORM_ERROR",
+    INPUT_ERROR = "INPUT_ERROR",
     UPDATE_FORM_DATA = "UPDATE_FORM_DATA",
-    SUBMIT_FORM_DATA = "SUBMIT_FORM_DATA",
-    UPDATE_FORM_ERROR = "UPDATE_FORM_ERROR",
+    SUBMIT_FORM = "SUBMIT_FORM",
+    SUBMIT_FORM_ERROR = "SUBMIT_FORM_ERROR",
+    SUBMIT_FORM_SUCCESS = "SUBMIT_FORM_SUCCESS",
     SET_LIST_ITEMS = "SET_LIST_ITEMS",
     ADD_LIST_ITEM = "ADD_LIST_ITEM",
-    REMOVE_LIST_ITEM = "REMOVE_LIST_ITEM",
-    UPDATE_STEP = "UPDATE_STEP"
+    REMOVE_LIST_ITEM = "REMOVE_LIST_ITEM"
 };
 
 interface UpdateFormAction {
@@ -35,26 +37,38 @@ interface UpdateFormAction {
     payload: Partial<AppState["formData"]>;
 };
 
-interface UpdateFormErrorAction {
-    type: AppTypeKeys.UPDATE_FORM_ERROR;
+interface FormErrorAction {
+    type: AppTypeKeys.FORM_ERROR;
     payload: AppState["formError"];
 };
 
+interface InputErrorAction {
+    type: AppTypeKeys.INPUT_ERROR;
+    payload: AppState["inputError"];
+};
+
 interface SubmitFormAction {
-    type: AppTypeKeys.SUBMIT_FORM_DATA;
+    type: AppTypeKeys.SUBMIT_FORM;
     payload: AppState["formData"];
 };
 
-interface UpdateStepAction {
-    type: AppTypeKeys.UPDATE_STEP;
-    payload: AppState["step"];
+interface SubmitFormErrorAction {
+    type: AppTypeKeys.SUBMIT_FORM_ERROR;
+    payload: null;
+};
+
+interface SubmitFormSuccessAction {
+    type: AppTypeKeys.SUBMIT_FORM_SUCCESS;
+    payload: null;
 };
 
 type AppActions =
+    FormErrorAction |
+    InputErrorAction |
     UpdateFormAction |
-    UpdateFormErrorAction |
     SubmitFormAction |
-    UpdateStepAction;
+    SubmitFormErrorAction |
+    SubmitFormSuccessAction;
 
 type AppDispatch = (action: AppActions) => void;
 
@@ -64,7 +78,10 @@ interface AppProviderProps {
     children: React.ReactNode;
 };
 
-type ActionName = "updateFormData" | "updateFormError" | "updateStep";
+type ActionName =
+    "updateInputError" |
+    "updateFormData" |
+    "updateFormError";
 
 type AppDispatchHook = {
     [k in ActionName]: (payload: any) => void
@@ -86,19 +103,14 @@ const appReducer: AppReducer = (state, action) => {
                     ...action.payload,
                 }
             };
-
-        case AppTypeKeys.UPDATE_FORM_ERROR:
-            const a = {
-                ...state,
-                formError: action.payload
-            };
-            console.log("UPDATE FORM ERROR: ", a)
-            return a;
-
-        case AppTypeKeys.UPDATE_STEP:
+        case AppTypeKeys.SUBMIT_FORM:
             return {
                 ...state,
-                step: action.payload
+            };
+        case AppTypeKeys.FORM_ERROR:
+            return {
+                ...state,
+                formError: action.payload
             };
 
         default:
@@ -166,7 +178,7 @@ const useAppDispatch = () => {
     return {
         updateFormError: (payload: any) =>
             dispatch({
-                type: AppTypeKeys.UPDATE_FORM_ERROR,
+                type: AppTypeKeys.FORM_ERROR,
                 payload
             }),
         updateFormData: (payload: any) =>
@@ -174,9 +186,9 @@ const useAppDispatch = () => {
                 type: AppTypeKeys.UPDATE_FORM_DATA,
                 payload
             }),
-        updateStep: (payload: any) =>
+        updateInputError: (payload: any) =>
             dispatch({
-                type: AppTypeKeys.UPDATE_STEP,
+                type: AppTypeKeys.INPUT_ERROR,
                 payload
             })
     };

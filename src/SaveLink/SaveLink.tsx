@@ -14,6 +14,8 @@ import { ReminderInputs } from "../ReminderInputs";
 import { ContinueButton } from "../ContinueButton";
 import { SubmitButton } from "../SubmitButton";
 import { BackButton } from "../BackButton";
+import { toUtcTime, TimeUnit } from "../ReminderInputs/utils";
+import { useApp } from "../store";
 
 const StyledForm = styled.form({
     display: "flex",
@@ -22,7 +24,31 @@ const StyledForm = styled.form({
     paddingBottom: 30
 });
 
+const formatFormData = (formData: FormData) => {
+    const {
+        reminderUnit,
+        reminderValue,
+        tags,
+        ...otherFormData
+    } = formData;
+
+    return {
+        ...otherFormData,
+        tags: tags ? tags.split(",").map((tag) => tag.trim()) : tags,
+        reminder: toUtcTime(reminderValue, reminderUnit as TimeUnit)
+    }
+}
+
+const handleSubmit = (submitStatus: "SUCCESS" | "ERROR", values: FormData) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            submitStatus === "SUCCESS" ? resolve(values) : reject("Error submitting form data")
+        }, 600)
+    })
+}
+
 const SaveLink = () => {
+    const [, dispatch] = useApp();
 
     const initialValues: FormData = {
         name: "",
@@ -33,8 +59,14 @@ const SaveLink = () => {
         description: ""
     };
 
+    const submitFormData = (values: FormData) => {
+        handleSubmit("ERROR", values)
+            .then(() => { console.log("Form submitted successfully") })
+            .catch(() => { console.log("Error submitting form ") })
+    };
+
     const formal = useFormal(initialValues, {
-        onSubmit: (values) => console.log("FORM VALUES: ", values),
+        onSubmit: submitFormData,
         schema: formSchema
     });
 

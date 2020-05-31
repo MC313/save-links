@@ -8,7 +8,7 @@ export interface AppState {
         reminderValue?: number;
     },
     formError: boolean;
-    step: number;
+    inputError: boolean;
     links: string[] | [];
 };
 
@@ -22,6 +22,6 @@ export const appState: AppState = {
         reminderValue: undefined
     },
     formError: false,
-    step: 1,
+    inputError: false,
     links: []
 };

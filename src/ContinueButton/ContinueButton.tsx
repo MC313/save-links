@@ -17,16 +17,30 @@ export const ContinueButton: React.FC<NextStepButtonProps> = ({
     formal,
     nextStep
 }) => {
-    const [{ formError }] = useApp();
+    const [{ inputError }, dispatch] = useApp();
 
-    console.log("FORM ERROR: ", formError)
+    const validateInputs = async () => {
+        try {
+            await formal.validate()
+            dispatch.updateInputError(false)
+            return true;
+        } catch (error) {
+            dispatch.updateInputError(true)
+            return false;
+        }
+    };
+
+    const onNextStep = async () => {
+        const valid: boolean = await validateInputs();
+        valid && nextStep();
+    };
 
     return (
         <Button
-            disabled={ formError }
+            disabled={ inputError }
             title="Continue"
             type="button"
-            onClick={ nextStep }
+            onClick={ onNextStep }
         />
     );
 };
