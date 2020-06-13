@@ -6,6 +6,7 @@ import Wizard from "../Wizard";
 import { font, margin } from "../shared/styles";
 import { FormData } from "../shared/types/FormData";
 import { capitalize } from "../shared/utils";
+import { useApp } from "../store";
 
 const infoStyles = {
     marginBottom: margin.small,

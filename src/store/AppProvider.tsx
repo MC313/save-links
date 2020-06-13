@@ -21,10 +21,10 @@ type AppWindow = Window & typeof globalThis & {
 };
 
 enum AppTypeKeys {
-    FORM_ERROR = "FORM_ERROR",
-    INPUT_ERROR = "INPUT_ERROR",
+    SET_FORM_ERROR = "SET_FORM_ERROR",
+    SET_INPUT_ERROR = "SET_INPUT_ERROR",
     UPDATE_FORM_DATA = "UPDATE_FORM_DATA",
-    SUBMIT_FORM = "SUBMIT_FORM",
+    SUBMITTING_FORM = "SUBMITTING_FORM",
     SUBMIT_FORM_ERROR = "SUBMIT_FORM_ERROR",
     SUBMIT_FORM_SUCCESS = "SUBMIT_FORM_SUCCESS",
     SET_LIST_ITEMS = "SET_LIST_ITEMS",
@@ -37,24 +37,19 @@ interface UpdateFormAction {
     payload: Partial<AppState["formData"]>;
 };
 
-interface FormErrorAction {
-    type: AppTypeKeys.FORM_ERROR;
-    payload: AppState["formError"];
-};
-
 interface InputErrorAction {
-    type: AppTypeKeys.INPUT_ERROR;
+    type: AppTypeKeys.SET_INPUT_ERROR;
     payload: AppState["inputError"];
 };
 
-interface SubmitFormAction {
-    type: AppTypeKeys.SUBMIT_FORM;
+interface SubmittingFormAction {
+    type: AppTypeKeys.SUBMITTING_FORM;
     payload: AppState["formData"];
 };
 
 interface SubmitFormErrorAction {
     type: AppTypeKeys.SUBMIT_FORM_ERROR;
-    payload: null;
+    payload: AppState["formError"];
 };
 
 interface SubmitFormSuccessAction {
@@ -63,10 +58,9 @@ interface SubmitFormSuccessAction {
 };
 
 type AppActions =
-    FormErrorAction |
     InputErrorAction |
     UpdateFormAction |
-    SubmitFormAction |
+    SubmittingFormAction |
     SubmitFormErrorAction |
     SubmitFormSuccessAction;
 
@@ -79,9 +73,11 @@ interface AppProviderProps {
 };
 
 type ActionName =
-    "updateInputError" |
-    "updateFormData" |
-    "updateFormError";
+    "setInputError" |
+    "submittingForm" |
+    "submitFormSuccess" |
+    "submitFormError" |
+    "updateFormData";
 
 type AppDispatchHook = {
     [k in ActionName]: (payload: any) => void
@@ -103,14 +99,21 @@ const appReducer: AppReducer = (state, action) => {
                     ...action.payload,
                 }
             };
-        case AppTypeKeys.SUBMIT_FORM:
+        case AppTypeKeys.SUBMITTING_FORM:
             return {
                 ...state,
+                submittingForm: true
             };
-        case AppTypeKeys.FORM_ERROR:
+        case AppTypeKeys.SUBMIT_FORM_SUCCESS:
             return {
                 ...state,
-                formError: action.payload
+                submittingForm: false
+            };
+        case AppTypeKeys.SUBMIT_FORM_ERROR:
+            return {
+                ...state,
+                formError: action.payload,
+                submittingForm: false
             };
 
         default:
@@ -176,9 +179,19 @@ const useAppDispatch = () => {
         throw new Error('useAppDispatch can only be used with AppProvider component.')
     };
     return {
-        updateFormError: (payload: any) =>
+        submittingForm: (payload: any) =>
             dispatch({
-                type: AppTypeKeys.FORM_ERROR,
+                type: AppTypeKeys.SUBMITTING_FORM,
+                payload
+            }),
+        submitFormSuccess: (payload: any = null) =>
+            dispatch({
+                type: AppTypeKeys.SUBMIT_FORM_SUCCESS,
+                payload
+            }),
+        submitFormError: (payload: any) =>
+            dispatch({
+                type: AppTypeKeys.SUBMIT_FORM_ERROR,
                 payload
             }),
         updateFormData: (payload: any) =>
@@ -186,9 +199,9 @@ const useAppDispatch = () => {
                 type: AppTypeKeys.UPDATE_FORM_DATA,
                 payload
             }),
-        updateInputError: (payload: any) =>
+        setInputError: (payload: any) =>
             dispatch({
-                type: AppTypeKeys.INPUT_ERROR,
+                type: AppTypeKeys.SET_INPUT_ERROR,
                 payload
             })
     };

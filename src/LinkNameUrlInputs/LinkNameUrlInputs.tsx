@@ -17,10 +17,10 @@ export const LinkNameUrlInputs: React.FC<LinkNameUrlInputs> = ({ formal }) => {
     const showError = async () => {
         try {
             await formal.validate()
-            dispatch.updateFormError(false)
+            dispatch.setInputError(false)
         } catch (error) {
             console.log("Input values are invalid.")
-            dispatch.updateFormError(true)
+            dispatch.setInputError(true)
         }
     }
 
@@ -44,6 +44,3 @@ export const LinkNameUrlInputs: React.FC<LinkNameUrlInputs> = ({ formal }) => {
         </Wizard.Item>
     );
 };
-
-
-// https://testing-library.com/docs/react-testing-library/intro

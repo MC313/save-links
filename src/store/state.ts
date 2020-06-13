@@ -10,6 +10,7 @@ export interface AppState {
     formError: boolean;
     inputError: boolean;
     links: string[] | [];
+    submittingForm: boolean;
 };
 
 export const appState: AppState = {
@@ -23,5 +24,6 @@ export const appState: AppState = {
     },
     formError: false,
     inputError: false,
-    links: []
+    links: [],
+    submittingForm: false
 };

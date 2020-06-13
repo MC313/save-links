@@ -22,10 +22,10 @@ export const ContinueButton: React.FC<NextStepButtonProps> = ({
     const validateInputs = async () => {
         try {
             await formal.validate()
-            dispatch.updateInputError(false)
+            dispatch.setInputError(false)
             return true;
         } catch (error) {
-            dispatch.updateInputError(true)
+            dispatch.setInputError(true)
             return false;
         }
     };

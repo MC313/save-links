@@ -43,12 +43,12 @@ const handleSubmit = (submitStatus: "SUCCESS" | "ERROR", values: FormData) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             submitStatus === "SUCCESS" ? resolve(values) : reject("Error submitting form data")
-        }, 600)
+        }, 8000)
     })
 }
 
 const SaveLink = () => {
-    const [, dispatch] = useApp();
+    const [state, dispatch] = useApp();
 
     const initialValues: FormData = {
         name: "",
@@ -60,9 +60,16 @@ const SaveLink = () => {
     };
 
     const submitFormData = (values: FormData) => {
+        dispatch.submittingForm(true)
         handleSubmit("ERROR", values)
-            .then(() => { console.log("Form submitted successfully") })
-            .catch(() => { console.log("Error submitting form ") })
+            .then(() => {
+                console.log("Form submitted successfully")
+                dispatch.submitFormSuccess("")
+            })
+            .catch(() => {
+                console.log("Error submitting form ")
+                dispatch.submitFormError("Error submitting form. Please try again.")
+            })
     };
 
     const formal = useFormal(initialValues, {
@@ -75,13 +82,12 @@ const SaveLink = () => {
             <StyledForm { ...formal.getFormProps() }>
                 <Wizard>
                     {
-                        ({ step, nextStep, previousStep, totalSteps }) => {
-
+                        ({ step, goToStep, totalSteps }) => {
                             return (
                                 <React.Fragment>
                                     {
                                         step > 1 &&
-                                        <BackButton onClick={ previousStep } />
+                                        <BackButton onClick={ () => goToStep(step - 1) } />
                                     }
                                     <Wizard.Container step={ step }>
                                         <LinkNameUrlInputs formal={ formal } />
@@ -96,9 +102,15 @@ const SaveLink = () => {
                                             :
                                             <ContinueButton
                                                 formal={ formal }
-                                                nextStep={ nextStep }
+                                                nextStep={
+                                                    () => goToStep(step + 1)
+                                                }
                                             />
                                     }
+
+                                    <p style={ { color: "red" } }>
+                                        { state.formError }
+                                    </p>
                                 </React.Fragment>
                             )
                         }

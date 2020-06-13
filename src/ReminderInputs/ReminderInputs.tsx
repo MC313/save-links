@@ -66,18 +66,6 @@ const SelectOptions: React.FC<{ timeValue: number }> = ({ timeValue }) => (
 export const ReminderInputs: React.FC<ReminderInputsProps> = ({
     formal
 }) => {
-    const [, dispatch] = useApp();
-
-    const handleChange = (propName: string) =>
-        ({ target: { value } }: FormalWebTextFieldEvent) => {
-            dispatch.updateFormData({
-                [propName]: value
-            })
-        };
-
-    const onSetReminderValue = handleChange("reminderValue");
-    const onSetReminderUnit = handleChange("reminderUnit");
-
     return (
         <Wizard.Item>
             <StyledFormFieldGroup>
@@ -87,7 +75,7 @@ export const ReminderInputs: React.FC<ReminderInputsProps> = ({
                         { ...formal.getFieldProps("reminderValue") }
                         id="reminderValue"
                         type="number"
-                        min={ 1 }
+                        min={ 0 }
                         max={ 24 }
                         maxLength={ 2 }
                         name="reminderValue"
