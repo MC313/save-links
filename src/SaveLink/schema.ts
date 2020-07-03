@@ -2,7 +2,7 @@ import * as yup from "yup";
 
 import { FormData } from "../shared/types/FormData";
 
-type FormSchema = yup.ObjectSchema<FormData>;
+type FormSchema = yup.Schema<FormData>;
 
 export const formSchema: FormSchema = yup.object().shape({
     name: yup.string().required("Name is required"),
