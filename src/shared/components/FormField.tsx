@@ -54,14 +54,14 @@ export const FormField: React.FC<FormFieldProps> = ({
       {
         label &&
         <FormFieldLabel
-          inputId={ id ? id : `${name}-Id` }
+          htmlFor={ name }
           required={ required }
           label={ label }
         />
       }
       <FormFieldInput
         { ...props }
-        id={ id ? id : `${name}-Id` }
+        id={ id ? id : `${name}Id` }
         name={ name }
         onBlur={ onBlur }
         required={ required }

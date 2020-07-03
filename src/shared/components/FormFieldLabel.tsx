@@ -17,20 +17,19 @@ const StyledLabel = styled.label({
 });
 
 interface FormFieldLabelProps {
-  inputId?: string;
+  htmlFor?: string;
   required?: boolean;
   label: string;
 };
 
 export const FormFieldLabel: React.FC<FormFieldLabelProps> = ({
-  inputId,
+  htmlFor,
   required = false,
-  label = "",
-  ...props
+  label = ""
 }) => {
   //const { theme } = useContext(StoreContext);
   return (
-    <StyledLabel htmlFor={ inputId } { ...props }>
+    <StyledLabel htmlFor={ htmlFor }>
       { capitalize(label) }
       { required ? " (Required)" : "" }
     </StyledLabel>
