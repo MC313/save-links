@@ -5,14 +5,16 @@ import useFormal, { FormalWebState } from "@kevinwolf/formal-web";
 import { FormData } from "../../shared/types/FormData";
 import { formSchema } from '../../SaveLink/schema';
 
-type useFormState = FormalWebState<FormData>;
-type useFormSetState = React.Dispatch<React.SetStateAction<useFormState>>;
+type FormalFormState = FormalWebState<FormData>;
+interface FormState {
+    fields: { [key in keyof FormData]: () => FormalFormState["getFieldProps"] }
+};
+type UseFormSetState = React.Dispatch<React.SetStateAction<FormState>>;
 
 type UseForm = (
     initialValues?: FormData,
-    onSubmit?: (values: FormData) => void,
-    key?: keyof FormData
-) => [useFormState];
+    onSubmit?: (values: FormData) => void
+) => [FormState];
 
 const defaultValues: FormData = {
     name: "",
@@ -38,16 +40,21 @@ export const useForm: UseForm = (
         schema: formSchema
     })
 
-    const [state, setState] = React.useState<FormalWebState<FormData>>(formal)
-    const { change, getFieldProps } = state;
+    const initialFormState = createFormState(defaultValues, formal);
 
-    const setForm = (value?: string) => {
-        console.log("STATE: ", state)
-    }
+    const [state, setState] = React.useState<FormState>(initialFormState)
 
     React.useEffect(() => {
         setState(state)
     }, [state])
 
     return [state]
+};
+
+const createFormState = (formFields: FormData, formalState: FormalFormState) => {
+    let formState = {};
+    for (const field in formFields) {
+        formState = { ...formState, [field]: formalState.getFieldProps }
+    }
+    return formState as FormState;
 };

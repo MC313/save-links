@@ -14,9 +14,9 @@ interface LinkNameUrlInputs {
 export const LinkNameUrlInputs: React.FC<LinkNameUrlInputs> = ({ formal }) => {
     const [, dispatch] = useApp();
 
-    const showError = async () => {
+    const showError = () => {
         try {
-            await formal.validate()
+            formal.validate()
             dispatch.setInputError(false)
         } catch (error) {
             console.log("Input values are invalid.")

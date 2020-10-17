@@ -34,7 +34,7 @@ const formatFormData = (formData: FormData) => {
 
     return {
         ...otherFormData,
-        tags: tags ? tags.split(",").map((tag) => tag.trim()) : tags,
+        tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
         reminder: toUtcTime(reminderValue, reminderUnit as TimeUnit)
     }
 }
@@ -43,7 +43,7 @@ const handleSubmit = (submitStatus: "SUCCESS" | "ERROR", values: FormData) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             submitStatus === "SUCCESS" ? resolve(values) : reject("Error submitting form data")
-        }, 8000)
+        }, 4000)
     })
 }
 
@@ -72,10 +72,12 @@ const SaveLink = () => {
             })
     };
 
-    const formal = useFormal(initialValues, {
+    const formal = useFormal<FormData>(initialValues, {
         onSubmit: submitFormData,
         schema: formSchema
     });
+
+    //const [form] = useForm(initialValues, submitFormData);
 
     return (
         <Card>
