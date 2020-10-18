@@ -1,0 +1,25 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-links-locker-dev-32121-authRole",
+            "UnauthRoleArn": "arn:aws:iam::420408896210:role/amplify-links-locker-dev-32121-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::420408896210:role/amplify-links-locker-dev-32121-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-links-locker-dev-32121-deployment",
+            "UnauthRoleName": "amplify-links-locker-dev-32121-unauthRole",
+            "StackName": "amplify-links-locker-dev-32121",
+            "StackId": "arn:aws:cloudformation:us-east-1:420408896210:stack/amplify-links-locker-dev-32121/e481d8b0-7644-11ea-a356-120fbf0f0187",
+            "AmplifyAppId": "d2v5r9tbls6lzc"
+        },
+        "categories": {
+            "function": {
+                "LinksLockerAuthPostConfirmation": {
+                    "GROUP": "Authenticated"
+                }
+            },
+            "auth": {
+                "LinksLockerAuth": {}
+            }
+        }
+    }
+}

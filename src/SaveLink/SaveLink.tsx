@@ -17,6 +17,11 @@ import { BackButton } from "../BackButton";
 import { toUtcTime, TimeUnit } from "../ReminderInputs/utils";
 import { useApp } from "../store";
 
+interface FormPayload extends Object, Pick<FormData, "name" | "url" | "description"> {
+    reminder: number | undefined;
+    tags: [] | string[];
+};
+
 const StyledForm = styled.form({
     display: "flex",
     flexDirection: "column",
@@ -24,16 +29,20 @@ const StyledForm = styled.form({
     paddingBottom: 30
 });
 
-const formatFormData = (formData: FormData) => {
+const formatFormData = (formData: FormData): FormPayload => {
     const {
         reminderUnit,
         reminderValue,
         tags,
-        ...otherFormData
+        name,
+        url,
+        description
     } = formData;
 
     return {
-        ...otherFormData,
+        name,
+        url,
+        description,
         tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
         reminder: toUtcTime(reminderValue, reminderUnit as TimeUnit)
     }
@@ -61,7 +70,7 @@ const SaveLink = () => {
 
     const submitFormData = (values: FormData) => {
         dispatch.submittingForm(true)
-        handleSubmit("ERROR", values)
+        handleSubmit("ERROR", formatFormData(values))
             .then(() => {
                 console.log("Form submitted successfully")
                 dispatch.submitFormSuccess("")

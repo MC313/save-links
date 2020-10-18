@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "add-to-group"
+  ],
+  "parentResource": "LinksLockerAuth",
+  "functionName": "LinksLockerAuthPostConfirmation",
+  "resourceName": "LinksLockerAuthPostConfirmation",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "/home/malcolm/.npm-global/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/utils/../triggers/PostConfirmation",
+  "triggerTemplate": "PostConfirmation.json.ejs",
+  "roleName": "LinksLockerAuthPostConfirmation",
+  "skipEdit": true,
+  "GROUP": "Authenticated"
+}
