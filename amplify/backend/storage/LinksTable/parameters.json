@@ -1,0 +1,7 @@
+{
+    "tableName": "LinksTable",
+    "partitionKeyName": "linkId",
+    "partitionKeyType": "S",
+    "sortKeyName": "userId",
+    "sortKeyType": "S"
+}

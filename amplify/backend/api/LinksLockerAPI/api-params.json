@@ -1,0 +1,53 @@
+{
+    "paths": [
+        {
+            "name": "/link",
+            "lambdaFunction": "SaveLinkLambda",
+            "privacy": {
+                "open": true
+            }
+        },
+        {
+            "name": "/links/{userId}",
+            "lambdaFunction": "ListUserLinksLambda",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "LinksLockerAPI",
+    "apiName": "LinksLockerAPI",
+    "functionArns": [
+        {
+            "lambdaFunction": "SaveLinkLambda"
+        },
+        {
+            "lambdaFunction": "ListUserLinksLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-linkslocker-dev-14320-authRole",
+        "unAuthRoleName": "amplify-linkslocker-dev-14320-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "SaveLinkLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "ListUserLinksLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "77c772ae"
+}
