@@ -27,19 +27,12 @@ export const App = () => {
     }, []);
 
     return (
-        <AmplifyAuthenticator>
-            <AppContainer className="app">
-                {
-                    authState === AuthState.SignedIn && user ?
-                        (
-                            <AppProvider>
-                                <SaveLink />
-                            </AppProvider>
-                        ) :
-                        <AuthContainer authState={ authState } />
-
-                }
-            </AppContainer>
-        </AmplifyAuthenticator>
+        <AppContainer className="app">
+            {
+                <AppProvider>
+                    <SaveLink />
+                </AppProvider>
+            }
+        </AppContainer>
     );
 };

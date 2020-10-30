@@ -6,7 +6,7 @@ import { radius } from "../styles";
 
 const Card = styled.div({
     width: "70%",
-    maxWidth: "450px",
+    maxWidth: "350px",
     height: "auto",
     position: "relative",
     display: "block",

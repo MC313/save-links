@@ -1,7 +1,7 @@
 {
     "identityPoolName": "LinksLockerIdPool",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "LinksL029e45e5",
+    "allowUnauthenticatedIdentities": true,
+    "resourceNameTruncated": "LinksLb4ec4c59",
     "userPoolName": "LinksLockerUserPool",
     "autoVerifiedAttributes": [
         "email"
@@ -32,7 +32,7 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "LinksL029e45e5_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "LinksLb4ec4c59_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
     "useDefault": "manual",
     "authSelections": "identityPoolAndUserPool",
@@ -43,7 +43,7 @@
     ],
     "userPoolGroups": true,
     "adminQueries": false,
-    "triggers": "{\"PostConfirmation\":[\"add-to-group\"]}",
+    "triggers": "{\"PostConfirmation\":[\"add-to-group\",\"custom\"]}",
     "hostedUI": false,
     "userPoolGroupList": [
         "Authenticated",

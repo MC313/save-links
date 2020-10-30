@@ -48,7 +48,7 @@ const formatFormData = (formData: FormData): FormPayload => {
     }
 }
 
-const handleSubmit = (submitStatus: "SUCCESS" | "ERROR", values: FormData) => {
+const handleSubmit = (submitStatus: "SUCCESS" | "ERROR", values: FormPayload) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             submitStatus === "SUCCESS" ? resolve(values) : reject("Error submitting form data")
