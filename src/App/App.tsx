@@ -1,38 +1,46 @@
 import React from "react";
 
 import styled from "@emotion/styled";
-import { AmplifyAuthenticator } from '@aws-amplify/ui-react';
-import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+import { onAuthUIStateChange } from '@aws-amplify/ui-components';
 
 import SaveLink from "../SaveLink/SaveLink";
 import { colors, flex, height, width } from "../shared/styles";
-import { AppProvider } from "../store";
-import { AuthContainer } from "../AuthContainer";
+import { AppProvider, AuthProvider, useAuth } from "../store";
+import { Header } from "../Header";
 
 const AppContainer = styled.div({
     width: width.full,
     height: height.full,
     backgroundColor: colors.purplishGrey
-}, flex.center);
+}, flex.column);
 
-export const App = () => {
-    const [authState, setAuthState] = React.useState<AuthState>();
+const Content = styled.main({ height: height.full }, flex.center);
+
+export const App = () => (
+    <AuthProvider>
+        <AppProvider>
+            <Main />
+        </AppProvider>
+    </AuthProvider>
+);
+
+function Main () {
+    const [, dispatch] = useAuth();
     const [user, setUser] = React.useState<object | undefined>();
 
     React.useEffect(() => {
         return onAuthUIStateChange((nextAuthState, authData) => {
-            setAuthState(nextAuthState);
+            dispatch.setAuthState(nextAuthState);
             setUser(authData);
         });
     }, []);
 
     return (
         <AppContainer className="app">
-            {
-                <AppProvider>
-                    <SaveLink />
-                </AppProvider>
-            }
+            <Header />
+            <Content>
+                <SaveLink />
+            </Content>
         </AppContainer>
     );
 };

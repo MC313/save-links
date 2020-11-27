@@ -1,34 +1,59 @@
 /* Amplify Params - DO NOT EDIT
-	
+    AUTH_LINKSLOCKERAUTH_USERPOOLID
+    ENV
+    REGION
+    STORAGE_LINKSTABLE_ARN
+    STORAGE_LINKSTABLE_NAME
 Amplify Params - DO NOT EDIT */
+const AWSXRay = require('aws-xray-sdk-core');
+const AWS = AWSXRay.captureAWS(require('aws-sdk'));
+const { v4: uuidv4 } = require('uuid');
+const tableName = process.env.STORAGE_LINKSTABLE_NAME;
+
+const dbClient = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
     const body = JSON.parse(event.body);
-
+    console.log("EVENT: ", event)
     /**
      1. Valid required params
      2. Determine if reminder param is set
      3. Save data to link database
-     4. If reminder param exists set reminder
      */
-    if (!validParams(body)) {
+    if (!paramsValid(body)) {
         return {
             statusCode: 400,
-            body: JSON.stringify({ message: "Invalid parameter value." })
+            body: JSON.stringify({ message: "Parameter value undefined." })
         }
     };
 
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify('Hello from Lambda!'),
+    const tableParams = {
+        TableName: tableName,
+        Key: { linkId: uuidv4() },
+        Item: body,
+        ReturnValues: "UPDATED_NEW"
     };
-    return response;
+
+    try {
+        const { Item } = await dbClient.put(tableParams).promise();
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify(Item),
+        };
+    } catch (error) {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ message: "An Internal server error. Please try you request again later." }),
+        };
+    }
 };
 
-const requiredParams = ["name", "url"];
 
-function validParams(params) {
+function paramsValid(params) {
+    const requiredParams = ["name", "url"];
     for (const param of requiredParams) {
         if (!params[param]) return false;
     }
+    return true;
 };

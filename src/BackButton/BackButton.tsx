@@ -2,7 +2,6 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
-import { flex } from "../shared/styles";
 import { ReactComponent as BackIcon } from "./back-icon.svg";
 
 const StyledButton = styled.button({

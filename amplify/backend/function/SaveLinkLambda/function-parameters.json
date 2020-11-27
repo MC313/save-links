@@ -1,4 +1,16 @@
 {
-  "permissions": {},
+  "permissions": {
+    "auth": {
+      "LinksLockerAuth": [
+        "read"
+      ]
+    },
+    "storage": {
+      "LinksTable": [
+        "create",
+        "update"
+      ]
+    }
+  },
   "lambdaLayers": []
 }

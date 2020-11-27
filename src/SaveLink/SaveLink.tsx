@@ -11,11 +11,10 @@ import { ConfirmInfo } from "../ConfirmInfo/ConfirmInfo";
 import { LinkNameUrlInputs } from "../LinkNameUrlInputs";
 import { LinkDescriptionTagsInputs } from "../LinkDescriptionTagsInputs";
 import { ReminderInputs } from "../ReminderInputs";
-import { ContinueButton } from "../ContinueButton";
 import { SubmitButton } from "../SubmitButton";
-import { BackButton } from "../BackButton";
 import { toUtcTime, TimeUnit } from "../ReminderInputs/utils";
 import { useApp } from "../store";
+import { NavButtons } from "../NavButtons";
 
 interface FormPayload extends Object, Pick<FormData, "name" | "url" | "description"> {
     reminder: number | undefined;
@@ -96,10 +95,6 @@ const SaveLink = () => {
                         ({ step, goToStep, totalSteps }) => {
                             return (
                                 <React.Fragment>
-                                    {
-                                        step > 1 &&
-                                        <BackButton onClick={ () => goToStep(step - 1) } />
-                                    }
                                     <Wizard.Container step={ step }>
                                         <LinkNameUrlInputs formal={ formal } />
                                         <LinkDescriptionTagsInputs formal={ formal } />
@@ -107,17 +102,7 @@ const SaveLink = () => {
                                         <ConfirmInfo formal={ formal } />
                                     </Wizard.Container>
 
-                                    {
-                                        step === totalSteps ?
-                                            <SubmitButton formal={ formal } />
-                                            :
-                                            <ContinueButton
-                                                formal={ formal }
-                                                nextStep={
-                                                    () => goToStep(step + 1)
-                                                }
-                                            />
-                                    }
+                                    <NavButtons />
 
                                     <p style={ { color: "red" } }>
                                         { state.formError }

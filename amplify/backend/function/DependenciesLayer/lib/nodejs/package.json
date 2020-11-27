@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "aws-xray-sdk-core": "3.2.0",
+    "uuid": "8.3.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "2.783.0"
+  }
+}

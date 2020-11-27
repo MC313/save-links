@@ -4,8 +4,13 @@ import styled from "@emotion/styled";
 
 import { font, height, radius, width } from "../styles";
 
-const StyledButton = styled.button({
-  width: width.full,
+type ButtonSize = "small" | "medium" | "large";
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  size?: ButtonSize;
+};
+
+const StyledButton = styled.button<ButtonProps>(props => ({
+  width: props.size ? setSize(props.size) : width.full,
   minHeight: "40px",
   height: "7vh",
   maxHeight: height.medium,
@@ -18,17 +23,27 @@ const StyledButton = styled.button({
   "&:disabled": {
     opacity: "0.7",
   },
-});
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> { };
+}));
 
 const Button: React.FC<ButtonProps> = ({ title, ...props }) => {
-
   return (
     <StyledButton { ...props }>
       { title }
     </StyledButton>
   );
 };
+
+function setSize (size: ButtonSize | undefined) {
+  switch (size) {
+    case "small":
+      return "15em"
+    case "medium":
+      return "25em"
+    case "large":
+      return "40em"
+    default:
+      return "25em"
+  }
+}
 
 export default Button;
