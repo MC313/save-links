@@ -2,7 +2,6 @@ import React from "react";
 
 import { FormalWebTextFieldEvent, FormalWebState } from "@kevinwolf/formal-web";
 
-import Wizard from "../Wizard";
 import { FormField } from "../shared/components";
 import { FormData } from "../shared/types/FormData";
 import { useApp } from "../store";
@@ -27,22 +26,20 @@ export const LinkDescriptionTagsInputs: React.FC<LinkNameUrlInputs> = ({
 
     return (
         <React.Fragment>
-            <Wizard.Item>
-                <FormField
-                    { ...formal.getFieldProps("description") }
-                    label="Description"
-                    name="description"
-                    placeholder="Description of the saved link"
-                    required={ false }
-                />
-                <FormField
-                    { ...formal.getFieldProps("tags") }
-                    label="Tags"
-                    name="tags"
-                    placeholder="Separate, Each, Tag, With, A, Comma"
-                    required={ false }
-                />
-            </Wizard.Item>
+            <FormField
+                { ...formal.getFieldProps("description") }
+                label="Description"
+                name="description"
+                placeholder="Description of the saved link"
+                required={ false }
+            />
+            <FormField
+                { ...formal.getFieldProps("tags") }
+                label="Tags"
+                name="tags"
+                placeholder="Separate, Each, Tag, With, A, Comma"
+                required={ false }
+            />
         </React.Fragment>
     );
 };

@@ -2,7 +2,7 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { font, height, radius } from "../shared/styles";
+import { font, radius } from "../shared/styles";
 
 const StyledButton = styled.button({
     width: "6rem",
@@ -18,12 +18,12 @@ const StyledButton = styled.button({
     }
 });
 
-interface NavButtonProps {
+export interface NavButtonProps {
     onClick: () => void;
 };
 
 export const NavButton: React.FC<NavButtonProps> = ({ onClick, children }) => (
-    <StyledButton onClick={ onClick }>
+    <StyledButton onClick={ onClick } type="button">
         { children }
     </StyledButton>
 );

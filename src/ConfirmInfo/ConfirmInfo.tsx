@@ -2,11 +2,9 @@ import React from "react";
 
 import { FormalWebState } from "@kevinwolf/formal-web";
 
-import Wizard from "../Wizard";
 import { font, margin } from "../shared/styles";
 import { FormData } from "../shared/types/FormData";
 import { capitalize } from "../shared/utils";
-import { useApp } from "../store";
 
 const infoStyles = {
     marginBottom: margin.small,
@@ -71,7 +69,7 @@ export const ConfirmInfo: React.FC<ConfirmInfoProps> = ({ formal }) => {
     const { reminderUnit, reminderValue, ...otherFormData } = formal.values;
 
     return (
-        <Wizard.Item>
+        <React.Fragment>
             <div>
                 {
                     Object.entries(otherFormData).map(([key, value], index) => {
@@ -92,6 +90,6 @@ export const ConfirmInfo: React.FC<ConfirmInfoProps> = ({ formal }) => {
                     reminderValue={ reminderValue }
                 />
             </div>
-        </Wizard.Item>
+        </React.Fragment>
     );
 };

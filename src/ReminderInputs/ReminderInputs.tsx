@@ -13,7 +13,6 @@ import { font, margin } from "../shared/styles";
 import { FormFieldLabel, FormFieldInput } from "../shared/components";
 import { FormData } from "../shared/types/FormData";
 import { useApp } from "../store";
-import Wizard from "../Wizard";
 
 const StyledFormFieldGroup = styled.div({
     width: "98%",
@@ -67,7 +66,7 @@ export const ReminderInputs: React.FC<ReminderInputsProps> = ({
     formal
 }) => {
     return (
-        <Wizard.Item>
+        <React.Fragment>
             <StyledFormFieldGroup>
                 <FormFieldLabel label="Remind me about this link in" />
                 <div>
@@ -93,6 +92,6 @@ export const ReminderInputs: React.FC<ReminderInputsProps> = ({
                     </StyledSelectInput>
                 </div>
             </StyledFormFieldGroup>
-        </Wizard.Item>
+        </React.Fragment>
     );
 };

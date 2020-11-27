@@ -2,7 +2,6 @@ import React from "react";
 
 import { FormalWebState } from "@kevinwolf/formal-web";
 
-import Wizard from "../Wizard";
 import { FormField } from "../shared/components";
 import { FormData } from "../shared/types/FormData";
 import { useApp } from "../store";
@@ -25,7 +24,7 @@ export const LinkNameUrlInputs: React.FC<LinkNameUrlInputs> = ({ formal }) => {
     }
 
     return (
-        <Wizard.Item>
+        <React.Fragment>
             <FormField
                 { ...formal.getFieldProps("name") }
                 onBlur={ showError }
@@ -41,6 +40,6 @@ export const LinkNameUrlInputs: React.FC<LinkNameUrlInputs> = ({ formal }) => {
                 required={ true }
                 type="url"
             />
-        </Wizard.Item>
+        </React.Fragment>
     );
 };

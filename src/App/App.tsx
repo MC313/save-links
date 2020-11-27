@@ -7,20 +7,19 @@ import SaveLink from "../SaveLink/SaveLink";
 import { colors, flex, height, width } from "../shared/styles";
 import { AppProvider, AuthProvider, useAuth } from "../store";
 import { Header } from "../Header";
+import { WizardProvider } from "../store/WizardProvider";
 
-const AppContainer = styled.div({
+const StyledAppContainer = styled.div({
     width: width.full,
     height: height.full,
     backgroundColor: colors.purplishGrey
 }, flex.column);
 
-const Content = styled.main({ height: height.full }, flex.center);
+const StyledContent = styled.main({ height: height.full }, flex.center);
 
 export const App = () => (
     <AuthProvider>
-        <AppProvider>
-            <Main />
-        </AppProvider>
+        <Main />
     </AuthProvider>
 );
 
@@ -33,14 +32,18 @@ function Main () {
             dispatch.setAuthState(nextAuthState);
             setUser(authData);
         });
-    }, []);
+    });
 
     return (
-        <AppContainer className="app">
+        <StyledAppContainer className="app">
             <Header />
-            <Content>
-                <SaveLink />
-            </Content>
-        </AppContainer>
+            <StyledContent>
+                <AppProvider>
+                    <WizardProvider totalSteps={ 3 }>
+                        <SaveLink />
+                    </WizardProvider>
+                </AppProvider>
+            </StyledContent>
+        </StyledAppContainer>
     );
 };

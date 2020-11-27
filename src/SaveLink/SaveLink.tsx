@@ -3,7 +3,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import useFormal from "@kevinwolf/formal-web";
 
-import Wizard from "../Wizard";
 import { formSchema } from "./schema";
 import { Card } from "../shared/components";
 import { FormData } from "../shared/types/FormData";
@@ -15,6 +14,7 @@ import { SubmitButton } from "../SubmitButton";
 import { toUtcTime, TimeUnit } from "../ReminderInputs/utils";
 import { useApp } from "../store";
 import { NavButtons } from "../NavButtons";
+import { WizardContainer } from "../WizardContainer";
 
 interface FormPayload extends Object, Pick<FormData, "name" | "url" | "description"> {
     reminder: number | undefined;
@@ -85,33 +85,21 @@ const SaveLink = () => {
         schema: formSchema
     });
 
-    //const [form] = useForm(initialValues, submitFormData);
-
     return (
         <Card>
             <StyledForm { ...formal.getFormProps() }>
-                <Wizard>
-                    {
-                        ({ step, goToStep, totalSteps }) => {
-                            return (
-                                <React.Fragment>
-                                    <Wizard.Container step={ step }>
-                                        <LinkNameUrlInputs formal={ formal } />
-                                        <LinkDescriptionTagsInputs formal={ formal } />
-                                        <ReminderInputs formal={ formal } />
-                                        <ConfirmInfo formal={ formal } />
-                                    </Wizard.Container>
+                <WizardContainer>
+                    <LinkNameUrlInputs formal={ formal } />
+                    <LinkDescriptionTagsInputs formal={ formal } />
+                    <ReminderInputs formal={ formal } />
+                    <ConfirmInfo formal={ formal } />
+                </WizardContainer>
 
-                                    <NavButtons />
+                <NavButtons />
 
-                                    <p style={ { color: "red" } }>
-                                        { state.formError }
-                                    </p>
-                                </React.Fragment>
-                            )
-                        }
-                    }
-                </Wizard>
+                <p style={ { color: "red" } }>
+                    { state.formError }
+                </p>
             </StyledForm>
         </Card>
     )
