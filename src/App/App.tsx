@@ -39,7 +39,7 @@ function Main () {
             <Header />
             <StyledContent>
                 <AppProvider>
-                    <WizardProvider totalSteps={ 3 }>
+                    <WizardProvider totalSteps={ 4 }>
                         <SaveLink />
                     </WizardProvider>
                 </AppProvider>

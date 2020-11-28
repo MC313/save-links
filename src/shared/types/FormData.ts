@@ -6,3 +6,8 @@ export interface FormData extends Object {
     reminderValue: number;
     description?: string;
 };
+
+export interface FormPayload extends Object, Pick<FormData, "name" | "url" | "description"> {
+    reminder: number | undefined;
+    tags: [] | string[];
+};

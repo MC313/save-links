@@ -5,21 +5,19 @@ import useFormal from "@kevinwolf/formal-web";
 
 import { formSchema } from "./schema";
 import { Card } from "../shared/components";
-import { FormData } from "../shared/types/FormData";
+import { FormData, FormPayload } from "../shared/types/FormData";
 import { ConfirmInfo } from "../ConfirmInfo/ConfirmInfo";
 import { LinkNameUrlInputs } from "../LinkNameUrlInputs";
 import { LinkDescriptionTagsInputs } from "../LinkDescriptionTagsInputs";
 import { ReminderInputs } from "../ReminderInputs";
 import { SubmitButton } from "../SubmitButton";
 import { toUtcTime, TimeUnit } from "../ReminderInputs/utils";
-import { useApp } from "../store";
-import { NavButtons } from "../NavButtons";
+import { useApp, useWizard } from "../store";
+import { BackButton, ContinueButton } from "../NavButtons";
 import { WizardContainer } from "../WizardContainer";
+import { submitForm } from "./submitFormSerivce";
 
-interface FormPayload extends Object, Pick<FormData, "name" | "url" | "description"> {
-    reminder: number | undefined;
-    tags: [] | string[];
-};
+
 
 const StyledForm = styled.form({
     display: "flex",
@@ -57,6 +55,7 @@ const handleSubmit = (submitStatus: "SUCCESS" | "ERROR", values: FormPayload) =>
 
 const SaveLink = () => {
     const [state, dispatch] = useApp();
+    const [{ step, totalSteps }] = useWizard();
 
     const initialValues: FormData = {
         name: "",
@@ -68,15 +67,16 @@ const SaveLink = () => {
     };
 
     const submitFormData = (values: FormData) => {
-        dispatch.submittingForm(true)
-        handleSubmit("ERROR", formatFormData(values))
-            .then(() => {
-                console.log("Form submitted successfully")
-                dispatch.submitFormSuccess("")
+        dispatch.submitFormError("");
+        dispatch.submittingForm(true);
+        submitForm(formatFormData(values))
+            .then((response) => {
+                dispatch.submittingForm(false);
+                formal.reset();
             })
-            .catch(() => {
-                console.log("Error submitting form ")
-                dispatch.submitFormError("Error submitting form. Please try again.")
+            .catch((error) => {
+                console.log("ERROR: ", error);
+                dispatch.submitFormError(error.message);
             })
     };
 
@@ -95,7 +95,13 @@ const SaveLink = () => {
                     <ConfirmInfo formal={ formal } />
                 </WizardContainer>
 
-                <NavButtons />
+                <div style={ { display: "flex" } }>
+                    { step > 1 && <BackButton /> }
+                    {
+                        step === totalSteps ?
+                            <SubmitButton formal={ formal } /> : <ContinueButton />
+                    }
+                </div>
 
                 <p style={ { color: "red" } }>
                     { state.formError }

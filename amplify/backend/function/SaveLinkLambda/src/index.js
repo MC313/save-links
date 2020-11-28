@@ -14,37 +14,34 @@ const dbClient = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
     const body = JSON.parse(event.body);
-    console.log("EVENT: ", event)
-    /**
-     1. Valid required params
-     2. Determine if reminder param is set
-     3. Save data to link database
-     */
+
     if (!paramsValid(body)) {
         return {
             statusCode: 400,
-            body: JSON.stringify({ message: "Parameter value undefined." })
+            body: JSON.stringify({ message: "A required parameter value is undefined." })
         }
     };
 
+    const userId = uuidv4()
+
     const tableParams = {
         TableName: tableName,
-        Key: { linkId: uuidv4() },
-        Item: body,
-        ReturnValues: "UPDATED_NEW"
+        Key: { userId },
+        Item: { ...body, linkId: uuidv4(), userId },
+        ReturnValues: "ALL_OLD"
     };
 
     try {
-        const { Item } = await dbClient.put(tableParams).promise();
+        await dbClient.put(tableParams).promise();
 
         return {
             statusCode: 200,
-            body: JSON.stringify(Item),
+            body: JSON.stringify(tableParams.Item),
         };
     } catch (error) {
         return {
             statusCode: 500,
-            body: JSON.stringify({ message: "An Internal server error. Please try you request again later." }),
+            body: JSON.stringify({ message: "An Internal server error. Please try you request again later." })
         };
     }
 };
