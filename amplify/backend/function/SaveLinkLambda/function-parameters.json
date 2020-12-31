@@ -1,10 +1,5 @@
 {
   "permissions": {
-    "auth": {
-      "LinksLockerAuth": [
-        "read"
-      ]
-    },
     "storage": {
       "LinksTable": [
         "create",

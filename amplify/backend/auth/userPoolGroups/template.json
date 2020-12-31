@@ -41,15 +41,15 @@
     },
     "Resources": {
     
-        "AuthenticatedGroup": {
+        "GuestUsersGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
-              "GroupName" : "Authenticated",
+              "GroupName" : "GuestUsers",
               "Precedence" : 1,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
-                    "AuthenticatedGroupRole",
+                    "GuestUsersGroupRole",
                     "Arn"
                 ]
               },
@@ -60,7 +60,7 @@
             }
         },
         
-        "AuthenticatedGroupRole": {
+        "GuestUsersGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "RoleName":{
@@ -70,7 +70,7 @@
                           {
                             "Ref": "authLinksLockerAuthUserPoolId"
                           },
-                          "-AuthenticatedGroupRole"
+                          "-GuestUsersGroupRole"
                         ]
                     ]
                 },
@@ -95,15 +95,15 @@
         },
      
     
-        "GuestGroup": {
+        "AuthenticatedUsersGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
-              "GroupName" : "Guest",
+              "GroupName" : "AuthenticatedUsers",
               "Precedence" : 2,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
-                    "GuestGroupRole",
+                    "AuthenticatedUsersGroupRole",
                     "Arn"
                 ]
               },
@@ -114,7 +114,7 @@
             }
         },
         
-        "GuestGroupRole": {
+        "AuthenticatedUsersGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "RoleName":{
@@ -124,7 +124,7 @@
                           {
                             "Ref": "authLinksLockerAuthUserPoolId"
                           },
-                          "-GuestGroupRole"
+                          "-AuthenticatedUsersGroupRole"
                         ]
                     ]
                 },
@@ -349,10 +349,10 @@
     
     "Outputs": {
       
-        "AuthenticatedGroupRole": {
+        "GuestUsersGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
-                    "AuthenticatedGroupRole",
+                    "GuestUsersGroupRole",
                     "Arn"
                 ]
             }
@@ -360,10 +360,10 @@
         },
         
       
-        "GuestGroupRole": {
+        "AuthenticatedUsersGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
-                    "GuestGroupRole",
+                    "AuthenticatedUsersGroupRole",
                     "Arn"
                 ]
             }

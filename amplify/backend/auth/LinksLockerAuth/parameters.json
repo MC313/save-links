@@ -1,7 +1,7 @@
 {
     "identityPoolName": "LinksLockerIdPool",
     "allowUnauthenticatedIdentities": true,
-    "resourceNameTruncated": "LinksLb4ec4c59",
+    "resourceNameTruncated": "LinksL16c225f6",
     "userPoolName": "LinksLockerUserPool",
     "autoVerifiedAttributes": [
         "email"
@@ -18,11 +18,7 @@
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
-        "email",
-        "family_name",
-        "given_name",
-        "phone_number",
-        "picture"
+        "email"
     ],
     "userpoolClientGenerateSecret": true,
     "userpoolClientRefreshTokenValidity": 30,
@@ -32,7 +28,7 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "LinksLb4ec4c59_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "LinksL16c225f6_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
     "useDefault": "manual",
     "authSelections": "identityPoolAndUserPool",
@@ -46,8 +42,8 @@
     "triggers": "{\"PostConfirmation\":[\"add-to-group\",\"custom\"]}",
     "hostedUI": false,
     "userPoolGroupList": [
-        "Authenticated",
-        "Guest"
+        "GuestUsers",
+        "AuthenticatedUsers"
     ],
     "authRoleArn": {
         "Fn::GetAtt": [

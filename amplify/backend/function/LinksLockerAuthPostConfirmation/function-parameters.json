@@ -13,5 +13,5 @@
   "triggerTemplate": "PostConfirmation.json.ejs",
   "roleName": "LinksLockerAuthPostConfirmation",
   "skipEdit": true,
-  "GROUP": "Authenticated"
+  "GROUP": "AuthenticatedUsers"
 }
