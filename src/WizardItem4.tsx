@@ -1,10 +1,8 @@
 import React from "react";
 
-import { FormalWebState } from "@kevinwolf/formal-web";
-
-import { font, margin } from "../shared/styles";
-import { FormData } from "../shared/types/FormData";
-import { capitalize } from "../shared/utils";
+import { font, margin } from "./shared/styles";
+import { capitalize } from "./shared/utils";
+import { WizardItemProps } from "./WizardContainer";
 
 const infoStyles = {
     marginBottom: margin.small,
@@ -29,10 +27,6 @@ interface InfoElementProps {
 interface ReminderInfoElementProps {
     reminderUnit: string | undefined;
     reminderValue: number | undefined;
-};
-
-interface ConfirmInfoProps {
-    formal: FormalWebState<FormData>;
 };
 
 const InfoElement: React.FC<InfoElementProps> = ({ value, label }) => {
@@ -65,7 +59,7 @@ const ReminderInfoElement: React.FC<ReminderInfoElementProps> = ({
     );
 };
 
-export const ConfirmInfo: React.FC<ConfirmInfoProps> = ({ formal }) => {
+export const WizardItem4: React.FC<WizardItemProps> = ({ formal }) => {
     const { reminderUnit, reminderValue, ...otherFormData } = formal.values;
 
     return (

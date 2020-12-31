@@ -5,17 +5,17 @@ import useFormal from "@kevinwolf/formal-web";
 
 import { formSchema } from "./schema";
 import { Card } from "../shared/components";
-import { FormData, FormPayload } from "../shared/types/FormData";
-import { ConfirmInfo } from "../ConfirmInfo/ConfirmInfo";
-import { LinkNameUrlInputs } from "../LinkNameUrlInputs";
-import { LinkDescriptionTagsInputs } from "../LinkDescriptionTagsInputs";
-import { ReminderInputs } from "../ReminderInputs";
-import { SubmitButton } from "../SubmitButton";
-import { toUtcTime, TimeUnit } from "../ReminderInputs/utils";
+import { FormData, FormPayload } from "../shared/types";
+import { toUtcTime, TimeUnit } from "../shared/utils";
 import { useApp, useWizard } from "../store";
-import { BackButton, ContinueButton } from "../NavButtons";
-import { WizardContainer } from "../WizardContainer";
 import { submitForm } from "./submitFormSerivce";
+import { WizardContainer } from "../WizardContainer";
+import { WizardItem1 } from "../WizardItem1";
+import { WizardItem2 } from "../WizardItem2";
+import { WizardItem3 } from "../WizardItem3";
+import { WizardItem4 } from "../WizardItem4";
+import { SubmitButton } from "../SubmitButton";
+import { BackButton, ContinueButton } from "../NavButtons";
 
 
 
@@ -24,7 +24,7 @@ const StyledForm = styled.form({
     flexDirection: "column",
     alignItems: "center",
     paddingBottom: 30
-});
+})
 
 const formatFormData = (formData: FormData): FormPayload => {
     const {
@@ -71,6 +71,7 @@ const SaveLink = () => {
         dispatch.submittingForm(true);
         submitForm(formatFormData(values))
             .then((response) => {
+                console.log("RESPONSE: ", response)
                 dispatch.submittingForm(false);
                 formal.reset();
             })
@@ -89,10 +90,10 @@ const SaveLink = () => {
         <Card>
             <StyledForm { ...formal.getFormProps() }>
                 <WizardContainer>
-                    <LinkNameUrlInputs formal={ formal } />
-                    <LinkDescriptionTagsInputs formal={ formal } />
-                    <ReminderInputs formal={ formal } />
-                    <ConfirmInfo formal={ formal } />
+                    <WizardItem1 formal={ formal } />
+                    <WizardItem2 formal={ formal } />
+                    <WizardItem3 formal={ formal } />
+                    <WizardItem4 formal={ formal } />
                 </WizardContainer>
 
                 <div style={ { display: "flex" } }>

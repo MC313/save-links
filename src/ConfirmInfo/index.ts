@@ -1,1 +1,0 @@
-export { ConfirmInfo } from "./ConfirmInfo";

@@ -1,16 +1,13 @@
 import React from "react";
 
-import { FormalWebTextFieldEvent, FormalWebState } from "@kevinwolf/formal-web";
+import { FormalWebTextFieldEvent } from "@kevinwolf/formal-web";
 
-import { FormField } from "../shared/components";
-import { FormData } from "../shared/types/FormData";
-import { useApp } from "../store";
+import { FormField } from "./shared/components";
+import { useApp } from "./store";
+import { WizardItem, WizardItemProps } from "./WizardContainer";
 
-interface LinkNameUrlInputs {
-    formal: FormalWebState<FormData>;
-};
 
-export const LinkDescriptionTagsInputs: React.FC<LinkNameUrlInputs> = ({
+export const WizardItem2: React.FC<WizardItemProps> = ({
     formal
 }) => {
 
@@ -25,7 +22,7 @@ export const LinkDescriptionTagsInputs: React.FC<LinkNameUrlInputs> = ({
     const updateTags = handleChange("tags");
 
     return (
-        <React.Fragment>
+        <WizardItem>
             <FormField
                 { ...formal.getFieldProps("description") }
                 label="Description"
@@ -40,6 +37,6 @@ export const LinkDescriptionTagsInputs: React.FC<LinkNameUrlInputs> = ({
                 placeholder="Separate, Each, Tag, With, A, Comma"
                 required={ false }
             />
-        </React.Fragment>
+        </WizardItem>
     );
 };

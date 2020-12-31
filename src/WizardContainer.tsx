@@ -1,6 +1,9 @@
 import React from "react";
 
+import { FormalWebState } from "@kevinwolf/formal-web";
 import styled from "@emotion/styled";
+
+import { FormData } from "./shared/types";
 import { useWizard } from "./store";
 
 const StyledList = styled.ul<{ step: number }>(({ step }) => ({
@@ -22,6 +25,10 @@ const StyledListItem = styled.li<{ style?: React.CSSProperties }>(({ style }) =>
     marginTop: 20
 }));
 
+export interface WizardItemProps {
+    formal: FormalWebState<FormData>;
+};
+
 export const WizardItem: React.FC<{}> = ({ children }) => (
     <StyledListItem>
         { children }
@@ -30,7 +37,7 @@ export const WizardItem: React.FC<{}> = ({ children }) => (
 
 export const WizardContainer: React.FC<{}> = ({ children }) => {
     const [{ step }] = useWizard();
-    const updatedChildren = React.Children.map(children, (child) => {
+    const childrenWithListItemStyle = React.Children.map(children, (child) => {
         return (
             <StyledListItem>
                 { child }
@@ -41,7 +48,7 @@ export const WizardContainer: React.FC<{}> = ({ children }) => {
     return (
         <div style={ { overflow: "hidden", width: "100%" } }>
             <StyledList step={ step }>
-                { updatedChildren }
+                { children }
             </StyledList>
         </div>
     );

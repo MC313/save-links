@@ -3,16 +3,11 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import { FormalFieldProps } from '@kevinwolf/formal';
-import {
-    FormalWebFieldProps,
-    FormalWebTextFieldEvent,
-    FormalWebState
-} from "@kevinwolf/formal-web";
+import { FormalWebFieldProps } from "@kevinwolf/formal-web";
 
-import { font, margin } from "../shared/styles";
-import { FormFieldLabel, FormFieldInput } from "../shared/components";
-import { FormData } from "../shared/types/FormData";
-import { useApp } from "../store";
+import { font, margin } from "./shared/styles";
+import { FormFieldLabel, FormFieldInput } from "./shared/components";
+import { WizardItem, WizardItemProps } from "./WizardContainer";
 
 const StyledFormFieldGroup = styled.div({
     width: "98%",
@@ -44,10 +39,6 @@ interface FormFieldGroupProps extends Partial<FormalFieldProps>, Partial<FormalW
     validate?: boolean;
 };
 
-interface ReminderInputsProps {
-    formal: FormalWebState<FormData>;
-};
-
 const TIME_UNIT_OPTS = ["minute", "hour", "day"];
 
 const SelectOptions: React.FC<{ timeValue: number }> = ({ timeValue }) => (
@@ -62,11 +53,11 @@ const SelectOptions: React.FC<{ timeValue: number }> = ({ timeValue }) => (
     </React.Fragment>
 );
 
-export const ReminderInputs: React.FC<ReminderInputsProps> = ({
+export const WizardItem3: React.FC<WizardItemProps> = ({
     formal
 }) => {
     return (
-        <React.Fragment>
+        <WizardItem>
             <StyledFormFieldGroup>
                 <FormFieldLabel label="Remind me about this link in" />
                 <div>
@@ -92,6 +83,6 @@ export const ReminderInputs: React.FC<ReminderInputsProps> = ({
                     </StyledSelectInput>
                 </div>
             </StyledFormFieldGroup>
-        </React.Fragment>
+        </WizardItem>
     );
 };

@@ -2,8 +2,8 @@ import React from 'react';
 
 import useFormal, { FormalWebState } from "@kevinwolf/formal-web";
 
-import { FormData } from "../../shared/types/FormData";
 import { formSchema } from '../../SaveLink/schema';
+import { FormData } from "../../shared/types";
 
 type FormalFormState = FormalWebState<FormData>;
 interface FormState {

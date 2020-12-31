@@ -1,16 +1,10 @@
 import React from "react";
 
-import { FormalWebState } from "@kevinwolf/formal-web";
+import { WizardItem, WizardItemProps } from "./WizardContainer";
+import { FormField } from "./shared/components";
+import { useApp } from "./store";
 
-import { FormField } from "../shared/components";
-import { FormData } from "../shared/types/FormData";
-import { useApp } from "../store";
-
-interface LinkNameUrlInputs {
-    formal: FormalWebState<FormData>;
-};
-
-export const LinkNameUrlInputs: React.FC<LinkNameUrlInputs> = ({ formal }) => {
+export const WizardItem1: React.FC<WizardItemProps> = ({ formal }) => {
     const [, dispatch] = useApp();
 
     const showError = () => {
@@ -21,10 +15,10 @@ export const LinkNameUrlInputs: React.FC<LinkNameUrlInputs> = ({ formal }) => {
             console.log("Input values are invalid.")
             dispatch.setInputError(true)
         }
-    }
+    };
 
     return (
-        <React.Fragment>
+        <WizardItem>
             <FormField
                 { ...formal.getFieldProps("name") }
                 onBlur={ showError }
@@ -40,6 +34,6 @@ export const LinkNameUrlInputs: React.FC<LinkNameUrlInputs> = ({ formal }) => {
                 required={ true }
                 type="url"
             />
-        </React.Fragment>
+        </WizardItem>
     );
 };

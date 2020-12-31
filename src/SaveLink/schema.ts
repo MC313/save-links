@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-import { FormData } from "../shared/types/FormData";
+import { FormData } from "../shared/types";
 
 type FormSchema = yup.Schema<FormData>;
 

@@ -4,7 +4,7 @@ import { FormalWebState } from "@kevinwolf/formal-web";
 
 import { ReactComponent as LoadingIcon } from "./loading.svg";
 import { Button } from "../shared/components";
-import { FormData } from "../shared/types/FormData";
+import { FormData } from "../shared/types";
 import { useApp } from "../store";
 
 interface ButtonProps {
