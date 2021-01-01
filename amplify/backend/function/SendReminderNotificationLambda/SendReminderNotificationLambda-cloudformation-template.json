@@ -10,14 +10,6 @@
 		"env": {
 			"Type": "String"
 		},
-		"storageLinksTableName": {
-			"Type": "String",
-			"Default": "storageLinksTableName"
-		},
-		"storageLinksTableArn": {
-			"Type": "String",
-			"Default": "storageLinksTableArn"
-		},
 		"functionDependenciesLayerArn": {
 			"Type": "String",
 			"Default": "functionDependenciesLayerArn"
@@ -45,12 +37,12 @@
 				"FunctionName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"SaveLinkLambda",
+						"SendReminderNotificationLambda",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"SaveLinkLambda",
+									"SendReminderNotificationLambda",
 									"-",
 									{
 										"Ref": "env"
@@ -60,9 +52,6 @@
 						}
 					]
 				},
-				"TracingConfig": {
-					"Mode": "Active"
-				},
 				"Environment": {
 					"Variables": {
 						"ENV": {
@@ -70,12 +59,6 @@
 						},
 						"REGION": {
 							"Ref": "AWS::Region"
-						},
-						"STORAGE_LINKSTABLE_NAME": {
-							"Ref": "storageLinksTableName"
-						},
-						"STORAGE_LINKSTABLE_ARN": {
-							"Ref": "storageLinksTableArn"
 						}
 					}
 				},
@@ -94,7 +77,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/SaveLinkLambda-6f6c656676614c4e6e54-build.zip"
+					"S3Key": "amplify-builds/SendReminderNotificationLambda-59793667505562435242-build.zip"
 				}
 			}
 		},
@@ -104,12 +87,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"linkslockerLambdaRole9b0d74ed",
+						"linkslockerLambdaRole521c78c1",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"linkslockerLambdaRole9b0d74ed",
+									"linkslockerLambdaRole521c78c1",
 									"-",
 									{
 										"Ref": "env"
@@ -134,10 +117,7 @@
 							]
 						}
 					]
-				},
-				"ManagedPolicyArns": [
-					"arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
-				]
+				}
 			}
 		},
 		"lambdaexecutionpolicy": {
@@ -178,51 +158,6 @@
 									}
 								]
 							}
-						}
-					]
-				}
-			}
-		},
-		"AmplifyResourcesPolicy": {
-			"DependsOn": [
-				"LambdaExecutionRole"
-			],
-			"Type": "AWS::IAM::Policy",
-			"Properties": {
-				"PolicyName": "amplify-lambda-execution-policy",
-				"Roles": [
-					{
-						"Ref": "LambdaExecutionRole"
-					}
-				],
-				"PolicyDocument": {
-					"Version": "2012-10-17",
-					"Statement": [
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:Put*",
-								"dynamodb:Create*",
-								"dynamodb:BatchWriteItem",
-								"dynamodb:Update*",
-								"dynamodb:RestoreTable*"
-							],
-							"Resource": [
-								{
-									"Ref": "storageLinksTableArn"
-								},
-								{
-									"Fn::Join": [
-										"/",
-										[
-											{
-												"Ref": "storageLinksTableArn"
-											},
-											"index/*"
-										]
-									]
-								}
-							]
 						}
 					]
 				}

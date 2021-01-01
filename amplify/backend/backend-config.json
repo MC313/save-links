@@ -62,6 +62,43 @@
             "build": true,
             "providerPlugin": "awscloudformation",
             "service": "Lambda"
+        },
+        "ScheduleReminderLambda": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "SendReminderNotificationLambda",
+                    "attributes": [
+                        "Arn"
+                    ]
+                },
+                {
+                    "category": "storage",
+                    "resourceName": "LinksTable",
+                    "attributes": [
+                        "Name",
+                        "StreamArn",
+                        "Arn"
+                    ]
+                }
+            ]
+        },
+        "SendReminderNotificationLambda": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "DependenciesLayer",
+                    "attributes": [
+                        "Arn"
+                    ]
+                }
+            ]
         }
     },
     "auth": {

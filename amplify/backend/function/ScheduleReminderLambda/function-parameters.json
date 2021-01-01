@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "function": {
+      "SendReminderNotificationLambda": [
+        "read"
+      ]
+    },
+    "storage": {
+      "LinksTable": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "DependenciesLayer",
+      "version": 1
+    }
+  ]
+}

@@ -15,7 +15,10 @@
             "function": {
                 "LinksLockerAuthPostConfirmation": {
                     "GROUP": "AuthenticatedUsers"
-                }
+                },
+                "ScheduleReminderLambda": {},
+                "SaveLinkLambda": {},
+                "SendReminderNotificationLambda": {}
             },
             "auth": {
                 "LinksLockerAuth": {}

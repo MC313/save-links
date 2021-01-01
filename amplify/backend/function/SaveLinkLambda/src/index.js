@@ -1,9 +1,4 @@
 /* Amplify Params - DO NOT EDIT
-	ENV
-	REGION
-	STORAGE_LINKSTABLE_ARN
-	STORAGE_LINKSTABLE_NAME
-Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
     AUTH_LINKSLOCKERAUTH_USERPOOLID
     ENV
     REGION
@@ -13,9 +8,10 @@ Amplify Params - DO NOT EDIT */
 const AWSXRay = require('aws-xray-sdk-core');
 const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 const { v4: uuidv4 } = require('uuid');
+const region = process.env.REGION;
 const tableName = process.env.STORAGE_LINKSTABLE_NAME;
 
-const dbClient = new AWS.DynamoDB.DocumentClient();
+const dbClient = new AWS.DynamoDB.DocumentClient({ region });
 
 exports.handler = async (event) => {
     const body = JSON.parse(event.body);
