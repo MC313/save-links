@@ -10,6 +10,7 @@ const AWSXRay = require('aws-xray-sdk-core');
 const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 const sendNotificationArn = process.env.FUNCTION_SENDREMINDERNOTIFICATIONLAMBDA_ARN;
 const CloudWatchEventNamePrefix = process.env.CLOUD_WATCH_EVENT_NAME_PREFIX;
+const CloudWatchEventsIAMRole = process.env.CLOUD_WATCH_EVENTS_ROLE_ARN;
 const region = process.env.REGION;
 
 const cloudWatchClient = new AWS.CloudWatchEvents({ region });
@@ -39,6 +40,7 @@ exports.handler = async ({ Records }) => {
 async function setCloudWatchRule(cloudWatchRuleName, reminder) {
     const cloudWatchRuleParams = {
         Name: cloudWatchRuleName,
+        RoleArn: CloudWatchEventsIAMRole,
         ScheduleExpression: createCronJob(reminder),
         State: "ENABLED"
     }

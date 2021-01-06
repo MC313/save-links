@@ -73,7 +73,10 @@
 							"Ref": "cloudWatchEventNamePrefix"
 						},
 						"CLOUD_WATCH_EVENTS_ROLE_ARN": {
-							"Ref": "CloudWatchEventsExecutionRole"
+							"Fn::GetAtt": [
+								"CloudWatchEventsInvokeLambdaExecutionRole",
+								"Arn"
+							]
 						},
 						"ENV": {
 							"Ref": "env"
@@ -104,10 +107,10 @@
 						"Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:DependenciesLayer:1"
 					}
 				],
-				"Timeout": "25",
+				"Timeout": 25,
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/ScheduleReminderLambda-72394238752f6a464674-build.zip"
+					"S3Key": "amplify-builds/ScheduleReminderLambda-4d464c4f594d77704c35-build.zip"
 				}
 			}
 		},
@@ -150,18 +153,18 @@
 				}
 			}
 		},
-		"CloudWatchEventsExecutionRole": {
+		"CloudWatchEventsInvokeLambdaExecutionRole": {
 			"Type": "AWS::IAM::Role",
 			"Properties": {
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"linkslockerCloudWatchEventsRole088f3896",
+						"linkslockerCloudWatchEventsInvokeLambdaRole088f3896",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"linkslockerCloudWatchEventsRole088f3896",
+									"linkslockerCloudWatchEventsInvokeLambdaRole088f3896",
 									"-",
 									{
 										"Ref": "env"
@@ -322,13 +325,43 @@
 								"events:putTargets"
 							],
 							"Resource": {
-								"Fn::Sub": "arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/${cloudWatchEventNamePrefix}*"
+								"Fn::Sub": "arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/${cloudWatchEventNamePrefix}_*"
 							}
 						},
 						{
 							"Effect": "Allow",
 							"Action": "iam:PassRole",
-							"Resource": "arn:aws:iam::*:role/AWS_Events_Invoke_Targets"
+							"Resource": {
+								"Fn::GetAtt": [
+									"CloudWatchEventsInvokeLambdaExecutionRole",
+									"Arn"
+								]
+							}
+						}
+					]
+				}
+			}
+		},
+		"CloudWatchEventsInvokeLambdaPolicy": {
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "CloudWatchEventsInvokeLambdaExecutionPolicy",
+				"Roles": [
+					{
+						"Ref": "CloudWatchEventsInvokeLambdaExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"lambda:InvokeFunction"
+							],
+							"Resource": {
+								"Ref": "functionSendReminderNotificationLambdaArn"
+							}
 						}
 					]
 				}

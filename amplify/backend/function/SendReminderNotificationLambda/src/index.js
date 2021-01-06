@@ -1,5 +1,3 @@
-exports.handler = async ({ Records }) => {
-    Records.forEach((record) => {
-        console.log("SENDING REMINDER: ", JSON.stringify(record, null, 2))
-    })
+exports.handler = async (events) => {
+    console.log("EVENT: ", JSON.stringify(events, null, 2))
 };
