@@ -1,8 +1,28 @@
 import React from "react";
 
-import { FormalWebState } from "@kevinwolf/formal-web";
 
-import { FormData } from "../shared/types";
+type SubmitStatus = "INITIAL" | "ERROR" | "SUBMITTING" | "SUBMITTED";
+interface FormFields {
+    name: string;
+    url: string;
+    description?: string;
+    tags?: string;
+    reminder: {
+        unit: string;
+        value: number;
+    };
+};
+
+interface FormFieldsErrors extends Omit<FormFields, "reminder"> {
+    reminder: ""
+};
+
+export interface FormState {
+    status: SubmitStatus;
+    error?: string;
+    fields: FormFields;
+    errors: FormFieldsErrors;
+};
 
 /**
  * =======================
@@ -21,53 +41,59 @@ type FormWindow = Window & typeof globalThis & {
     _REACT_CONTEXT_DEVTOOL?: ReactContextDevTool
 };
 
-type FormState = FormalWebState<FormData>;
-
-// interface FormState {
-//     fields: { [key in keyof FormData]: () => FormState["getFieldProps"] }
-// };
-
-type UseFormSetState = React.Dispatch<React.SetStateAction<FormState>>;
-
 enum FormTypeKeys {
-    SET_INPUT_ERROR = "SET_INPUT_ERROR",
-    UPDATE_INPUT_VALUE = "UPDATE_INPUT_VALUE",
-    SUBMITTING_FORM = "SUBMITTING_FORM",
+    RESET_FORM = "RESET_FORM",
     SET_FORM_ERROR = "SET_FORM_ERROR",
-    SET_FORM_SUCCESS = "SET_FORM_SUCCESS"
+    SET_FORM_SUCCESS = "SET_FORM_SUCCESS",
+    SET_INPUT_ERROR = "SET_INPUT_ERROR",
+    SET_INPUT_VALUE = "SET_INPUT_VALUE",
+    SUBMITTING_FORM = "SUBMITTING_FORM"
 };
 
-interface UpdateInputValueAction {
-    type: FormTypeKeys.UPDATE_INPUT_VALUE;
-    payload: Partial<FormState["values"][keyof FormData]>;
+interface FormErrorAction {
+    type: FormTypeKeys.SET_FORM_ERROR;
+    payload?: undefined;
+};
+interface FormSubmittingAction {
+    type: FormTypeKeys.SUBMITTING_FORM;
+    payload?: undefined;
+};
+
+interface FormSuccessAction {
+    type: FormTypeKeys.SET_FORM_SUCCESS;
+    payload?: undefined;
+};
+
+interface ResetFormAction {
+    type: FormTypeKeys.RESET_FORM;
+    payload?: undefined;
+}
+
+interface SetInputValueAction {
+    type: FormTypeKeys.SET_INPUT_VALUE;
+    payload: {
+        field: keyof FormFields,
+        value: FormState["fields"][keyof FormFields]
+    };
+};
+
+interface FormErrorAction {
+    type: FormTypeKeys.SET_FORM_ERROR;
+    payload?: undefined;
 };
 
 interface SetInputErrorAction {
     type: FormTypeKeys.SET_INPUT_ERROR;
-    payload: string;
-};
-
-interface SubmittingFormAction {
-    type: FormTypeKeys.SUBMITTING_FORM;
-    payload: boolean;
-};
-
-interface SetFormErrorAction {
-    type: FormTypeKeys.SET_FORM_ERROR;
-    payload: boolean;
-};
-
-interface SetFormSuccessAction {
-    type: FormTypeKeys.SET_FORM_SUCCESS;
-    payload: boolean;
+    payload: { field: keyof FormFields, value: string };
 };
 
 type FormActions =
+    FormErrorAction |
+    FormSubmittingAction |
+    FormSuccessAction |
+    ResetFormAction |
     SetInputErrorAction |
-    UpdateInputValueAction |
-    SubmittingFormAction |
-    SetFormErrorAction |
-    SetFormSuccessAction;
+    SetInputValueAction;
 
 type FormDispatch = (action: FormActions) => void;
 
@@ -75,25 +101,42 @@ type FormReducer = React.Reducer<FormState, FormActions>;
 
 interface FormProviderProps {
     children: React.ReactNode;
-    formState: FormState;
 };
 
 type ActionName =
-    "setInputError" |
-    "submittingForm" |
-    "setFormSuccess" |
-    "setFormError";
+    "formError" |
+    "formSubmitting" |
+    "formSuccess" |
+    "resetForm" |
+    "setInput" |
+    "setInputError";
+
+export type FormDispatchHookReturn = void | ((e: React.ChangeEvent<HTMLInputElement>) => void)
 
 type FormDispatchHook = {
-    [k in ActionName]: (payload: any) => void
+    [k in ActionName]: (payload?: any) => any
 };
 
-const createFormState = (formFields: FormData, formalState: FormState) => {
-    let formState = {};
-    for (const field in formFields) {
-        formState = { ...formState, [field]: formalState.getFieldProps }
-    };
-    return formState as FormState;
+const form: FormState = {
+    status: "INITIAL",
+    error: undefined,
+    fields: {
+        name: "",
+        url: "",
+        description: "",
+        tags: "",
+        reminder: {
+            value: 0,
+            unit: ""
+        }
+    },
+    errors: {
+        name: "",
+        url: "",
+        description: "",
+        tags: "",
+        reminder: ""
+    }
 };
 
 /**
@@ -101,30 +144,36 @@ const createFormState = (formFields: FormData, formalState: FormState) => {
  *        Reducer
  * =======================
  */
-const appReducer: FormReducer = (state, action) => {
-    console.log("state: ", state)
+const formReducer: FormReducer = (state, action) => {
     const { payload, type } = action;
     switch (type) {
-        case FormTypeKeys.UPDATE_INPUT_VALUE:
-            //const { key, value } = payload as 
-            //state.change(key, value);
+        case FormTypeKeys.SET_INPUT_VALUE:
+            const { field: inputField, value: inputValue } = payload as SetInputValueAction["payload"];
             return {
-                ...state
+                ...state,
+                fields: { ...state.fields, [inputField]: inputValue }
+            };
+        case FormTypeKeys.SET_INPUT_ERROR:
+            const { field: errorField, value: errorValue } = payload as SetInputErrorAction["payload"];
+            return {
+                ...state,
+                errors: { ...state.errors, [errorField]: errorValue }
             };
         case FormTypeKeys.SUBMITTING_FORM:
             return {
-                ...state
+                ...state,
+                status: "SUBMITTING"
             };
         case FormTypeKeys.SET_FORM_SUCCESS:
             return {
                 ...state,
-                submittingForm: false
+                status: "SUBMITTED"
             };
         case FormTypeKeys.SET_FORM_ERROR:
             return {
                 ...state,
                 formError: payload,
-                submittingForm: false
+                status: "ERROR"
             };
 
         default:
@@ -150,8 +199,8 @@ const {
  *   Provider Component
  * =======================
  */
-const FormProvider: React.FC<FormProviderProps> = ({ children, formState }) => {
-    let [state, dispatch] = React.useReducer<FormReducer>(appReducer, formState);
+const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
+    let [state, dispatch] = React.useReducer<FormReducer>(formReducer, form);
     let _window: FormWindow = window;
 
     return (
@@ -190,22 +239,37 @@ const useFormDispatch = () => {
         throw new Error('useFormDispatch can only be used with FormProvider component.')
     };
     return {
-        submittingForm: (payload: boolean) =>
-            dispatch({
-                type: FormTypeKeys.SUBMITTING_FORM,
-                payload
-            }),
-        setFormSuccess: (payload: boolean) =>
-            dispatch({
-                type: FormTypeKeys.SET_FORM_SUCCESS,
-                payload
-            }),
-        setFormError: (payload: boolean) =>
+        formError: () =>
             dispatch({
                 type: FormTypeKeys.SET_FORM_ERROR,
-                payload
+                payload: undefined
             }),
-        setInputError: (payload: string) =>
+        formSubmitting: () =>
+            dispatch({
+                type: FormTypeKeys.SUBMITTING_FORM,
+                payload: undefined
+            }),
+        formSuccess: () =>
+            dispatch({
+                type: FormTypeKeys.SET_FORM_SUCCESS,
+                payload: undefined
+            }),
+        resetForm: () => {
+            dispatch({
+                type: FormTypeKeys.RESET_FORM,
+                payload: undefined
+            })
+        },
+        setInput: (payload: SetInputValueAction["payload"]["field"]) =>
+            ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) =>
+                dispatch({
+                    type: FormTypeKeys.SET_INPUT_VALUE,
+                    payload: {
+                        field: payload,
+                        value
+                    } as SetInputValueAction["payload"]
+                }),
+        setInputError: (payload: SetInputErrorAction["payload"]) =>
             dispatch({
                 type: FormTypeKeys.SET_INPUT_ERROR,
                 payload

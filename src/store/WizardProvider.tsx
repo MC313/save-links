@@ -133,7 +133,7 @@ const useWizardDispatch = () => {
             type: AppTypeKeys.SET_STEP,
             payload
         })
-    return setStep
+    return setStep;
 };
 
 const useWizardState = () => {

@@ -11,6 +11,5 @@ export const formSchema: FormSchema = yup.object().shape({
     tags: yup.string(),
     reminderUnit: yup.string(),
     reminderValue: yup.number().min(0).max(24)
-
 });
 

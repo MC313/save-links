@@ -54,7 +54,7 @@ interface SubmitFormErrorAction {
 
 interface SubmitFormSuccessAction {
     type: AppTypeKeys.SUBMIT_FORM_SUCCESS;
-    payload: null;
+    payload?: undefined;
 };
 
 type AppActions =
@@ -80,7 +80,7 @@ type ActionName =
     "updateFormData";
 
 type AppDispatchHook = {
-    [k in ActionName]: (payload: any) => void
+    [k in ActionName]: (payload?: any) => void
 };
 
 
@@ -89,7 +89,7 @@ type AppDispatchHook = {
  *        Reducer
  * =======================
  */
-const appReducer: AppReducer = (state, action) => {
+const appReducer: AppReducer = (state: AppState, action: AppActions) => {
     switch (action.type) {
         case AppTypeKeys.UPDATE_FORM_DATA:
             return {
@@ -184,10 +184,9 @@ const useAppDispatch = () => {
                 type: AppTypeKeys.SUBMITTING_FORM,
                 payload
             }),
-        submitFormSuccess: (payload: any = null) =>
+        submitFormSuccess: () =>
             dispatch({
-                type: AppTypeKeys.SUBMIT_FORM_SUCCESS,
-                payload
+                type: AppTypeKeys.SUBMIT_FORM_SUCCESS
             }),
         submitFormError: (payload: any) =>
             dispatch({

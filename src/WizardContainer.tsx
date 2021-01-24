@@ -1,10 +1,18 @@
 import React from "react";
 
-import { FormalWebState } from "@kevinwolf/formal-web";
 import styled from "@emotion/styled";
 
-import { FormData } from "./shared/types";
 import { useWizard } from "./store";
+
+interface StyledListItemProps {
+    style?: React.CSSProperties;
+};
+
+const StyledListWrapper = styled.div({
+    marginBottom: 25,
+    overflow: "hidden",
+    width: "100%"
+});
 
 const StyledList = styled.ul<{ step: number }>(({ step }) => ({
     margin: "0px",
@@ -15,7 +23,7 @@ const StyledList = styled.ul<{ step: number }>(({ step }) => ({
     transition: "transform 0.4s linear"
 }));
 
-const StyledListItem = styled.li<{ style?: React.CSSProperties }>(({ style }) => ({
+const StyledListItem = styled.li<StyledListItemProps>(({ style }) => ({
     ...style,
     minWidth: "100%",
     height: "325px",
@@ -25,9 +33,7 @@ const StyledListItem = styled.li<{ style?: React.CSSProperties }>(({ style }) =>
     marginTop: 20
 }));
 
-export interface WizardItemProps {
-    formal: FormalWebState<FormData>;
-};
+export interface WizardItemProps { };
 
 export const WizardItem: React.FC<{}> = ({ children }) => (
     <StyledListItem>
@@ -37,20 +43,13 @@ export const WizardItem: React.FC<{}> = ({ children }) => (
 
 export const WizardContainer: React.FC<{}> = ({ children }) => {
     const [{ step }] = useWizard();
-    const childrenWithListItemStyle = React.Children.map(children, (child) => {
-        return (
-            <StyledListItem>
-                { child }
-            </StyledListItem>
-        )
-    });
 
     return (
-        <div style={ { overflow: "hidden", width: "100%" } }>
+        <StyledListWrapper>
             <StyledList step={ step }>
                 { children }
             </StyledList>
-        </div>
+        </StyledListWrapper>
     );
 };
 

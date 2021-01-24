@@ -2,11 +2,9 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { FormalFieldProps } from '@kevinwolf/formal';
-import { FormalWebFieldProps } from "@kevinwolf/formal-web";
-
-import { font, margin } from "./shared/styles";
 import { FormFieldLabel, FormFieldInput } from "./shared/components";
+import { font, margin } from "./shared/styles";
+import { useForm } from "./store";
 import { WizardItem, WizardItemProps } from "./WizardContainer";
 
 const StyledFormFieldGroup = styled.div({
@@ -31,55 +29,46 @@ const StyledSelectInput = styled.select({
     height: 45
 });
 
-interface FormFieldGroupProps extends Partial<FormalFieldProps>, Partial<FormalWebFieldProps> {
-    label?: string;
-    placeholder?: string;
-    required?: boolean;
-    type?: string;
-    validate?: boolean;
-};
-
 const TIME_UNIT_OPTS = ["minute", "hour", "day"];
 
 const SelectOptions: React.FC<{ timeValue: number }> = ({ timeValue }) => (
     <React.Fragment>
         {
-            TIME_UNIT_OPTS.map((value: string, index: number) =>
-                <option key={ index } value={ value }>
-                    { timeValue > 1 ? `${value}s` : value }
+            TIME_UNIT_OPTS.map((timeUnit: string, index: number) =>
+                <option key={ index } value={ timeUnit }>
+                    { timeValue > 1 ? `${timeUnit}s` : timeUnit }
                 </option>
             )
         }
     </React.Fragment>
 );
 
-export const WizardItem3: React.FC<WizardItemProps> = ({
-    formal
-}) => {
+export const WizardItem3: React.FC<WizardItemProps> = () => {
+    const [{ fields: { reminder } }, dispatch] = useForm();
+
     return (
         <WizardItem>
             <StyledFormFieldGroup>
                 <FormFieldLabel label="Remind me about this link in" />
                 <div>
                     <FormFieldInput
-                        { ...formal.getFieldProps("reminderValue") }
                         id="reminderValue"
-                        type="number"
                         min={ 0 }
                         max={ 24 }
-                        maxLength={ 2 }
                         name="reminderValue"
+                        onChange={ dispatch.setInput("reminder") }
+                        required={ false }
                         style={ {
                             flexBasis: 50,
                             marginRight: 15
                         } }
+                        type="number"
+                        value={ reminder?.value }
                     />
                     <StyledSelectInput
-                        { ...formal.getFieldProps("reminderUnit") }
+                        onChange={ dispatch.setInput("reminder")["value"] }
                     >
-                        <SelectOptions timeValue={
-                            formal.getFieldProps("reminderValue").value || 0
-                        } />
+                        <SelectOptions timeValue={ reminder?.value || 0 } />
                     </StyledSelectInput>
                 </div>
             </StyledFormFieldGroup>

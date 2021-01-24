@@ -2,7 +2,8 @@ import React from "react";
 
 import { font, margin } from "./shared/styles";
 import { capitalize } from "./shared/utils";
-import { WizardItemProps } from "./WizardContainer";
+import { useForm } from "./store";
+import { WizardItem, WizardItemProps } from "./WizardContainer";
 
 const infoStyles = {
     marginBottom: margin.small,
@@ -59,31 +60,27 @@ const ReminderInfoElement: React.FC<ReminderInfoElementProps> = ({
     );
 };
 
-export const WizardItem4: React.FC<WizardItemProps> = ({ formal }) => {
-    const { reminderUnit, reminderValue, ...otherFormData } = formal.values;
+export const WizardItem4: React.FC<WizardItemProps> = () => {
+    const [{ fields }] = useForm();
+    const { reminder, ...otherFields } = fields;
 
     return (
-        <React.Fragment>
-            <div>
-                {
-                    Object.entries(otherFormData).map(([key, value], index) => {
-                        return (
-                            <React.Fragment key={ index }>
-                                {
-                                    <InfoElement
-                                        label={ capitalize(key) }
-                                        value={ value }
-                                    />
-                                }
-                            </React.Fragment>
-                        )
-                    })
-                }
-                <ReminderInfoElement
-                    reminderUnit={ reminderUnit }
-                    reminderValue={ reminderValue }
-                />
-            </div>
-        </React.Fragment>
+        <WizardItem>
+            {
+                Object.entries(otherFields).map(([key, value], index) => {
+                    return (
+                        <InfoElement
+                            label={ capitalize(key) }
+                            value={ value }
+                            key={ index }
+                        />
+                    )
+                })
+            }
+            <ReminderInfoElement
+                reminderUnit={ reminder.unit }
+                reminderValue={ reminder.value }
+            />
+        </WizardItem>
     );
 };

@@ -5,7 +5,7 @@ import { onAuthUIStateChange } from '@aws-amplify/ui-components';
 
 import SaveLink from "../SaveLink/SaveLink";
 import { colors, flex, height, width } from "../shared/styles";
-import { AppProvider, AuthProvider, useAuth } from "../store";
+import { AppProvider, AuthProvider, FormProvider, useAuth } from "../store";
 import { Header } from "../Header";
 import { WizardProvider } from "../store/WizardProvider";
 
@@ -17,13 +17,7 @@ const StyledAppContainer = styled.div({
 
 const StyledContent = styled.main({ height: height.full }, flex.center);
 
-export const App = () => (
-    <AuthProvider>
-        <Main />
-    </AuthProvider>
-);
-
-function Main () {
+const Main = () => {
     const [, dispatch] = useAuth();
     const [user, setUser] = React.useState<object | undefined>();
 
@@ -40,10 +34,18 @@ function Main () {
             <StyledContent>
                 <AppProvider>
                     <WizardProvider totalSteps={ 4 }>
-                        <SaveLink />
+                        <FormProvider>
+                            <SaveLink />
+                        </FormProvider>
                     </WizardProvider>
                 </AppProvider>
             </StyledContent>
         </StyledAppContainer>
     );
 };
+
+export const App = () => (
+    <AuthProvider>
+        <Main />
+    </AuthProvider>
+);

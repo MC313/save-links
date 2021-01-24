@@ -1,22 +1,18 @@
 import React from "react";
 
 import styled from "@emotion/styled";
-import useFormal from "@kevinwolf/formal-web";
 
-import { formSchema } from "./schema";
+import { NavButtons } from "../NavButtons";
+import { submitForm } from "./submitFormSerivce";
 import { Card } from "../shared/components";
 import { FormData, FormPayload } from "../shared/types";
 import { toUtcTime, TimeUnit } from "../shared/utils";
-import { useApp, useWizard } from "../store";
-import { submitForm } from "./submitFormSerivce";
+import { useForm, useWizard } from "../store";
 import { WizardContainer } from "../WizardContainer";
 import { WizardItem1 } from "../WizardItem1";
 import { WizardItem2 } from "../WizardItem2";
 import { WizardItem3 } from "../WizardItem3";
 import { WizardItem4 } from "../WizardItem4";
-import { SubmitButton } from "../SubmitButton";
-import { BackButton, ContinueButton } from "../NavButtons";
-
 
 
 const StyledForm = styled.form({
@@ -54,58 +50,33 @@ const handleSubmit = (submitStatus: "SUCCESS" | "ERROR", values: FormPayload) =>
 }
 
 const SaveLink = () => {
-    const [state, dispatch] = useApp();
-    const [{ step, totalSteps }] = useWizard();
-
-    const initialValues: FormData = {
-        name: "",
-        url: "",
-        tags: "",
-        reminderUnit: "",
-        reminderValue: 0,
-        description: ""
-    };
+    const [{ error }, dispatch] = useForm();
+    const [_, setStep] = useWizard();
 
     const submitFormData = (values: FormData) => {
-        dispatch.submitFormError("");
-        dispatch.submittingForm(true);
+        dispatch.formSubmitting();
         submitForm(formatFormData(values))
-            .then((response) => {
-                console.log("RESPONSE: ", response)
-                dispatch.submittingForm(false);
-                formal.reset();
+            .then(() => {
+                dispatch.formSuccess();
+                setStep(1);
             })
-            .catch((error) => {
-                console.log("ERROR: ", error);
-                dispatch.submitFormError(error.message);
-            })
+            .catch((error) => dispatch.formError(error))
     };
-
-    const formal = useFormal<FormData>(initialValues, {
-        onSubmit: submitFormData,
-        schema: formSchema
-    });
 
     return (
         <Card>
-            <StyledForm { ...formal.getFormProps() }>
+            <StyledForm>
                 <WizardContainer>
-                    <WizardItem1 formal={ formal } />
-                    <WizardItem2 formal={ formal } />
-                    <WizardItem3 formal={ formal } />
-                    <WizardItem4 formal={ formal } />
+                    <WizardItem1 />
+                    <WizardItem2 />
+                    <WizardItem3 />
+                    <WizardItem4 />
                 </WizardContainer>
 
-                <div style={ { display: "flex" } }>
-                    { step > 1 && <BackButton /> }
-                    {
-                        step === totalSteps ?
-                            <SubmitButton formal={ formal } /> : <ContinueButton />
-                    }
-                </div>
+                <NavButtons />
 
                 <p style={ { color: "red" } }>
-                    { state.formError }
+                    { error }
                 </p>
             </StyledForm>
         </Card>

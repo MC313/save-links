@@ -4,10 +4,12 @@ import React from "react";
 
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
-
+import * as yup from "yup";
 import { FormalFieldProps } from '@kevinwolf/formal';
 import { FormalWebFieldProps } from "@kevinwolf/formal-web";
 
+import { formSchema } from "../../SaveLink/schema";
+import { FormState } from "../../store";
 import { font, margin } from "../styles";
 import { FormFieldInput } from "./FormFieldInput";
 import { FormFieldLabel } from "./FormFieldLabel";
@@ -30,13 +32,18 @@ interface FormalProps extends Partial<FormalFieldProps>, Omit<FormalWebFieldProp
   id?: string;
 };
 
-export interface FormFieldProps extends FormalProps {
+export interface FormFieldProps {
+  id?: string;
   label?: string;
+  name: string;
   onBlur?: (event: React.FormEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onError?: (error: undefined | string) => void;
   placeholder?: string;
   required?: boolean;
   type?: string;
   validate?: boolean;
+  value: string;
 };
 
 export const FormField: React.FC<FormFieldProps> = ({
@@ -44,11 +51,29 @@ export const FormField: React.FC<FormFieldProps> = ({
   label,
   name,
   onBlur,
+  onChange,
+  onError,
   required = false,
   type = "text",
   validate = false,
+  value,
   ...props
 }) => {
+  const [error, setError] = React.useState<undefined | string>();
+
+  const validateField = (name: string) =>
+    ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+      yup
+        .reach(formSchema, name)
+        .validate(value)
+        .then(() => setError(undefined))
+        .catch(({ errors }) => setError(errors[0]))
+    }
+
+  const handleError = () => {
+    if (error && onError) onError(error)
+  }
+
   return (
     <StyledFormField>
       {
@@ -63,10 +88,13 @@ export const FormField: React.FC<FormFieldProps> = ({
         { ...props }
         id={ id ? id : `${name}Id` }
         name={ name }
-        onBlur={ onBlur }
+        onBlur={ validateField(name) }
+        onChange={ onChange }
+        onError={ handleError }
         required={ required }
+        value={ value }
       />
-      <p>{ props.error }</p>
+      <p>{ error }</p>
     </StyledFormField>
   );
 };

@@ -3,39 +3,30 @@ import React from "react";
 import { FormalWebTextFieldEvent } from "@kevinwolf/formal-web";
 
 import { FormField } from "./shared/components";
-import { useApp } from "./store";
 import { WizardItem, WizardItemProps } from "./WizardContainer";
+import { useForm } from "./store";
 
 
-export const WizardItem2: React.FC<WizardItemProps> = ({
-    formal
-}) => {
-
-    const [, dispatch] = useApp();
-
-    const handleChange = (propName: string) =>
-        ({ target }: FormalWebTextFieldEvent) => {
-            dispatch.updateFormData({ [propName]: target.value });
-        };
-
-    const updateDescription = handleChange("description");
-    const updateTags = handleChange("tags");
+export const WizardItem2: React.FC<WizardItemProps> = () => {
+    const [{ fields }, dispatch] = useForm();
 
     return (
         <WizardItem>
             <FormField
-                { ...formal.getFieldProps("description") }
                 label="Description"
                 name="description"
+                onChange={ dispatch.setInput("description") }
                 placeholder="Description of the saved link"
                 required={ false }
+                value={ fields["description"] as string }
             />
             <FormField
-                { ...formal.getFieldProps("tags") }
                 label="Tags"
                 name="tags"
+                onChange={ dispatch.setInput("tags") }
                 placeholder="Separate, Each, Tag, With, A, Comma"
                 required={ false }
+                value={ fields["tags"] as string }
             />
         </WizardItem>
     );
