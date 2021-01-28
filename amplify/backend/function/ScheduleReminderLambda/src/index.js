@@ -8,7 +8,8 @@ Amplify Params - DO NOT EDIT */
 
 const AWSXRay = require('aws-xray-sdk-core');
 const AWS = AWSXRay.captureAWS(require('aws-sdk'));
-const sendNotificationArn = process.env.FUNCTION_SENDREMINDERNOTIFICATIONLAMBDA_ARN;
+const cwTargetLambdaArn = process.env.FUNCTION_SEND_REMINDER_NOTIFICATION_LAMBDA_ARN;
+const cwTargetSnsArn = process.env.SNS_REMINDER_NOTIFICATION_TOPIC_ARN;
 const CloudWatchEventNamePrefix = process.env.CLOUD_WATCH_EVENT_NAME_PREFIX;
 const CloudWatchEventsIAMRole = process.env.CLOUD_WATCH_EVENTS_ROLE_ARN;
 const region = process.env.REGION;
@@ -28,8 +29,10 @@ exports.handler = async ({ Records }) => {
         const cloudWatchRuleName = `${CloudWatchEventNamePrefix}_${linkId}`;
 
         try {
-            const response = await setCloudWatchRule(cloudWatchRuleName, reminder)
-            await setCloudWatchTarget(cloudWatchRuleName, sendNotificationArn, { ...tableAttributes, linkId })
+            const targetArns = [cwTargetLambdaArn, cwTargetSnsArn];
+            const inputParams = { ...tableAttributes, linkId };
+            await setCloudWatchRule(cloudWatchRuleName, reminder)
+            await setCloudWatchTarget(cloudWatchRuleName, targetArns, inputParams)
 
         } catch (error) {
             console.error("Error processing CloudWatch Event. ", error)
@@ -50,13 +53,18 @@ async function setCloudWatchRule(cloudWatchRuleName, reminder) {
     return response;
 }
 
-async function setCloudWatchTarget(cloudWatchRuleName, targetLambdaArn, InputParams) {
+async function setCloudWatchTarget(cloudWatchRuleName, [targetLambdaArn, targetSnsArn], InputParams) {
     const cloudWatchTargetParams = {
         Rule: cloudWatchRuleName,
         Targets: [
             {
                 Arn: targetLambdaArn,
                 Id: "SendReminderNotificationLambda",
+                Input: JSON.stringify(InputParams)
+            },
+            {
+                Arn: targetSnsArn,
+                Id: "SendReminderNotificationSns",
                 Input: JSON.stringify(InputParams)
             }
         ]

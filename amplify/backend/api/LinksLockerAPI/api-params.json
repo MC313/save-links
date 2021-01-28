@@ -13,6 +13,13 @@
             "privacy": {
                 "open": true
             }
+        },
+        {
+            "name": "/reminder/notifications",
+            "lambdaFunction": "NotificationLambda",
+            "privacy": {
+                "open": true
+            }
         }
     ],
     "resourceName": "LinksLockerAPI",
@@ -23,6 +30,9 @@
         },
         {
             "lambdaFunction": "ListUserLinksLambda"
+        },
+        {
+            "lambdaFunction": "NotificationLambda"
         }
     ],
     "privacy": {
@@ -47,7 +57,15 @@
                 "Name",
                 "Arn"
             ]
+        },
+        {
+            "category": "function",
+            "resourceName": "NotificationLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
         }
     ],
-    "uuid": "77c772ae"
+    "uuid": "1c39fc64"
 }

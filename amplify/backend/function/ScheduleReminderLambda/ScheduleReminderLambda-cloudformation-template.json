@@ -17,6 +17,10 @@
 			"Type": "String",
 			"Default": "functionSendReminderNotificationLambdaArn"
 		},
+		"snsReminderNotificationTopicArn": {
+			"Type": "String",
+			"Default": "snsReminderNotificationTopicArn"
+		},
 		"storageLinksTableName": {
 			"Type": "String",
 			"Default": "storageLinksTableName"
@@ -74,7 +78,7 @@
 						},
 						"CLOUD_WATCH_EVENTS_ROLE_ARN": {
 							"Fn::GetAtt": [
-								"CloudWatchEventsInvokeLambdaExecutionRole",
+								"CloudWatchTriggerResourcesExecutionRole",
 								"Arn"
 							]
 						},
@@ -84,8 +88,11 @@
 						"REGION": {
 							"Ref": "AWS::Region"
 						},
-						"FUNCTION_SENDREMINDERNOTIFICATIONLAMBDA_ARN": {
+						"FUNCTION_SEND_REMINDER_NOTIFICATION_LAMBDA_ARN": {
 							"Ref": "functionSendReminderNotificationLambdaArn"
+						},
+						"SNS_REMINDER_NOTIFICATION_TOPIC_ARN": {
+							"Ref": "snsReminderNotificationTopicArn"
 						},
 						"STORAGE_LINKSTABLE_NAME": {
 							"Ref": "storageLinksTableName"
@@ -110,7 +117,7 @@
 				"Timeout": 25,
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/ScheduleReminderLambda-4d464c4f594d77704c35-build.zip"
+					"S3Key": "amplify-builds/ScheduleReminderLambda-7141656a347a45724a43-build.zip"
 				}
 			}
 		},
@@ -153,18 +160,18 @@
 				}
 			}
 		},
-		"CloudWatchEventsInvokeLambdaExecutionRole": {
+		"CloudWatchTriggerResourcesExecutionRole": {
 			"Type": "AWS::IAM::Role",
 			"Properties": {
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"linkslockerCloudWatchEventsInvokeLambdaRole088f3896",
+						"linkslockerCloudWatchTriggerResourcesExecutionRole088f3896",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"linkslockerCloudWatchEventsInvokeLambdaRole088f3896",
+									"linkslockerCloudWatchTriggerResourcesExecutionRole088f3896",
 									"-",
 									{
 										"Ref": "env"
@@ -333,7 +340,7 @@
 							"Action": "iam:PassRole",
 							"Resource": {
 								"Fn::GetAtt": [
-									"CloudWatchEventsInvokeLambdaExecutionRole",
+									"CloudWatchTriggerResourcesExecutionRole",
 									"Arn"
 								]
 							}
@@ -342,13 +349,13 @@
 				}
 			}
 		},
-		"CloudWatchEventsInvokeLambdaPolicy": {
+		"CloudWatchInvokeLambdaPolicy": {
 			"Type": "AWS::IAM::Policy",
 			"Properties": {
-				"PolicyName": "CloudWatchEventsInvokeLambdaExecutionPolicy",
+				"PolicyName": "CloudWatchInvokeLambdaExecutionPolicy",
 				"Roles": [
 					{
-						"Ref": "CloudWatchEventsInvokeLambdaExecutionRole"
+						"Ref": "CloudWatchTriggerResourcesExecutionRole"
 					}
 				],
 				"PolicyDocument": {
@@ -367,10 +374,32 @@
 				}
 			}
 		},
+		"CloudWatchPublishToSnsTopicPolicy": {
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "CloudWatchEventsPublishToSnsTopicPolicy",
+				"Roles": [
+					{
+						"Ref": "CloudWatchTriggerResourcesExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"sns:Publish"
+							],
+							"Resource": {
+								"Ref": "snsReminderNotificationTopicArn"
+							}
+						}
+					]
+				}
+			}
+		},
 		"LinksTableTriggerPolicy": {
-			"DependsOn": [
-				"LambdaExecutionRole"
-			],
 			"Type": "AWS::IAM::Policy",
 			"Properties": {
 				"PolicyName": "lambda-trigger-policy",

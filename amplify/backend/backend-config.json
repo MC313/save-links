@@ -76,6 +76,13 @@
                     ]
                 },
                 {
+                    "category": "sns",
+                    "resourceName": "ReminderNotificationTopic",
+                    "attributes": [
+                        "Arn"
+                    ]
+                },
+                {
                     "category": "storage",
                     "resourceName": "LinksTable",
                     "attributes": [
@@ -99,6 +106,12 @@
                     ]
                 }
             ]
+        },
+        "NotificationLambda": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": []
         }
     },
     "auth": {
@@ -154,6 +167,14 @@
                         "Name",
                         "Arn"
                     ]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "NotificationLambda",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
                 }
             ]
         }
@@ -162,6 +183,21 @@
         "LinksTable": {
             "service": "DynamoDB",
             "providerPlugin": "awscloudformation"
+        }
+    },
+    "sns": {
+        "ReminderNotificationTopic": {
+            "service": "sns",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "LinksLockerAPI",
+                    "attributes": [
+                        "RootUrl"
+                    ]
+                }
+            ]
         }
     }
 }
