@@ -2,19 +2,17 @@ import React from "react";
 
 
 type SubmitStatus = "INITIAL" | "ERROR" | "SUBMITTING" | "SUBMITTED";
-interface FormFields {
+export interface FormFields {
     name: string;
     url: string;
     description?: string;
     tags?: string;
-    reminder: {
-        unit: string;
-        value: number;
-    };
+    reminderUnit?: string;
+    reminderValue?: number;
 };
 
-interface FormFieldsErrors extends Omit<FormFields, "reminder"> {
-    reminder: ""
+interface FormFieldsErrors extends Omit<FormFields, "reminderValue"> {
+    reminderValue: string;
 };
 
 export interface FormState {
@@ -125,17 +123,16 @@ const form: FormState = {
         url: "",
         description: "",
         tags: "",
-        reminder: {
-            value: 0,
-            unit: ""
-        }
+        reminderUnit: "",
+        reminderValue: 0
     },
     errors: {
         name: "",
         url: "",
         description: "",
         tags: "",
-        reminder: ""
+        reminderUnit: "",
+        reminderValue: ""
     }
 };
 

@@ -1,24 +1,21 @@
 import React from "react";
 
-import { font, margin } from "./shared/styles";
+import styled from "@emotion/styled";
+
 import { capitalize } from "./shared/utils";
 import { useForm } from "./store";
 import { WizardItem, WizardItemProps } from "./WizardContainer";
 
-const infoStyles = {
-    marginBottom: margin.small,
+const StyledDiv = styled.div({
     label: {
-        color: "inherit",
-        marginBottom: 5,
-        fontFamily: 'Arial',
-        fontWeight: 600,
-        letterSpacing: "1px",
+        fontSize: "0.95rem",
+        color: "#909090"
     },
     p: {
-        color: "inherit",
-        fontSize: font.medium,
+        color: "black",
+        margin: "5px 0px 15px 0px"
     },
-};
+});
 
 interface InfoElementProps {
     label: string;
@@ -32,12 +29,12 @@ interface ReminderInfoElementProps {
 
 const InfoElement: React.FC<InfoElementProps> = ({ value, label }) => {
     return (
-        <div style={ infoStyles }>
-            <label style={ { color: "#909090" } }>{ label }</label>
-            <p style={ { color: "black", margin: "5px 0px 20px 0px" } }>
+        <StyledDiv>
+            <label>{ label }</label>
+            <p>
                 { value || "-" }
             </p>
-        </div>
+        </StyledDiv>
     );
 };
 
@@ -45,24 +42,22 @@ const ReminderInfoElement: React.FC<ReminderInfoElementProps> = ({
     reminderUnit,
     reminderValue
 }) => {
-    const formatValue = (unit: string | undefined, value: number | undefined) => {
+    const formatValue = (unit: string = "", value: number = 0) => {
         if (!unit || !value) return "-";
-        return `${reminderValue} ${reminderUnit}s from now`;
+        return `${value} ${value > 1 ? unit + "s" : unit} from now`;
     };
 
     return (
-        <div style={ infoStyles }>
-            <label style={ { color: "#909090" } }>Reminder</label>
-            <p style={ { color: "black", margin: "5px 0px 15px 0px" } }>
-                { formatValue(reminderUnit, reminderValue) }
-            </p>
-        </div>
+        <InfoElement
+            label="Reminder"
+            value={ formatValue(reminderUnit, reminderValue) }
+        />
     );
 };
 
 export const WizardItem4: React.FC<WizardItemProps> = () => {
     const [{ fields }] = useForm();
-    const { reminder, ...otherFields } = fields;
+    const { reminderUnit, reminderValue, ...otherFields } = fields;
 
     return (
         <WizardItem>
@@ -78,8 +73,8 @@ export const WizardItem4: React.FC<WizardItemProps> = () => {
                 })
             }
             <ReminderInfoElement
-                reminderUnit={ reminder.unit }
-                reminderValue={ reminder.value }
+                reminderUnit={ reminderUnit }
+                reminderValue={ reminderValue }
             />
         </WizardItem>
     );

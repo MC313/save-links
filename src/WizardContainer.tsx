@@ -9,7 +9,6 @@ interface StyledListItemProps {
 };
 
 const StyledListWrapper = styled.div({
-    marginBottom: 25,
     overflow: "hidden",
     width: "100%"
 });

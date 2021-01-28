@@ -5,9 +5,9 @@ import styled from "@emotion/styled";
 import { NavButtons } from "../NavButtons";
 import { submitForm } from "./submitFormSerivce";
 import { Card } from "../shared/components";
-import { FormData, FormPayload } from "../shared/types";
+import { FormPayload } from "../shared/types";
 import { toUtcTime, TimeUnit } from "../shared/utils";
-import { useForm, useWizard } from "../store";
+import { FormFields, useForm, useWizard } from "../store";
 import { WizardContainer } from "../WizardContainer";
 import { WizardItem1 } from "../WizardItem1";
 import { WizardItem2 } from "../WizardItem2";
@@ -22,7 +22,7 @@ const StyledForm = styled.form({
     paddingBottom: 30
 })
 
-const formatFormData = (formData: FormData): FormPayload => {
+const formatFormData = (formData: FormFields): FormPayload => {
     const {
         reminderUnit,
         reminderValue,
@@ -37,27 +37,22 @@ const formatFormData = (formData: FormData): FormPayload => {
         url,
         description,
         tags: tags ? tags.split(",").map((tag) => tag.trim()) : [],
-        reminder: toUtcTime(reminderValue, reminderUnit as TimeUnit)
+        reminder: toUtcTime(reminderValue as number, reminderUnit as TimeUnit)
     }
 }
 
-const handleSubmit = (submitStatus: "SUCCESS" | "ERROR", values: FormPayload) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            submitStatus === "SUCCESS" ? resolve(values) : reject("Error submitting form data")
-        }, 4000)
-    })
-}
-
 const SaveLink = () => {
-    const [{ error }, dispatch] = useForm();
+    const [{ error, fields }, dispatch] = useForm();
     const [_, setStep] = useWizard();
 
-    const submitFormData = (values: FormData) => {
-        dispatch.formSubmitting();
-        submitForm(formatFormData(values))
+    const submit = (e: React.FormEvent) => {
+        e.preventDefault()
+        dispatch.formSubmitting()
+        submitForm(formatFormData(fields))
             .then(() => {
-                dispatch.formSuccess();
+                console.log("form submitted successfully!")
+                dispatch.formSuccess()
+                dispatch.resetForm()
                 setStep(1);
             })
             .catch((error) => dispatch.formError(error))
@@ -65,7 +60,7 @@ const SaveLink = () => {
 
     return (
         <Card>
-            <StyledForm>
+            <StyledForm onSubmit={ submit }>
                 <WizardContainer>
                     <WizardItem1 />
                     <WizardItem2 />
