@@ -44,33 +44,11 @@
                 "Subscription": [
                     {
                         "Endpoint": {
-                            "Fn::Sub": "arn:aws:lambda:us-east-1:420408896210:function:NotificationLambda-dev"
-                        },
-                        "Protocol": "lambda"
-                    },
-                    {
-                        "Endpoint": {
-                            "Fn::Sub": "${apiLinksLockerAPIRootUrl}/${env}/reminder/notifications"
+                            "Fn::Sub": "${apiLinksLockerAPIRootUrl}/reminder/notifications"
                         },
                         "Protocol": "https"
                     }
                 ]
-            }
-        },
-        "PublishNotificationsUser": {
-            "Type": "AWS::IAM::User"
-        },
-        "LambdaInvokePermission": {
-            "Type": "AWS::Lambda::Permission",
-            "Properties": {
-                "Action": "lambda:InvokeFunction",
-                "Principal": "sns.amazonaws.com",
-                "SourceArn": {
-                    "Ref": "ReminderNotificationTopic"
-                },
-                "FunctionName": {
-                    "Fn::Sub": "arn:aws:lambda:us-east-1:420408896210:function:NotificationLambda-dev"
-                }
             }
         }
     },
