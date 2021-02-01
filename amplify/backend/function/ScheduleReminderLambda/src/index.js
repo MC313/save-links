@@ -8,10 +8,8 @@ Amplify Params - DO NOT EDIT */
 
 const AWSXRay = require('aws-xray-sdk-core');
 const AWS = AWSXRay.captureAWS(require('aws-sdk'));
-const cwTargetLambdaArn = process.env.FUNCTION_SEND_REMINDER_NOTIFICATION_LAMBDA_ARN;
 const cwTargetSnsArn = process.env.SNS_REMINDER_NOTIFICATION_TOPIC_ARN;
 const CloudWatchEventNamePrefix = process.env.CLOUD_WATCH_EVENT_NAME_PREFIX;
-const CloudWatchEventsIAMRole = process.env.CLOUD_WATCH_EVENTS_ROLE_ARN;
 const region = process.env.REGION;
 
 const cloudWatchClient = new AWS.CloudWatchEvents({ region });
@@ -29,11 +27,9 @@ exports.handler = async ({ Records }) => {
         const cloudWatchRuleName = `${CloudWatchEventNamePrefix}_${linkId}`;
 
         try {
-            const targetArns = [cwTargetLambdaArn, cwTargetSnsArn];
             const inputParams = { ...tableAttributes, linkId };
             await setCloudWatchRule(cloudWatchRuleName, reminder)
-            await setCloudWatchTarget(cloudWatchRuleName, targetArns, inputParams)
-
+            await setCloudWatchTarget(cloudWatchRuleName, cwTargetSnsArn, inputParams)
         } catch (error) {
             console.error("Error processing CloudWatch Event. ", error)
         }
@@ -43,7 +39,6 @@ exports.handler = async ({ Records }) => {
 async function setCloudWatchRule(cloudWatchRuleName, reminder) {
     const cloudWatchRuleParams = {
         Name: cloudWatchRuleName,
-        RoleArn: CloudWatchEventsIAMRole,
         ScheduleExpression: createCronJob(reminder),
         State: "ENABLED"
     }
@@ -53,15 +48,10 @@ async function setCloudWatchRule(cloudWatchRuleName, reminder) {
     return response;
 }
 
-async function setCloudWatchTarget(cloudWatchRuleName, [targetLambdaArn, targetSnsArn], InputParams) {
+async function setCloudWatchTarget(cloudWatchRuleName, targetSnsArn, InputParams) {
     const cloudWatchTargetParams = {
         Rule: cloudWatchRuleName,
         Targets: [
-            {
-                Arn: targetLambdaArn,
-                Id: "SendReminderNotificationLambda",
-                Input: JSON.stringify(InputParams)
-            },
             {
                 Arn: targetSnsArn,
                 Id: "SendReminderNotificationSns",

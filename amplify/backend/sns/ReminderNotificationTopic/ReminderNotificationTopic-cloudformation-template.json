@@ -50,6 +50,33 @@
                     }
                 ]
             }
+        },
+        "ReminderNotificationTopicAccessPolicy": {
+            "Type": "AWS::SNS::TopicPolicy",
+            "Properties": {
+                "PolicyDocument": {
+                    "Statement": [
+                        {
+                            "Sid": "Allow-Cloudwatch-Publish-To-SNS-Topic",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": "events.amazonaws.com"
+                            },
+                            "Action": [
+                                "sns:Publish"
+                            ],
+                            "Resource": {
+                                "Ref": "ReminderNotificationTopic"
+                            }
+                        }
+                    ]
+                },
+                "Topics": [
+                    {
+                        "Ref": "ReminderNotificationTopic"
+                    }
+                ]
+            }
         }
     },
     "Outputs": {

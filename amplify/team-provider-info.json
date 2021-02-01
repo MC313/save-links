@@ -17,8 +17,7 @@
                     "GROUP": "AuthenticatedUsers"
                 },
                 "ScheduleReminderLambda": {},
-                "SaveLinkLambda": {},
-                "SendReminderNotificationLambda": {}
+                "SaveLinkLambda": {}
             },
             "auth": {
                 "LinksLockerAuth": {}
