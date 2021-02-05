@@ -11,3 +11,7 @@ export interface FormPayload extends Object, Pick<FormData, "name" | "url" | "de
     reminder: number | undefined;
     tags: [] | string[];
 };
+
+export interface Notification {
+
+}

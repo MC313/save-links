@@ -64,7 +64,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/NotificationLambda-5456764d717a5a625732-build.zip"
+					"S3Key": "amplify-builds/NotificationLambda-6361794750422b56496e-build.zip"
 				}
 			}
 		},

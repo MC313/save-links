@@ -1,11 +1,17 @@
+exports.handler = async ({ body, httpMethod }) => {
+    const { Message = null } = JSON.parse(body)
 
-
-exports.handler = async (event, context) => {
-    console.log("EVENT: ", JSON.stringify(event, null, 2))
-    console.log("CONTEXT: ", JSON.stringify(context, null, 2))
-    const response = {
+    if (httpMethod !== "POST") {
+        return {
+            statusCode: 400,
+            body: JSON.stringify({
+                message: "Invalid http method. Only POST method allowed."
+            })
+        };
+    }
+    console.log("Notification message processed successfully!")
+    return {
         statusCode: 200,
-        body: JSON.stringify('Reminder notification running......')
+        body: Message
     };
-    return response;
 };

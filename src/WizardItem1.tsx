@@ -6,7 +6,6 @@ import { useForm } from "./store";
 
 export const WizardItem1: React.FC<WizardItemProps> = () => {
     const [{ fields }, dispatch] = useForm();
-
     return (
         <WizardItem>
             <FormField

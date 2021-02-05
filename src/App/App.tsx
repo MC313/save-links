@@ -7,6 +7,7 @@ import SaveLink from "../SaveLink/SaveLink";
 import { colors, flex, height, width } from "../shared/styles";
 import { AppProvider, AuthProvider, FormProvider, useAuth } from "../store";
 import { Header } from "../Header";
+import { Notification } from "../Notifications/Notification";
 import { WizardProvider } from "../store/WizardProvider";
 
 const StyledAppContainer = styled.div({
@@ -30,6 +31,7 @@ const Main = () => {
 
     return (
         <StyledAppContainer className="app">
+            <Notification />
             <Header />
             <StyledContent>
                 <AppProvider>

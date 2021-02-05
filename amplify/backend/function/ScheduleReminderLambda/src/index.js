@@ -16,14 +16,19 @@ const cloudWatchClient = new AWS.CloudWatchEvents({ region });
 
 exports.handler = async ({ Records }) => {
     for (const { eventName, dynamodb } of Records) {
+        validateDynamodbEvent(eventName)
+
         const dynamodbImage = dynamodb["NewImage"];
         const reminderObject = dynamodbImage["reminder"];
 
-        validateDynamodbEvent(eventName)
         validateReminderAttribute(reminderObject)
 
         const reminder = +reminderObject["N"];
-        const { linkId, ...tableAttributes } = getTableAttributes(dynamodbImage, ["linkId", "userId", "name", "url"]);
+        const attributesToGet = ["linkId", "userId", "name", "url"];
+        const {
+            linkId,
+            ...tableAttributes
+        } = getTableAttributes(dynamodbImage, attributesToGet)
         const cloudWatchRuleName = `${CloudWatchEventNamePrefix}_${linkId}`;
 
         try {
@@ -44,7 +49,7 @@ async function setCloudWatchRule(cloudWatchRuleName, reminder) {
     }
 
     const response = await cloudWatchClient.putRule(cloudWatchRuleParams).promise()
-    console.log(`Cloudwatch rule ${cloudWatchRuleName} added successfully!`)
+    console.log(`Cloudwatch rule ${cloudWatchRuleName} created successfully!`)
     return response;
 }
 
@@ -60,7 +65,7 @@ async function setCloudWatchTarget(cloudWatchRuleName, targetSnsArn, InputParams
         ]
     }
     const response = await cloudWatchClient.putTargets(cloudWatchTargetParams).promise()
-    console.log(`Cloudwatch target added successfully for rule ${cloudWatchRuleName}`)
+    console.log(`Cloudwatch target added successfully to rule ${cloudWatchRuleName}`)
     return response;
 }
 
@@ -69,6 +74,7 @@ function createCronJob(reminder) {
     return `cron(${minutes} ${hour} ${day} * ? *)`;
 }
 
+// Helper function to format table attributes into a javascript object
 function getTableAttributes(dynamodbImage, attributes) {
     let attrResults = {};
     attributes.forEach((attributeName) => {
@@ -81,6 +87,7 @@ function getTableAttributes(dynamodbImage, attributes) {
     return attrResults;
 }
 
+// Parses local milliseconds time format into minutes, hour, day, month
 function parseTime(timeInFuture) {
     if (!timeInFuture) throw new Error("Invalid timeInFuture parameter")
     const timeInfutureObject = new Date(timeInFuture)
@@ -99,16 +106,13 @@ function parseTime(timeInFuture) {
 
 function validateDynamodbEvent(eventName) {
     if (eventName !== "INSERT") {
-        console.log(`Invalid dynamodb 'eventName: ${eventName}'. The scheduler function is only run on INSERT events.`)
-        return;
+        throw new Error(`Invalid dynamodb eventName: '${eventName}'. The ScheduleReminderLambda function is only ran on INSERT events.`)
     }
 }
 
 function validateReminderAttribute(reminderObject) {
-    // Check for presence of reminder attribute within table item
-    if (!reminderObject || (reminderObject && reminderObject["NULL"])) {
-        console.log("Table item doesn't contain a valid 'reminder' attribute.")
-        return;
+    if (!reminderObject || reminderObject["NULL"]) {
+        throw new Error("Table item doesn't contain a valid 'reminder' attribute.")
     }
 }
 

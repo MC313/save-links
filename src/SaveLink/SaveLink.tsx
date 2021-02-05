@@ -3,7 +3,7 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import { NavButtons } from "../NavButtons";
-import { submitForm } from "./submitFormSerivce";
+import { saveLink } from "./saveLinkService";
 import { Card } from "../shared/components";
 import { FormPayload } from "../shared/types";
 import { toUtcTime, TimeUnit } from "../shared/utils";
@@ -48,7 +48,7 @@ const SaveLink = () => {
     const submit = (e: React.FormEvent) => {
         e.preventDefault()
         dispatch.formSubmitting()
-        submitForm(formatFormData(fields))
+        saveLink(formatFormData(fields))
             .then(() => {
                 console.log("form submitted successfully!")
                 dispatch.formSuccess()
