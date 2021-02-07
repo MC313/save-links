@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getNotification } from "./notificationService";
+import { onNotificationConnect } from "./notificationService";
 
 const isEmptyObject = (obj: object | undefined) => {
     if (!obj) return true;
@@ -11,15 +11,12 @@ export const Notification: React.FC<{}> = () => {
     const [notification, setNotification] = React.useState<object | undefined>(undefined)
 
     React.useEffect(() => {
-        getNotification()
-            .then((notification) => {
-                console.log("Notification Success: ", notification)
-                setNotification(notification)
-            })
-            .catch(({ message }) => console.log("Notification Error: ", message))
+        onNotificationConnect("1234")
+            .then((message) => console.log("Websocket Message: ", message))
+            .catch((error) => console.log("Websocket Error: ", error))
 
         return () => { }
-    }, [notification])
+    }, [])
 
     return (
         <React.Fragment>

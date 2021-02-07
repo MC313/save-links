@@ -2,7 +2,7 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "SNS resource to receive notification messages from cloudwatch scheduled reminder.",
     "Parameters": {
-        "apiLinksLockerAPIRootUrl": {
+        "functionProcessReminderNotificationLambdaArn": {
             "Type": "String"
         },
         "env": {
@@ -44,9 +44,9 @@
                 "Subscription": [
                     {
                         "Endpoint": {
-                            "Fn::Sub": "${apiLinksLockerAPIRootUrl}/reminder/notifications"
+                            "Ref": "functionProcessReminderNotificationLambdaArn"
                         },
-                        "Protocol": "https"
+                        "Protocol": "lambda"
                     }
                 ]
             }

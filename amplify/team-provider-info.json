@@ -17,7 +17,11 @@
                     "GROUP": "AuthenticatedUsers"
                 },
                 "ScheduleReminderLambda": {},
-                "SaveLinkLambda": {}
+                "SaveLinkLambda": {},
+                "ProcessReminderNotificationLambda": {},
+                "InvokeWebsocketLambda": {},
+                "OnConnectWebsocketLambda": {},
+                "OnDisconnectWebsocketLambda": {}
             },
             "auth": {
                 "LinksLockerAuth": {}

@@ -2,6 +2,11 @@
 	"AWSTemplateFormatVersion": "2010-09-09",
 	"Description": "Lambda Function resource stack creation using Amplify CLI",
 	"Parameters": {
+		"CloudWatchRule": {
+			"Type": "String",
+			"Default": "NONE",
+			"Description": " Schedule Expression"
+		},
 		"env": {
 			"Type": "String"
 		}
@@ -28,12 +33,12 @@
 				"FunctionName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"NotificationLambda",
+						"InvokeWebsocketLambda",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"NotificationLambda",
+									"InvokeWebsocketLambda",
 									"-",
 									{
 										"Ref": "env"
@@ -64,7 +69,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/NotificationLambda-6361794750422b56496e-build.zip"
+					"S3Key": "amplify-builds/InvokeWebsocketLambda-37475375304e57523135-build.zip"
 				}
 			}
 		},
@@ -74,12 +79,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"linkslockerLambdaRole21264436",
+						"linkslockerLambdaRole88378ce3",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"linkslockerLambdaRole21264436",
+									"linkslockerLambdaRole88378ce3",
 									"-",
 									{
 										"Ref": "env"
@@ -108,6 +113,9 @@
 			}
 		},
 		"lambdaexecutionpolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
 			"Type": "AWS::IAM::Policy",
 			"Properties": {
 				"PolicyName": "lambda-execution-policy",

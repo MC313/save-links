@@ -86,7 +86,25 @@
 				}
 			]
 		},
-		"NotificationLambda": {
+		"ProcessReminderNotificationLambda": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": []
+		},
+		"InvokeWebsocketLambda": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": []
+		},
+		"OnConnectWebsocketLambda": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": []
+		},
+		"OnDisconnectWebsocketLambda": {
 			"build": true,
 			"providerPlugin": "awscloudformation",
 			"service": "Lambda",
@@ -146,10 +164,32 @@
 						"Name",
 						"Arn"
 					]
+				}
+			]
+		},
+		"LinksLockerWebsocketAPI": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "InvokeWebsocketLambda",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
 				},
 				{
 					"category": "function",
-					"resourceName": "NotificationLambda",
+					"resourceName": "OnConnectWebsocketLambda",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				},
+				{
+					"category": "function",
+					"resourceName": "OnDisconnectWebsocketLambda",
 					"attributes": [
 						"Name",
 						"Arn"
@@ -170,10 +210,10 @@
 			"providerPlugin": "awscloudformation",
 			"dependsOn": [
 				{
-					"category": "api",
-					"resourceName": "LinksLockerAPI",
+					"category": "function",
+					"resourceName": "ProcessReminderNotificationLambda",
 					"attributes": [
-						"RootUrl"
+						"Arn"
 					]
 				}
 			]
