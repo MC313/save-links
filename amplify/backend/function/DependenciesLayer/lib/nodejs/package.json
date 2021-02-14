@@ -4,6 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "aws-xray-sdk-core": "3.2.0",
+    "axios": "0.21.1",
     "uuid": "8.3.1"
   },
   "devDependencies": {

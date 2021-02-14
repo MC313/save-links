@@ -4,6 +4,13 @@
 	"Parameters": {
 		"env": {
 			"Type": "String"
+		},
+		"apiLinksLockerWebsocketAPIWebSocketConnectionBaseURL": {
+			"Type": "String"
+		},
+		"functionDependenciesLayerArn": {
+			"Type": "String",
+			"Default": "functionDependenciesLayerArn"
 		}
 	},
 	"Conditions": {
@@ -50,6 +57,9 @@
 						},
 						"REGION": {
 							"Ref": "AWS::Region"
+						},
+						"WebSocketConnectionBaseURL": {
+							"Ref": "apiLinksLockerWebsocketAPIWebSocketConnectionBaseURL"
 						}
 					}
 				},
@@ -60,11 +70,15 @@
 					]
 				},
 				"Runtime": "nodejs12.x",
-				"Layers": [],
+				"Layers": [
+					{
+						"Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:DependenciesLayer:2"
+					}
+				],
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/ProcessReminderNotificationLambda-654c5a423247634b4d34-build.zip"
+					"S3Key": "amplify-builds/ProcessReminderNotificationLambda-4f563269652f58703979-build.zip"
 				}
 			}
 		},

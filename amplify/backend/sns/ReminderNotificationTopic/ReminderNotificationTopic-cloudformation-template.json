@@ -5,6 +5,9 @@
         "functionProcessReminderNotificationLambdaArn": {
             "Type": "String"
         },
+        "functionProcessReminderNotificationLambdaName": {
+            "Type": "String"
+        },
         "env": {
             "Type": "String"
         }
@@ -49,6 +52,19 @@
                         "Protocol": "lambda"
                     }
                 ]
+            }
+        },
+        "ProcessReminderNotificationLambdaPermission": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+                "Action": "lambda:InvokeFunction",
+                "FunctionName": {
+                    "Ref": "functionProcessReminderNotificationLambdaName"
+                },
+                "Principal": "sns.amazonaws.com",
+                "SourceArn": {
+                    "Ref": "ReminderNotificationTopic"
+                }
             }
         },
         "ReminderNotificationTopicAccessPolicy": {

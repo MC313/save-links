@@ -9,6 +9,10 @@
 		},
 		"env": {
 			"Type": "String"
+		},
+		"functionDependenciesLayerArn": {
+			"Type": "String",
+			"Default": "functionDependenciesLayerArn"
 		}
 	},
 	"Conditions": {
@@ -65,11 +69,15 @@
 					]
 				},
 				"Runtime": "nodejs12.x",
-				"Layers": [],
+				"Layers": [
+					{
+						"Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:DependenciesLayer:4"
+					}
+				],
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/OnConnectWebsocketLambda-63506e474c5a7a47414e-build.zip"
+					"S3Key": "amplify-builds/OnConnectWebsocketLambda-6248384f7a5559613538-build.zip"
 				}
 			}
 		},
