@@ -21,48 +21,15 @@ type AppWindow = Window & typeof globalThis & {
 };
 
 enum AppTypeKeys {
-    SET_FORM_ERROR = "SET_FORM_ERROR",
-    SET_INPUT_ERROR = "SET_INPUT_ERROR",
-    UPDATE_FORM_DATA = "UPDATE_FORM_DATA",
-    SUBMITTING_FORM = "SUBMITTING_FORM",
-    SUBMIT_FORM_ERROR = "SUBMIT_FORM_ERROR",
-    SUBMIT_FORM_SUCCESS = "SUBMIT_FORM_SUCCESS",
-    SET_LIST_ITEMS = "SET_LIST_ITEMS",
-    ADD_LIST_ITEM = "ADD_LIST_ITEM",
-    REMOVE_LIST_ITEM = "REMOVE_LIST_ITEM"
+    SET_USER_ID = "SET_USER_ID"
 };
 
-interface UpdateFormAction {
-    type: AppTypeKeys.UPDATE_FORM_DATA;
-    payload: Partial<AppState["formData"]>;
+interface SetUserIdAction {
+    type: AppTypeKeys.SET_USER_ID;
+    payload: Partial<AppState["userId"]>;
 };
 
-interface InputErrorAction {
-    type: AppTypeKeys.SET_INPUT_ERROR;
-    payload: AppState["inputError"];
-};
-
-interface SubmittingFormAction {
-    type: AppTypeKeys.SUBMITTING_FORM;
-    payload: AppState["formData"];
-};
-
-interface SubmitFormErrorAction {
-    type: AppTypeKeys.SUBMIT_FORM_ERROR;
-    payload: AppState["formError"];
-};
-
-interface SubmitFormSuccessAction {
-    type: AppTypeKeys.SUBMIT_FORM_SUCCESS;
-    payload?: undefined;
-};
-
-type AppActions =
-    InputErrorAction |
-    UpdateFormAction |
-    SubmittingFormAction |
-    SubmitFormErrorAction |
-    SubmitFormSuccessAction;
+type AppActions = SetUserIdAction;
 
 type AppDispatch = (action: AppActions) => void;
 
@@ -72,12 +39,7 @@ interface AppProviderProps {
     children: React.ReactNode;
 };
 
-type ActionName =
-    "setInputError" |
-    "submittingForm" |
-    "submitFormSuccess" |
-    "submitFormError" |
-    "updateFormData";
+type ActionName = "setUserId";
 
 type AppDispatchHook = {
     [k in ActionName]: (payload?: any) => void
@@ -91,31 +53,10 @@ type AppDispatchHook = {
  */
 const appReducer: AppReducer = (state: AppState, action: AppActions) => {
     switch (action.type) {
-        case AppTypeKeys.UPDATE_FORM_DATA:
+        case AppTypeKeys.SET_USER_ID:
             return {
-                ...state,
-                formData: {
-                    ...state.formData,
-                    ...action.payload,
-                }
+                userId: action.payload
             };
-        case AppTypeKeys.SUBMITTING_FORM:
-            return {
-                ...state,
-                submittingForm: true
-            };
-        case AppTypeKeys.SUBMIT_FORM_SUCCESS:
-            return {
-                ...state,
-                submittingForm: false
-            };
-        case AppTypeKeys.SUBMIT_FORM_ERROR:
-            return {
-                ...state,
-                formError: action.payload,
-                submittingForm: false
-            };
-
         default:
             return state;
     }
@@ -179,30 +120,11 @@ const useAppDispatch = () => {
         throw new Error('useAppDispatch can only be used with AppProvider component.')
     };
     return {
-        submittingForm: (payload: any) =>
+        setUserId: (payload: string) =>
             dispatch({
-                type: AppTypeKeys.SUBMITTING_FORM,
+                type: AppTypeKeys.SET_USER_ID,
                 payload
             }),
-        submitFormSuccess: () =>
-            dispatch({
-                type: AppTypeKeys.SUBMIT_FORM_SUCCESS
-            }),
-        submitFormError: (payload: any) =>
-            dispatch({
-                type: AppTypeKeys.SUBMIT_FORM_ERROR,
-                payload
-            }),
-        updateFormData: (payload: any) =>
-            dispatch({
-                type: AppTypeKeys.UPDATE_FORM_DATA,
-                payload
-            }),
-        setInputError: (payload: any) =>
-            dispatch({
-                type: AppTypeKeys.SET_INPUT_ERROR,
-                payload
-            })
     };
 };
 

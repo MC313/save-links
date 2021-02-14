@@ -22,17 +22,26 @@ const StyledForm = styled.form({
     paddingBottom: 30
 })
 
-const formatFormData = (formData: FormFields): FormPayload => {
+interface FormFieldsWithUserId extends FormFields {
+    userId: string;
+}
+interface FormWithUserId extends FormPayload {
+    userId: string;
+}
+
+const formatFormData = (payload: FormFieldsWithUserId): FormWithUserId => {
     const {
         reminderUnit,
         reminderValue,
         tags,
         name,
         url,
-        description
-    } = formData;
+        description,
+        userId
+    } = payload;
 
     return {
+        userId,
         name,
         url,
         description,
@@ -41,19 +50,23 @@ const formatFormData = (formData: FormFields): FormPayload => {
     }
 }
 
-const SaveLink = () => {
+interface SaveLinkProps {
+    userId: string;
+}
+
+const SaveLink: React.FC<SaveLinkProps> = ({ userId }) => {
     const [{ error, fields }, dispatch] = useForm();
     const [_, setStep] = useWizard();
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault()
         dispatch.formSubmitting()
-        saveLink(formatFormData(fields))
+        saveLink(formatFormData({ userId, ...fields }))
             .then(() => {
                 console.log("form submitted successfully!")
                 dispatch.formSuccess()
                 dispatch.resetForm()
-                setStep(1);
+                setStep(1)
             })
             .catch((error) => dispatch.formError(error))
     };

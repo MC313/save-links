@@ -7,13 +7,15 @@ const isEmptyObject = (obj: object | undefined) => {
     return !Object.keys(obj).length
 };
 
-export const Notification: React.FC<{}> = () => {
+export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
     const [notification, setNotification] = React.useState<object | undefined>(undefined)
 
     React.useEffect(() => {
-        onNotificationConnect("1234")
-            .then((message) => console.log("Websocket Message: ", message))
-            .catch((error) => console.log("Websocket Error: ", error))
+        const socket = onNotificationConnect(userId)
+
+        socket.onAny(({ eventName }) => {
+            console.log("event", eventName)
+        })
 
         return () => { }
     }, [])

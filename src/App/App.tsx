@@ -5,7 +5,7 @@ import { onAuthUIStateChange } from '@aws-amplify/ui-components';
 
 import SaveLink from "../SaveLink/SaveLink";
 import { colors, flex, height, width } from "../shared/styles";
-import { AppProvider, AuthProvider, FormProvider, useAuth } from "../store";
+import { AuthProvider, FormProvider, useAuth } from "../store";
 import { Header } from "../Header";
 import { Notification } from "../Notifications/Notification";
 import { WizardProvider } from "../store/WizardProvider";
@@ -18,7 +18,18 @@ const StyledAppContainer = styled.div({
 
 const StyledContent = styled.main({ height: height.full }, flex.center);
 
+const getUserId = () => {
+    if (sessionStorage.getItem("userId")) {
+        return sessionStorage.getItem("userId")
+    } else {
+        const userId = `GUEST_${Date.now()}`
+        sessionStorage.setItem("userId", userId)
+        return userId
+    }
+}
+
 const Main = () => {
+    const userId: string = getUserId() as string
     const [, dispatch] = useAuth();
     const [user, setUser] = React.useState<object | undefined>();
 
@@ -31,16 +42,14 @@ const Main = () => {
 
     return (
         <StyledAppContainer className="app">
-            <Notification />
+            <Notification userId={ userId } />
             <Header />
             <StyledContent>
-                <AppProvider>
-                    <WizardProvider totalSteps={ 4 }>
-                        <FormProvider>
-                            <SaveLink />
-                        </FormProvider>
-                    </WizardProvider>
-                </AppProvider>
+                <WizardProvider totalSteps={ 4 }>
+                    <FormProvider>
+                        <SaveLink userId={ userId } />
+                    </FormProvider>
+                </WizardProvider>
             </StyledContent>
         </StyledAppContainer>
     );

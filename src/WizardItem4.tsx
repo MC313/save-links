@@ -31,9 +31,7 @@ const InfoElement: React.FC<InfoElementProps> = ({ value, label }) => {
     return (
         <StyledDiv>
             <label>{ label }</label>
-            <p>
-                { value || "-" }
-            </p>
+            <p>{ value || "-" }</p>
         </StyledDiv>
     );
 };

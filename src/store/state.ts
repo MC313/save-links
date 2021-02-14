@@ -1,29 +1,7 @@
 export interface AppState {
-    formData: {
-        name: string | undefined;
-        url: string | undefined;
-        tags?: string;
-        description?: string;
-        reminderUnit?: string;
-        reminderValue?: number;
-    },
-    formError: boolean;
-    inputError: boolean;
-    links: string[] | [];
-    submittingForm: boolean;
+    userId: undefined | string;
 };
 
 export const appState: AppState = {
-    formData: {
-        name: undefined,
-        url: undefined,
-        tags: undefined,
-        description: undefined,
-        reminderUnit: undefined,
-        reminderValue: undefined
-    },
-    formError: false,
-    inputError: false,
-    links: [],
-    submittingForm: false
+    userId: undefined
 };
