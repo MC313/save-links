@@ -2,12 +2,6 @@
     "AWSTemplateFormatVersion": "2010-09-09",
     "Description": "SNS resource to receive notification messages from cloudwatch scheduled reminder.",
     "Parameters": {
-        "functionProcessReminderNotificationLambdaArn": {
-            "Type": "String"
-        },
-        "functionProcessReminderNotificationLambdaName": {
-            "Type": "String"
-        },
         "env": {
             "Type": "String"
         }
@@ -44,27 +38,7 @@
                         }
                     ]
                 },
-                "Subscription": [
-                    {
-                        "Endpoint": {
-                            "Ref": "functionProcessReminderNotificationLambdaArn"
-                        },
-                        "Protocol": "lambda"
-                    }
-                ]
-            }
-        },
-        "ProcessReminderNotificationLambdaPermission": {
-            "Type": "AWS::Lambda::Permission",
-            "Properties": {
-                "Action": "lambda:InvokeFunction",
-                "FunctionName": {
-                    "Ref": "functionProcessReminderNotificationLambdaName"
-                },
-                "Principal": "sns.amazonaws.com",
-                "SourceArn": {
-                    "Ref": "ReminderNotificationTopic"
-                }
+                "Subscription": []
             }
         },
         "ReminderNotificationTopicAccessPolicy": {

@@ -5,5 +5,12 @@
       "resourceName": "DependenciesLayer",
       "version": 4
     }
-  ]
+  ],
+  "permissions": {
+    "storage": {
+      "WebSocketConnectionIdTable": [
+        "update"
+      ]
+    }
+  }
 }

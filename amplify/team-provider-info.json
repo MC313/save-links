@@ -18,13 +18,13 @@
                 },
                 "ScheduleReminderLambda": {},
                 "SaveLinkLambda": {},
-                "ProcessReminderNotificationLambda": {},
                 "InvokeWebsocketLambda": {},
                 "OnConnectWebsocketLambda": {},
                 "OnDisconnectWebsocketLambda": {}
             },
             "auth": {
-                "LinksLockerAuth": {}
+                "LinksLockerAuth": {},
+                "userPoolGroups": {}
             }
         }
     }

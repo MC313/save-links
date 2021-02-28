@@ -1,0 +1,5 @@
+{
+    "tableName": "WebSocketConnectionIdTable",
+    "partitionKeyName": "userId",
+    "partitionKeyType": "S"
+}
