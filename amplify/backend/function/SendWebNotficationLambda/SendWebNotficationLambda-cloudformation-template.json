@@ -84,7 +84,7 @@
 							"Ref": "storageWebSocketConnectionIdTableArn"
 						},
 						"WEBSOCKET_ENDPOINT_URL": {
-							"Fn::Sub": "https://${AWS::AccountId}.execute-api.${AWS::Region}.amazonaws.com/${env}/@connections"
+							"Fn::Sub": "https://${apiLinksLockerWebSocketAPIApiId}.execute-api.${AWS::Region}.amazonaws.com/${env}/@connections"
 						}
 					}
 				},
@@ -103,7 +103,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/SendWebNotficationLambda-4742594e786671545158-build.zip"
+					"S3Key": "amplify-builds/SendWebNotficationLambda-736d48584b55474d6b5a-build.zip"
 				}
 			}
 		},
