@@ -79,18 +79,6 @@
                 }
             }
         },
-        "ConnectRouteResponse": {
-            "Type": "AWS::ApiGatewayV2::RouteResponse",
-            "Properties": {
-                "RouteId": {
-                    "Ref": "ConnectRoute"
-                },
-                "ApiId": {
-                    "Ref": "LinksLockerWebsocketAPI"
-                },
-                "RouteResponseKey": "$default"
-            }
-        },
         "OnConnectWebsocketLambdaPermission": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
@@ -139,14 +127,67 @@
                 }
             }
         },
-        "DisonnectRouteResponse": {
-            "Type": "AWS::ApiGatewayV2::RouteResponse",
+        "SendNotificationIntegration": {
+            "Type": "AWS::ApiGatewayV2::Integration",
             "Properties": {
-                "RouteId": {
-                    "Ref": "DisconnectRoute"
-                },
                 "ApiId": {
                     "Ref": "LinksLockerWebsocketAPI"
+                },
+                "Description": "Send Integration",
+                "IntegrationType": "MOCK",
+                "RequestTemplates": {
+                    "200": "{\"statusCode\" : 200}",
+                    "TemplateSelectionExpression": "200"
+                }
+            }
+        },
+        "SendNotificationIntegrationResponse": {
+            "Type": "AWS::ApiGatewayV2::IntegrationResponse",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "LinksLockerWebsocketAPI"
+                },
+                "IntegrationId": {
+                    "Ref": "SendNotificationIntegration"
+                },
+                "IntegrationResponseKey": "$default",
+                "ResponseTemplates": {
+                    "200": "{\"statusCode\" : 200}",
+                    "400": "{\"statusCode\" : 400}",
+                    "500": "{\"statusCode\" : 500}"
+                }
+            }
+        },
+        "SendNotificationRoute": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "LinksLockerWebsocketAPI"
+                },
+                "RouteKey": "sendnotification",
+                "AuthorizationType": "NONE",
+                "OperationName": "SendNotificationRoute",
+                "Target": {
+                    "Fn::Join": [
+                        "/",
+                        [
+                            "integrations",
+                            {
+                                "Ref": "SendNotificationIntegration"
+                            }
+                        ]
+                    ]
+                }
+            }
+        },
+        "SendNotificationRouteResponse": {
+            "Type": "AWS::ApiGatewayV2::RouteResponse",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "LinksLockerWebsocketAPI"
+                },
+                "RouteId": {
+                    "Ref": "SendNotificationRoute"
                 },
                 "RouteResponseKey": "$default"
             }
