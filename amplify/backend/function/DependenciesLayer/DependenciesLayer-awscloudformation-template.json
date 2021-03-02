@@ -21,7 +21,7 @@
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
 					"S3Key": "amplify-builds/DependenciesLayer-build.zip"
 				},
-				"Description": "Lambda layer version 4",
+				"Description": "Lambda layer version 5",
 				"LayerName": "DependenciesLayer"
 			},
 			"DeletionPolicy": "Retain",
@@ -134,7 +134,13 @@
 			"Properties": {
 				"Action": "lambda:GetLayerVersion",
 				"LayerVersionArn": {
-					"Ref": "LambdaLayer"
+					"Fn::Sub": [
+						"arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:${layerName}:${layerVersion}",
+						{
+							"layerName": "DependenciesLayer",
+							"layerVersion": "4"
+						}
+					]
 				},
 				"Principal": {
 					"Ref": "AWS::AccountId"
@@ -142,6 +148,34 @@
 			}
 		},
 		"LambdaLayerPermissionawsAccounts4204088962104": {
+			"Type": "AWS::Lambda::LayerVersionPermission",
+			"Properties": {
+				"Action": "lambda:GetLayerVersion",
+				"LayerVersionArn": {
+					"Fn::Sub": [
+						"arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:${layerName}:${layerVersion}",
+						{
+							"layerName": "DependenciesLayer",
+							"layerVersion": "4"
+						}
+					]
+				},
+				"Principal": "420408896210"
+			}
+		},
+		"LambdaLayerPermissionprivate5": {
+			"Type": "AWS::Lambda::LayerVersionPermission",
+			"Properties": {
+				"Action": "lambda:GetLayerVersion",
+				"LayerVersionArn": {
+					"Ref": "LambdaLayer"
+				},
+				"Principal": {
+					"Ref": "AWS::AccountId"
+				}
+			}
+		},
+		"LambdaLayerPermissionawsAccounts4204088962105": {
 			"Type": "AWS::Lambda::LayerVersionPermission",
 			"Properties": {
 				"Action": "lambda:GetLayerVersion",

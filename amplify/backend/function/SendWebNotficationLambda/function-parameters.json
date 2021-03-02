@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "api": {
+      "LinksLockerWebSocketAPI": [
+        "read",
+        "update"
+      ]
+    },
+    "storage": {
+      "WebSocketConnectionIdTable": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "DependenciesLayer",
+      "version": 5
+    }
+  ]
+}

@@ -9,6 +9,26 @@
 		},
 		"env": {
 			"Type": "String"
+		},
+		"apiLinksLockerWebSocketAPIApiName": {
+			"Type": "String",
+			"Default": "apiLinksLockerWebSocketAPIApiName"
+		},
+		"apiLinksLockerWebSocketAPIApiId": {
+			"Type": "String",
+			"Default": "apiLinksLockerWebSocketAPIApiId"
+		},
+		"storageWebSocketConnectionIdTableName": {
+			"Type": "String",
+			"Default": "storageWebSocketConnectionIdTableName"
+		},
+		"storageWebSocketConnectionIdTableArn": {
+			"Type": "String",
+			"Default": "storageWebSocketConnectionIdTableArn"
+		},
+		"functionDependenciesLayerArn": {
+			"Type": "String",
+			"Default": "functionDependenciesLayerArn"
 		}
 	},
 	"Conditions": {
@@ -33,12 +53,12 @@
 				"FunctionName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"InvokeWebsocketLambda",
+						"SendWebNotficationLambda",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"InvokeWebsocketLambda",
+									"SendWebNotficationLambda",
 									"-",
 									{
 										"Ref": "env"
@@ -55,6 +75,18 @@
 						},
 						"REGION": {
 							"Ref": "AWS::Region"
+						},
+						"API_LINKSLOCKERWEBSOCKETAPI_APINAME": {
+							"Ref": "apiLinksLockerWebSocketAPIApiName"
+						},
+						"API_LINKSLOCKERWEBSOCKETAPI_APIID": {
+							"Ref": "apiLinksLockerWebSocketAPIApiId"
+						},
+						"STORAGE_WEBSOCKETCONNECTIONIDTABLE_NAME": {
+							"Ref": "storageWebSocketConnectionIdTableName"
+						},
+						"STORAGE_WEBSOCKETCONNECTIONIDTABLE_ARN": {
+							"Ref": "storageWebSocketConnectionIdTableArn"
 						}
 					}
 				},
@@ -65,11 +97,15 @@
 					]
 				},
 				"Runtime": "nodejs12.x",
-				"Layers": [],
+				"Layers": [
+					{
+						"Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:DependenciesLayer:5"
+					}
+				],
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/InvokeWebsocketLambda-7557486e334a63393144-build.zip"
+					"S3Key": "amplify-builds/SendWebNotficationLambda-554f494f6661615a5871-build.zip"
 				}
 			}
 		},
@@ -79,12 +115,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"linkslockerLambdaRole88378ce3",
+						"linkslockerLambdaRole9772ae10",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"linkslockerLambdaRole88378ce3",
+									"linkslockerLambdaRole9772ae10",
 									"-",
 									{
 										"Ref": "env"
@@ -150,6 +186,79 @@
 									}
 								]
 							}
+						}
+					]
+				}
+			}
+		},
+		"AmplifyResourcesPolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "amplify-lambda-execution-policy",
+				"Roles": [
+					{
+						"Ref": "LambdaExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"apigateway:GET",
+								"apigateway:HEAD",
+								"apigateway:OPTIONS",
+								"apigateway:PATCH"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:apigateway:",
+											{
+												"Ref": "AWS::Region"
+											},
+											"::/restapis/",
+											{
+												"Ref": "apiLinksLockerWebSocketAPIApiName"
+											},
+											"/*"
+										]
+									]
+								}
+							]
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:Get*",
+								"dynamodb:BatchGetItem",
+								"dynamodb:List*",
+								"dynamodb:Describe*",
+								"dynamodb:Scan",
+								"dynamodb:Query"
+							],
+							"Resource": [
+								{
+									"Ref": "storageWebSocketConnectionIdTableArn"
+								},
+								{
+									"Fn::Join": [
+										"/",
+										[
+											{
+												"Ref": "storageWebSocketConnectionIdTableArn"
+											},
+											"index/*"
+										]
+									]
+								}
+							]
 						}
 					]
 				}

@@ -10,15 +10,22 @@ const isEmptyObject = (obj: object | undefined) => {
 export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
     const [notification, setNotification] = React.useState<object | undefined>(undefined)
 
-    React.useEffect(() => {
-        const socket = onNotificationConnect(userId)
+    const socket = onNotificationConnect(userId)
 
-        socket.onAny(({ eventName }) => {
-            console.log("event", eventName)
+    React.useEffect(() => {
+        socket.on("connect", (value: any) => {
+            console.log("webSocket connected successfully!! ", socket.connected)
         })
 
         return () => { }
-    }, [])
+    }, [userId])
+
+    socket.on("disconnect", (reason: any) => {
+        console.log("WebSocket disconnected!!", reason)
+        if (reason === "io server disconnect") {
+            socket.connect()
+        }
+    })
 
     return (
         <React.Fragment>

@@ -16,6 +16,10 @@
         },
         "functionOnDisconnectWebsocketLambdaName": {
             "Type": "String"
+        },
+        "LinksLockerWebsocketApiName": {
+            "Type": "String",
+            "Default": "LinksLockerWebsocketAPI"
         }
     },
     "Conditions": {
@@ -32,7 +36,9 @@
         "LinksLockerWebsocketAPI": {
             "Type": "AWS::ApiGatewayV2::Api",
             "Properties": {
-                "Name": "LinksLockerWebsocketAPI",
+                "Name": {
+                    "Ref": "LinksLockerWebsocketApiName"
+                },
                 "ProtocolType": "WEBSOCKET",
                 "RouteSelectionExpression": "$request.body.action"
             }
@@ -182,6 +188,11 @@
                         }
                     ]
                 },
+                "DefaultRouteSettings": {
+                    "DetailedMetricsEnabled": true,
+                    "LoggingLevel": "ERROR",
+                    "DataTraceEnabled": true
+                },
                 "DeploymentId": {
                     "Ref": "LinksLockerWebsocketApiDeployment"
                 },
@@ -192,6 +203,16 @@
         }
     },
     "Outputs": {
+        "ApiId": {
+            "Value": {
+                "Ref": "LinksLockerWebsocketAPI"
+            }
+        },
+        "ApiName": {
+            "Value": {
+                "Ref": "LinksLockerWebsocketApiName"
+            }
+        },
         "WebSocketURI": {
             "Description": "The WSS Protocol URI to connect to",
             "Value": {

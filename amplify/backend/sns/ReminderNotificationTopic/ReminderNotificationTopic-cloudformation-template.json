@@ -4,6 +4,9 @@
     "Parameters": {
         "env": {
             "Type": "String"
+        },
+        "functionSendWebNotficationLambdaArn": {
+            "Type": "String"
         }
     },
     "Conditions": {
@@ -38,7 +41,27 @@
                         }
                     ]
                 },
-                "Subscription": []
+                "Subscription": [
+                    {
+                        "Endpoint": {
+                            "Ref": "functionSendWebNotficationLambdaArn"
+                        },
+                        "Protocol": "lambda"
+                    }
+                ]
+            }
+        },
+        "ProcessReminderNotificationLambdaPermission": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+                "Action": "lambda:InvokeFunction",
+                "FunctionName": {
+                    "Ref": "functionSendWebNotficationLambdaArn"
+                },
+                "Principal": "sns.amazonaws.com",
+                "SourceArn": {
+                    "Ref": "ReminderNotificationTopic"
+                }
             }
         },
         "ReminderNotificationTopicAccessPolicy": {

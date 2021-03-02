@@ -4,6 +4,14 @@
 	"Parameters": {
 		"env": {
 			"Type": "String"
+		},
+		"storageWebSocketConnectionIdTableName": {
+			"Type": "String",
+			"Default": "storageWebSocketConnectionIdTableName"
+		},
+		"storageWebSocketConnectionIdTableArn": {
+			"Type": "String",
+			"Default": "storageWebSocketConnectionIdTableArn"
 		}
 	},
 	"Conditions": {
@@ -50,6 +58,12 @@
 						},
 						"REGION": {
 							"Ref": "AWS::Region"
+						},
+						"STORAGE_WEBSOCKETCONNECTIONIDTABLE_NAME": {
+							"Ref": "storageWebSocketConnectionIdTableName"
+						},
+						"STORAGE_WEBSOCKETCONNECTIONIDTABLE_ARN": {
+							"Ref": "storageWebSocketConnectionIdTableArn"
 						}
 					}
 				},
@@ -64,7 +78,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/OnDisconnectWebsocketLambda-743834766f4e67665532-build.zip"
+					"S3Key": "amplify-builds/OnDisconnectWebsocketLambda-2f4f6b5a366b4d4c6171-build.zip"
 				}
 			}
 		},
@@ -145,6 +159,47 @@
 									}
 								]
 							}
+						}
+					]
+				}
+			}
+		},
+		"AmplifyResourcesPolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "amplify-lambda-execution-policy",
+				"Roles": [
+					{
+						"Ref": "LambdaExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:Delete*"
+							],
+							"Resource": [
+								{
+									"Ref": "storageWebSocketConnectionIdTableArn"
+								},
+								{
+									"Fn::Join": [
+										"/",
+										[
+											{
+												"Ref": "storageWebSocketConnectionIdTableArn"
+											},
+											"index/*"
+										]
+									]
+								}
+							]
 						}
 					]
 				}

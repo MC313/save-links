@@ -86,12 +86,6 @@
 				}
 			]
 		},
-		"InvokeWebsocketLambda": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda",
-			"dependsOn": []
-		},
 		"OnConnectWebsocketLambda": {
 			"build": true,
 			"providerPlugin": "awscloudformation",
@@ -111,7 +105,46 @@
 			"build": true,
 			"providerPlugin": "awscloudformation",
 			"service": "Lambda",
-			"dependsOn": []
+			"dependsOn": [
+				{
+					"category": "storage",
+					"resourceName": "WebSocketConnectionIdTable",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"SendWebNotficationLambda": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": [
+				{
+					"category": "api",
+					"resourceName": "LinksLockerWebSocketAPI",
+					"attributes": [
+						"ApiName",
+						"ApiId"
+					]
+				},
+				{
+					"category": "storage",
+					"resourceName": "WebSocketConnectionIdTable",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				},
+				{
+					"category": "function",
+					"resourceName": "DependenciesLayer",
+					"attributes": [
+						"Arn"
+					]
+				}
+			]
 		}
 	},
 	"auth": {
@@ -206,7 +239,16 @@
 	"sns": {
 		"ReminderNotificationTopic": {
 			"service": "sns",
-			"providerPlugin": "awscloudformation"
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "SendWebNotficationLambda",
+					"attributes": [
+						"Arn"
+					]
+				}
+			]
 		}
 	}
 }

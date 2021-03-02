@@ -18,9 +18,9 @@
                 },
                 "ScheduleReminderLambda": {},
                 "SaveLinkLambda": {},
-                "InvokeWebsocketLambda": {},
                 "OnConnectWebsocketLambda": {},
-                "OnDisconnectWebsocketLambda": {}
+                "OnDisconnectWebsocketLambda": {},
+                "SendWebNotficationLambda": {}
             },
             "auth": {
                 "LinksLockerAuth": {},
