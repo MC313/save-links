@@ -86,7 +86,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/OnConnectWebsocketLambda-4e42524c3175794c3133-build.zip"
+					"S3Key": "amplify-builds/OnConnectWebsocketLambda-66546435664d49656966-build.zip"
 				}
 			}
 		},
@@ -190,7 +190,7 @@
 						{
 							"Effect": "Allow",
 							"Action": [
-								"dynamodb:Update*",
+								"dynamodb:UpdateItem",
 								"dynamodb:RestoreTable*"
 							],
 							"Resource": [

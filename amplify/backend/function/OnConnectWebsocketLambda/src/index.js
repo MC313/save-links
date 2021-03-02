@@ -12,18 +12,14 @@ const tableName = process.env.STORAGE_WEBSOCKETCONNECTIONIDTABLE_NAME
 const dbClient = new AWS.DynamoDB.DocumentClient({ region })
 
 exports.handler = async ({ queryStringParameters, requestContext }) => {
-    const connectionId = requestContext.connectionId
+    const connectionId = requestContext["connectionId"]
     const userId = queryStringParameters["userId"]
 
     if (!userId) throw new Error("Invalid userId!")
+    if (!connectionId) throw new Error("Invalid connectionId!")
 
     try {
-        const tableParams = {
-            tableName,
-            Key: { userId },
-            Item: { connectionId }
-        }
-        await dbClient.put(tableParams)
+        await updateConnectionId(connectionId, userId)
         console.log(`Websocket connected successfully! connectionId: ${connectionId}`)
         return {
             statusCode: 200,
@@ -38,3 +34,18 @@ exports.handler = async ({ queryStringParameters, requestContext }) => {
         }
     }
 };
+
+async function updateConnectionId(connectionId, userId) {
+    var params = {
+        TableName: tableName,
+        Key: { "userId": userId },
+        UpdateExpression: "set connectionId = :connectionId",
+        ExpressionAttributeValues: {
+            ":connectionId": connectionId
+        },
+        ReturnValues: "UPDATED_NEW"
+    }
+    const dbItem = await dbClient.update(params).promise()
+    return dbItem;
+
+} 
