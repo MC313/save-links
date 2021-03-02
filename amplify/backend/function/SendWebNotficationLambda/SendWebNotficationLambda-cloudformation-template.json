@@ -2,11 +2,6 @@
 	"AWSTemplateFormatVersion": "2010-09-09",
 	"Description": "Lambda Function resource stack creation using Amplify CLI",
 	"Parameters": {
-		"CloudWatchRule": {
-			"Type": "String",
-			"Default": "NONE",
-			"Description": " Schedule Expression"
-		},
 		"env": {
 			"Type": "String"
 		},
@@ -87,6 +82,9 @@
 						},
 						"STORAGE_WEBSOCKETCONNECTIONIDTABLE_ARN": {
 							"Ref": "storageWebSocketConnectionIdTableArn"
+						},
+						"WEBSOCKET_ENDPOINT_URL": {
+							"Fn::Sub": "https://${AWS::AccountId}.execute-api.${AWS::Region}.amazonaws.com/${env}/@connections"
 						}
 					}
 				},
@@ -105,7 +103,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/SendWebNotficationLambda-554f494f6661615a5871-build.zip"
+					"S3Key": "amplify-builds/SendWebNotficationLambda-4742594e786671545158-build.zip"
 				}
 			}
 		},

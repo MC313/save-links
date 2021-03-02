@@ -6,13 +6,13 @@
 Amplify Params - DO NOT EDIT */
 const AWSXRay = require('aws-xray-sdk-core')
 const AWS = AWSXRay.captureAWS(require('aws-sdk'))
-const endpoint = ""
+const webSocketEndpoint = process.env.WEBSOCKET_ENDPOINT_URL
 const env = process.env.ENV
 const region = process.env.REGION
 const tableName = process.env.STORAGE_WEBSOCKETCONNECTIONIDTABLE_NAME
 const apiGwManagementClient = new AWS.ApiGatewayManagementApi({
     region,
-    endpoint
+    endpoint: webSocketEndpoint
 })
 const dbClient = new AWS.DynamoDB.DocumentClient({ region })
 
@@ -23,18 +23,12 @@ exports.handler = async ({ Records }) => {
             const { userId, ...linkInfo } = message;
             const connectionId = await getConnectionId(userId)
             await publishToWebSocket(connectionId, linkInfo)
+            console.log("Notification published successfully!!")
         }
-
     } catch (error) {
-
+        console.error(`Error publishing notification. ${error}`)
     }
-    // TODO implement
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify('Notification function running successfully!!')
-    };
-    return response;
-};
+}
 
 async function getConnectionId(userId) {
     const tableParams = {
