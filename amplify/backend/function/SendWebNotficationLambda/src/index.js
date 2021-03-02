@@ -32,7 +32,7 @@ exports.handler = async ({ Records }) => {
 
 async function getConnectionId(userId) {
     const tableParams = {
-        tableName,
+        TableName: tableName,
         Key: { userId },
         AttributesToGet: ["connectionId"]
     }
