@@ -32,8 +32,6 @@ const StyledListItem = styled.li<StyledListItemProps>(({ style }) => ({
     marginTop: 20
 }));
 
-export interface WizardItemProps { };
-
 export const WizardItem: React.FC<{}> = ({ children }) => (
     <StyledListItem>
         { children }

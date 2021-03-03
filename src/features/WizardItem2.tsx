@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import { FormFieldLabel, FormFieldInput } from "../shared/components";
 import { font, margin } from "../shared/styles";
 import { useForm } from "../store";
-import { WizardItem, WizardItemProps } from "./WizardContainer";
+import { WizardItem } from "./WizardContainer";
 
 const StyledFormFieldGroup = styled.div({
     width: "98%",
@@ -54,7 +54,7 @@ const Dropdown: React.FC<DropdownProps> = ({ onChange, options }) => {
     )
 };
 
-export const WizardItem2: React.FC<WizardItemProps> = () => {
+export const WizardItem2: React.FC<{}> = () => {
     const [{ fields }, dispatch] = useForm();
     const { reminderValue } = fields;
 

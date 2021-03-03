@@ -16,7 +16,7 @@ export const StepsIndicator: React.FC<{}> = () => {
 
     return (
         <StyledText>
-            Step {step } of {totalSteps }
+            Step { step } of { totalSteps }
         </StyledText>
     );
 };

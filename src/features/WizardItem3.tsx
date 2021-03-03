@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import { capitalize } from "../shared/utils";
 import { useForm } from "../store";
-import { WizardItem, WizardItemProps } from "./WizardContainer";
+import { WizardItem } from "./WizardContainer";
 
 const StyledDiv = styled.div({
     label: {
@@ -17,7 +17,7 @@ const StyledDiv = styled.div({
     },
 });
 
-export const WizardItem3: React.FC<WizardItemProps> = () => {
+export const WizardItem3: React.FC<{}> = () => {
     const [{ fields }] = useForm();
     const { reminderUnit, reminderValue, ...otherFields } = fields;
     return (
