@@ -6,6 +6,7 @@ import { NavButtons } from "../NavButtons";
 import { saveLink } from "./saveLinkService";
 import { Card } from "../../shared/components";
 import { FormPayload } from "../../shared/types";
+import { StepsIndicator } from "../StepsIndicator/StepsIndicator";
 import { toUtcTime, TimeUnit } from "../../shared/utils";
 import { FormFields, useForm, useWizard } from "../../store";
 import { WizardContainer } from "../WizardContainer";
@@ -39,6 +40,7 @@ export const SaveLinkForm: React.FC<SaveLinkProps> = ({ userId }) => {
 
     return (
         <Card>
+            <StepsIndicator />
             <StyledForm onSubmit={ submit }>
                 <WizardContainer>
                     <WizardItem1 />
