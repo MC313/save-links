@@ -1,6 +1,6 @@
 import { API } from "aws-amplify";
 
-import { FormPayload } from "../shared/types";
+import { FormPayload } from "../../shared/types";
 
 export const saveLink = async (payload: FormPayload) => {
     console.log("PAYLOAD: ", payload)

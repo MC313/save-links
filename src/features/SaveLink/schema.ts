@@ -1,11 +1,10 @@
 import * as yup from "yup";
 
-import { FormData } from "../shared/types";
+import { FormData } from "../../shared/types";
 
 type FormSchema = yup.Schema<FormData>;
 
 export const formSchema: FormSchema = yup.object().shape({
-    name: yup.string().required("Name is required"),
     url: yup.string().url("Invalid url value").required("Url is required"),
     description: yup.string(),
     tags: yup.string(),

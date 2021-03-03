@@ -2,7 +2,7 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { useWizard } from "./store";
+import { useWizard } from "../store";
 
 interface StyledListItemProps {
     style?: React.CSSProperties;
@@ -25,7 +25,7 @@ const StyledList = styled.ul<{ step: number }>(({ step }) => ({
 const StyledListItem = styled.li<StyledListItemProps>(({ style }) => ({
     ...style,
     minWidth: "100%",
-    height: "325px",
+    height: "290px",
     display: "flex",
     flexDirection: "column",
     margin: "auto",

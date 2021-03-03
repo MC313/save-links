@@ -3,7 +3,6 @@ import React from "react";
 
 type SubmitStatus = "INITIAL" | "ERROR" | "SUBMITTING" | "SUBMITTED";
 export interface FormFields {
-    name: string;
     url: string;
     description?: string;
     tags?: string;
@@ -119,15 +118,13 @@ const form: FormState = {
     status: "INITIAL",
     error: undefined,
     fields: {
-        name: "",
         url: "",
         description: "",
         tags: "",
-        reminderUnit: "",
+        reminderUnit: "minutes",
         reminderValue: 0
     },
     errors: {
-        name: "",
         url: "",
         description: "",
         tags: "",

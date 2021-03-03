@@ -1,17 +1,23 @@
 import React from "react";
 
-import { FormalWebTextFieldEvent } from "@kevinwolf/formal-web";
-
-import { FormField } from "./shared/components";
 import { WizardItem, WizardItemProps } from "./WizardContainer";
-import { useForm } from "./store";
+import { FormField } from "../shared/components";
+import { useForm } from "../store";
 
-
-export const WizardItem2: React.FC<WizardItemProps> = () => {
+export const WizardItem1: React.FC<WizardItemProps> = () => {
     const [{ fields }, dispatch] = useForm();
-
     return (
         <WizardItem>
+            <FormField
+                label="Link url"
+                name="url"
+                onChange={ dispatch.setInput("url") }
+                onError={ (err) => console.log("URL ERROR: ", err) }
+                placeholder="https://testing-library.com/docs/"
+                required={ true }
+                type="url"
+                value={ fields["url"] as string }
+            />
             <FormField
                 label="Description"
                 name="description"

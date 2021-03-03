@@ -3,11 +3,11 @@ import React from "react";
 import styled from "@emotion/styled";
 import { onAuthUIStateChange } from '@aws-amplify/ui-components';
 
-import SaveLink from "../SaveLink/SaveLink";
+import { SaveLinkForm } from "../features/SaveLink/SaveLinkForm";
 import { colors, flex, height, width } from "../shared/styles";
 import { AuthProvider, FormProvider, useAuth } from "../store";
 import { Header } from "../Header";
-import { Notification } from "../Notifications/Notification";
+import { Notification } from "../features/Notifications/Notification";
 import { WizardProvider } from "../store/WizardProvider";
 
 const StyledAppContainer = styled.div({
@@ -45,9 +45,9 @@ const Main = () => {
             <Notification userId={ userId } />
             <Header />
             <StyledContent>
-                <WizardProvider totalSteps={ 4 }>
+                <WizardProvider totalSteps={ 3 }>
                     <FormProvider>
-                        <SaveLink userId={ userId } />
+                        <SaveLinkForm userId={ userId } />
                     </FormProvider>
                 </WizardProvider>
             </StyledContent>

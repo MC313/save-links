@@ -1,5 +1,4 @@
 export interface FormData extends Object {
-    name: string;
     url: string;
     tags?: string;
     reminderUnit: string;
@@ -7,7 +6,7 @@ export interface FormData extends Object {
     description?: string;
 };
 
-export interface FormPayload extends Object, Pick<FormData, "name" | "url" | "description"> {
+export interface FormPayload extends Object, Pick<FormData, "url" | "description"> {
     reminder: number | undefined;
     tags: [] | string[];
 };

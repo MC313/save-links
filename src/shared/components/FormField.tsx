@@ -5,10 +5,8 @@ import React from "react";
 import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import * as yup from "yup";
-import { FormalFieldProps } from '@kevinwolf/formal';
-import { FormalWebFieldProps } from "@kevinwolf/formal-web";
 
-import { formSchema } from "../../SaveLink/schema";
+import { formSchema } from "../../features/SaveLink/schema";
 import { FormState } from "../../store";
 import { font, margin } from "../styles";
 import { FormFieldInput } from "./FormFieldInput";
@@ -16,9 +14,9 @@ import { FormFieldLabel } from "./FormFieldLabel";
 
 const StyledFormField = styled.div({
   overflow: "hidden",
-  width: "98%",
+  width: "94%",
   margin: "0 auto",
-  marginBottom: margin.medium,
+  marginBottom: margin.extraSmall,
   p: {
     minHeight: "20px",
     height: "20px",
@@ -27,10 +25,6 @@ const StyledFormField = styled.div({
     color: "red"
   }
 });
-
-interface FormalProps extends Partial<FormalFieldProps>, Omit<FormalWebFieldProps, "id"> {
-  id?: string;
-};
 
 export interface FormFieldProps {
   id?: string;
