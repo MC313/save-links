@@ -26,20 +26,6 @@ const StyledFormField = styled.div({
   }
 });
 
-export interface FormFieldProps {
-  id?: string;
-  label?: string;
-  name: string;
-  onBlur?: (event: React.FormEvent<HTMLInputElement>) => void;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onError?: (error: undefined | string) => void;
-  placeholder?: string;
-  required?: boolean;
-  type?: string;
-  validate?: boolean;
-  value: string;
-};
-
 export const FormField: React.FC<FormFieldProps> = ({
   id,
   label,
@@ -91,4 +77,18 @@ export const FormField: React.FC<FormFieldProps> = ({
       <p>{ error }</p>
     </StyledFormField>
   );
+};
+
+export interface FormFieldProps {
+  id?: string;
+  label?: string;
+  name: string;
+  onBlur?: (event: React.FormEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onError?: (error: undefined | string) => void;
+  placeholder?: string;
+  required?: boolean;
+  type?: string;
+  validate?: boolean;
+  value: string;
 };

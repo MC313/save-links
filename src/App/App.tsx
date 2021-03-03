@@ -18,15 +18,11 @@ const StyledAppContainer = styled.div({
 
 const StyledContent = styled.main({ height: height.full }, flex.center);
 
-const getUserId = () => {
-    if (sessionStorage.getItem("userId")) {
-        return sessionStorage.getItem("userId")
-    } else {
-        const userId = `GUEST_${Date.now()}`
-        sessionStorage.setItem("userId", userId)
-        return userId
-    }
-}
+export const App = () => (
+    <AuthProvider>
+        <Main />
+    </AuthProvider>
+);
 
 const Main = () => {
     const userId: string = getUserId() as string
@@ -55,8 +51,12 @@ const Main = () => {
     );
 };
 
-export const App = () => (
-    <AuthProvider>
-        <Main />
-    </AuthProvider>
-);
+const getUserId = () => {
+    if (sessionStorage.getItem("userId")) {
+        return sessionStorage.getItem("userId")
+    } else {
+        const userId = `GUEST_${Date.now()}`
+        sessionStorage.setItem("userId", userId)
+        return userId
+    }
+}
