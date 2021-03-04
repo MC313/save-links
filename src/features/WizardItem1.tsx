@@ -1,10 +1,10 @@
 import React from "react";
 
-import { WizardItem, WizardItemProps } from "./WizardContainer";
+import { WizardItem } from "./WizardContainer";
 import { FormField } from "../shared/components";
 import { useForm } from "../store";
 
-export const WizardItem1: React.FC<WizardItemProps> = () => {
+export const WizardItem1: React.FC<{}> = () => {
     const [{ fields }, dispatch] = useForm();
     return (
         <WizardItem>
