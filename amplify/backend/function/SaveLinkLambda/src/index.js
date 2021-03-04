@@ -50,7 +50,7 @@ exports.handler = async (event) => {
 
 
 function paramsValid(params) {
-    const requiredParams = ["name", "url", "userId"];
+    const requiredParams = ["url", "userId"];
     for (const param of requiredParams) {
         if (!params[param]) return false;
     }
