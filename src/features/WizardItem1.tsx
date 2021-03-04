@@ -6,13 +6,14 @@ import { useForm } from "../store";
 
 export const WizardItem1: React.FC<{}> = () => {
     const [{ fields }, dispatch] = useForm();
+
     return (
         <WizardItem>
             <FormField
                 label="Link url"
                 name="url"
                 onChange={ dispatch.setInput("url") }
-                onError={ (err) => console.log("URL ERROR: ", err) }
+                onError={ () => dispatch.setInputError("url") }
                 placeholder="https://testing-library.com/docs/"
                 required={ true }
                 type="url"

@@ -46,13 +46,15 @@ export const FormField: React.FC<FormFieldProps> = ({
       yup
         .reach(formSchema, name)
         .validate(value)
-        .then(() => setError(undefined))
-        .catch(({ errors }) => setError(errors[0]))
+        .then(() => {
+          setError(undefined)
+          console.log("no error")
+        })
+        .catch(({ errors }) => {
+          setError(errors[0])
+          onError && onError()
+        })
     }
-
-  const handleError = () => {
-    if (error && onError) onError(error)
-  }
 
   return (
     <StyledFormField>
@@ -70,7 +72,6 @@ export const FormField: React.FC<FormFieldProps> = ({
         name={ name }
         onBlur={ validateField(name) }
         onChange={ onChange }
-        onError={ handleError }
         required={ required }
         value={ value }
       />
@@ -85,7 +86,7 @@ export interface FormFieldProps {
   name: string;
   onBlur?: (event: React.FormEvent<HTMLInputElement>) => void;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onError?: (error: undefined | string) => void;
+  onError?: Function;
   placeholder?: string;
   required?: boolean;
   type?: string;

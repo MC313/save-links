@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import { radius } from "../styles";
 
-const Card = styled.div({
+export const Card = styled.div({
     width: "45%",
     maxWidth: "350px",
     height: "auto",
@@ -19,5 +19,3 @@ const Card = styled.div({
     boxShadow: "5px 5px 25px 0 rgba(46, 61, 73, 0.3)",
     backgroundColor: "white"
 });
-
-export default Card;

@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import { font, radius } from "../../shared/styles";
 
-const StyledButton = styled.button({
+const StyledButton = styled.button<NavButtonProps>(props => ({
     width: "92%",
     height: "44px",
     margin: "0px 13px",
@@ -13,22 +13,17 @@ const StyledButton = styled.button({
     backgroundColor: "black",
     borderColor: "black",
     color: "white",
-    "&:disabled": {
-        opacity: "0.7",
-    }
-});
-
-export interface NavButtonProps {
-    onClick: () => void;
-    style?: React.CSSProperties
-};
+    opacity: props.disabled ? "0.7" : "1",
+}));
 
 export const NavButton: React.FC<NavButtonProps> = ({
     children,
     onClick,
-    style
+    style,
+    ...props
 }) => (
     <StyledButton
+        { ...props }
         onClick={ onClick }
         style={ style }
         type="button"
@@ -36,3 +31,8 @@ export const NavButton: React.FC<NavButtonProps> = ({
         { children }
     </StyledButton>
 );
+
+export interface NavButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
+    onClick: () => void;
+    style?: React.CSSProperties
+};

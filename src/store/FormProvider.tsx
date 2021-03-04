@@ -19,6 +19,7 @@ export interface FormState {
     error?: string;
     fields: FormFields;
     errors: FormFieldsErrors;
+    hasError: boolean;
 };
 
 /**
@@ -81,7 +82,7 @@ interface FormErrorAction {
 
 interface SetInputErrorAction {
     type: FormTypeKeys.SET_INPUT_ERROR;
-    payload: { field: keyof FormFields, value: string };
+    payload: keyof FormFields;
 };
 
 type FormActions =
@@ -130,7 +131,8 @@ const form: FormState = {
         tags: "",
         reminderUnit: "",
         reminderValue: ""
-    }
+    },
+    hasError: false
 };
 
 /**
@@ -145,13 +147,15 @@ const formReducer: FormReducer = (state, action) => {
             const { field: inputField, value: inputValue } = payload as SetInputValueAction["payload"];
             return {
                 ...state,
-                fields: { ...state.fields, [inputField]: inputValue }
+                fields: { ...state.fields, [inputField]: inputValue },
+                hasError: false
             };
         case FormTypeKeys.SET_INPUT_ERROR:
-            const { field: errorField, value: errorValue } = payload as SetInputErrorAction["payload"];
+            const inputKey = payload as SetInputErrorAction["payload"];
             return {
                 ...state,
-                errors: { ...state.errors, [errorField]: errorValue }
+                errors: { ...state.errors, [inputKey]: true },
+                hasError: true,
             };
         case FormTypeKeys.SUBMITTING_FORM:
             return {
@@ -263,7 +267,7 @@ const useFormDispatch = () => {
                         value
                     } as SetInputValueAction["payload"]
                 }),
-        setInputError: (payload: SetInputErrorAction["payload"]) =>
+        setInputError: (payload: SetInputValueAction["payload"]["field"]) =>
             dispatch({
                 type: FormTypeKeys.SET_INPUT_ERROR,
                 payload
