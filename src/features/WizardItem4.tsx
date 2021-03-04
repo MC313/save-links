@@ -2,8 +2,8 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { capitalize } from "./shared/utils";
-import { useForm } from "./store";
+import { capitalize } from "../shared/utils";
+import { useForm } from "../store";
 import { WizardItem, WizardItemProps } from "./WizardContainer";
 
 const StyledDiv = styled.div({

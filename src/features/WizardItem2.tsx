@@ -2,15 +2,10 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { FormFieldLabel, FormFieldInput } from "./shared/components";
-import { font, margin } from "./shared/styles";
-import { useForm } from "./store";
+import { FormFieldLabel, FormFieldInput } from "../shared/components";
+import { font, margin } from "../shared/styles";
+import { useForm } from "../store";
 import { WizardItem, WizardItemProps } from "./WizardContainer";
-
-interface DropdownProps {
-    options: string[];
-    onChange: () => void;
-}
 
 const StyledFormFieldGroup = styled.div({
     width: "98%",
@@ -59,7 +54,7 @@ const Dropdown: React.FC<DropdownProps> = ({ onChange, options }) => {
     )
 };
 
-export const WizardItem3: React.FC<WizardItemProps> = () => {
+export const WizardItem2: React.FC<WizardItemProps> = () => {
     const [{ fields }, dispatch] = useForm();
     const { reminderValue } = fields;
 
@@ -91,3 +86,8 @@ export const WizardItem3: React.FC<WizardItemProps> = () => {
         </WizardItem>
     );
 };
+
+interface DropdownProps {
+    options: string[];
+    onChange: () => void;
+}

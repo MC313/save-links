@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import { font, padding, radius, height } from "../styles";
 
 const StyledInput = styled.input({
-  width: "95%",
+  width: "93%",
   minHeight: height.small,
   height: "7vh",
   maxHeight: "40px",

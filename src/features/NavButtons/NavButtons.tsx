@@ -5,12 +5,17 @@ import styled from "@emotion/styled";
 import { BackButton } from "./BackButton";
 import { ContinueButton } from "./ContinueButton";
 import { SubmitButton } from "./SubmitButton";
-import { useWizard } from "../store";
+import { useWizard } from "../../store";
 
 const StyledButtonContainer = styled.div({
+    width: "100%",
     display: "flex",
-    flexBasis: 55,
-    alignItems: "center"
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "0px 5px",
+    "button:last-child": {
+        marginTop: "10px"
+    }
 });
 
 export const NavButtons: React.FC<{}> = () => {
