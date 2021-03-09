@@ -1,5 +1,11 @@
 {
-  "lambdaLayers": [],
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "DependenciesLayer",
+      "version": 5
+    }
+  ],
   "permissions": {
     "storage": {
       "WebSocketConnectionIdTable": [
