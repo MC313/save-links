@@ -22,8 +22,8 @@ exports.handler = async ({ Records }) => {
             const message = JSON.parse(Message)
             const { userId, ...linkInfo } = message;
             const connectionId = await getConnectionId(userId)
-            await publishToWebSocket(connectionId, linkInfo)
-            console.log("Notification published successfully!!")
+            const result = await publishToWebSocket(connectionId, linkInfo)
+            console.log(`Notification published to connectionId: ${connectionId} successfully!!`, result)
         }
     } catch (error) {
         console.error(`Error publishing notification. ${error}`)

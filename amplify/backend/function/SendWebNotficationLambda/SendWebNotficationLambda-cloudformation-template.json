@@ -84,7 +84,7 @@
 							"Ref": "storageWebSocketConnectionIdTableArn"
 						},
 						"WEBSOCKET_ENDPOINT_URL": {
-							"Fn::Sub": "https://${apiLinksLockerWebSocketAPIApiId}.execute-api.${AWS::Region}.amazonaws.com/${env}/@connections"
+							"Fn::Sub": "https://${apiLinksLockerWebSocketAPIApiId}.execute-api.${AWS::Region}.amazonaws.com/${env}"
 						}
 					}
 				},
@@ -103,7 +103,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/SendWebNotficationLambda-736d48584b55474d6b5a-build.zip"
+					"S3Key": "amplify-builds/SendWebNotficationLambda-356d5548343056327a61-build.zip"
 				}
 			}
 		},
@@ -147,9 +147,6 @@
 			}
 		},
 		"lambdaexecutionpolicy": {
-			"DependsOn": [
-				"LambdaExecutionRole"
-			],
 			"Type": "AWS::IAM::Policy",
 			"Properties": {
 				"PolicyName": "lambda-execution-policy",
@@ -190,9 +187,6 @@
 			}
 		},
 		"AmplifyResourcesPolicy": {
-			"DependsOn": [
-				"LambdaExecutionRole"
-			],
 			"Type": "AWS::IAM::Policy",
 			"Properties": {
 				"PolicyName": "amplify-lambda-execution-policy",
@@ -255,6 +249,34 @@
 											"index/*"
 										]
 									]
+								}
+							]
+						}
+					]
+				}
+			}
+		},
+		"WebSocketApiPolicy": {
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "amplify-lambda-websocket-api-execution-policy",
+				"Roles": [
+					{
+						"Ref": "LambdaExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"execute-api:Invoke",
+								"execute-api:ManageConnections"
+							],
+							"Resource": [
+								{
+									"Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiLinksLockerWebSocketAPIApiId}/${env}/POST/@connections/*"
 								}
 							]
 						}

@@ -1,254 +1,275 @@
 {
-	"function": {
-		"SaveLinkLambda": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda",
-			"dependsOn": [
-				{
-					"category": "storage",
-					"resourceName": "LinksTable",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				}
-			]
-		},
-		"ListUserLinksLambda": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda",
-			"dependsOn": [
-				{
-					"category": "storage",
-					"resourceName": "LinksTable",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				}
-			]
-		},
-		"DependenciesLayer": {
-			"runtimes": [
-				{
-					"value": "nodejs",
-					"name": "NodeJS",
-					"layerExecutablePath": "nodejs/node_modules",
-					"cloudTemplateValue": "nodejs12.x"
-				}
-			],
-			"layerVersionMap": {
-				"1": {
-					"permissions": [
-						{
-							"type": "awsAccounts",
-							"accounts": [
-								"420408896210"
-							]
-						},
-						{
-							"type": "private"
-						}
-					]
-				}
-			},
-			"providerPlugin": "awscloudformation",
-			"service": "LambdaLayer",
-			"build": true
-		},
-		"LinksLockerAuthPostConfirmation": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda"
-		},
-		"ScheduleReminderLambda": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda",
-			"dependsOn": [
-				{
-					"category": "sns",
-					"resourceName": "ReminderNotificationTopic",
-					"attributes": [
-						"Arn"
-					]
-				},
-				{
-					"category": "storage",
-					"resourceName": "LinksTable",
-					"attributes": [
-						"Name",
-						"StreamArn",
-						"Arn"
-					]
-				}
-			]
-		},
-		"OnConnectWebsocketLambda": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda",
-			"dependsOn": [
-				{
-					"category": "storage",
-					"resourceName": "WebSocketConnectionIdTable",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				}
-			]
-		},
-		"OnDisconnectWebsocketLambda": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda",
-			"dependsOn": [
-				{
-					"category": "storage",
-					"resourceName": "WebSocketConnectionIdTable",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				}
-			]
-		},
-		"SendWebNotficationLambda": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda",
-			"dependsOn": [
-				{
-					"category": "api",
-					"resourceName": "LinksLockerWebSocketAPI",
-					"attributes": [
-						"ApiName",
-						"ApiId"
-					]
-				},
-				{
-					"category": "storage",
-					"resourceName": "WebSocketConnectionIdTable",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				},
-				{
-					"category": "function",
-					"resourceName": "DependenciesLayer",
-					"attributes": [
-						"Arn"
-					]
-				}
-			]
-		}
-	},
-	"auth": {
-		"userPoolGroups": {
-			"service": "Cognito-UserPool-Groups",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [
-				{
-					"category": "auth",
-					"resourceName": "LinksLockerAuth",
-					"attributes": [
-						"UserPoolId",
-						"AppClientIDWeb",
-						"AppClientID",
-						"IdentityPoolId"
-					]
-				}
-			]
-		},
-		"LinksLockerAuth": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [
-				{
-					"category": "function",
-					"resourceName": "LinksLockerAuthPostConfirmation",
-					"triggerProvider": "Cognito",
-					"attributes": [
-						"Arn",
-						"Name"
-					]
-				}
-			]
-		}
-	},
-	"api": {
-		"LinksLockerAPI": {
-			"service": "API Gateway",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [
-				{
-					"category": "function",
-					"resourceName": "SaveLinkLambda",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				},
-				{
-					"category": "function",
-					"resourceName": "ListUserLinksLambda",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				}
-			]
-		},
-		"LinksLockerWebSocketAPI": {
-			"service": "API Gateway",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [
-				{
-					"category": "function",
-					"resourceName": "OnConnectWebsocketLambda",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				},
-				{
-					"category": "function",
-					"resourceName": "OnDisconnectWebsocketLambda",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				}
-			]
-		}
-	},
-	"storage": {
-		"LinksTable": {
-			"service": "DynamoDB",
-			"providerPlugin": "awscloudformation"
-		},
-		"WebSocketConnectionIdTable": {
-			"service": "DynamoDB",
-			"providerPlugin": "awscloudformation"
-		}
-	},
-	"sns": {
-		"ReminderNotificationTopic": {
-			"service": "sns",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [
-				{
-					"category": "function",
-					"resourceName": "SendWebNotficationLambda",
-					"attributes": [
-						"Arn"
-					]
-				}
-			]
-		}
-	}
+    "function": {
+        "SaveLinkLambda": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "storage",
+                    "resourceName": "LinksTable",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                }
+            ]
+        },
+        "ListUserLinksLambda": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "storage",
+                    "resourceName": "LinksTable",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                }
+            ]
+        },
+        "DependenciesLayer": {
+            "runtimes": [
+                {
+                    "value": "nodejs",
+                    "name": "NodeJS",
+                    "layerExecutablePath": "nodejs/node_modules",
+                    "cloudTemplateValue": "nodejs12.x"
+                }
+            ],
+            "layerVersionMap": {
+                "1": {
+                    "permissions": [
+                        {
+                            "type": "awsAccounts",
+                            "accounts": [
+                                "420408896210"
+                            ]
+                        },
+                        {
+                            "type": "private"
+                        }
+                    ]
+                }
+            },
+            "providerPlugin": "awscloudformation",
+            "service": "LambdaLayer",
+            "build": true
+        },
+        "LinksLockerAuthPostConfirmation": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda"
+        },
+        "ScheduleReminderLambda": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "sns",
+                    "resourceName": "ReminderNotificationTopic",
+                    "attributes": [
+                        "Arn"
+                    ]
+                },
+                {
+                    "category": "storage",
+                    "resourceName": "LinksTable",
+                    "attributes": [
+                        "Name",
+                        "StreamArn",
+                        "Arn"
+                    ]
+                }
+            ]
+        },
+        "OnConnectWebsocketLambda": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "storage",
+                    "resourceName": "WebSocketConnectionIdTable",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                }
+            ]
+        },
+        "OnDisconnectWebsocketLambda": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "storage",
+                    "resourceName": "WebSocketConnectionIdTable",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "DependenciesLayer",
+                    "attributes": [
+                        "Arn"
+                    ]
+                }
+            ]
+        },
+        "SendWebNotficationLambda": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "LinksLockerWebSocketAPI",
+                    "attributes": [
+                        "ApiName",
+                        "ApiId"
+                    ]
+                },
+                {
+                    "category": "storage",
+                    "resourceName": "WebSocketConnectionIdTable",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "DependenciesLayer",
+                    "attributes": [
+                        "Arn"
+                    ]
+                }
+            ]
+        },
+        "NotificationLambda": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": []
+        }
+    },
+    "auth": {
+        "userPoolGroups": {
+            "service": "Cognito-UserPool-Groups",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "auth",
+                    "resourceName": "LinksLockerAuth",
+                    "attributes": [
+                        "UserPoolId",
+                        "AppClientIDWeb",
+                        "AppClientID",
+                        "IdentityPoolId"
+                    ]
+                }
+            ]
+        },
+        "LinksLockerAuth": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "LinksLockerAuthPostConfirmation",
+                    "triggerProvider": "Cognito",
+                    "attributes": [
+                        "Arn",
+                        "Name"
+                    ]
+                }
+            ]
+        }
+    },
+    "api": {
+        "LinksLockerAPI": {
+            "service": "API Gateway",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "SaveLinkLambda",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "ListUserLinksLambda",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                }
+            ]
+        },
+        "LinksLockerWebSocketAPI": {
+            "service": "API Gateway",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "OnConnectWebsocketLambda",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "OnDisconnectWebsocketLambda",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "NotificationLambda",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                }
+            ]
+        }
+    },
+    "storage": {
+        "LinksTable": {
+            "service": "DynamoDB",
+            "providerPlugin": "awscloudformation"
+        },
+        "WebSocketConnectionIdTable": {
+            "service": "DynamoDB",
+            "providerPlugin": "awscloudformation"
+        }
+    },
+    "sns": {
+        "ReminderNotificationTopic": {
+            "service": "sns",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "SendWebNotficationLambda",
+                    "attributes": [
+                        "Arn"
+                    ]
+                }
+            ]
+        }
+    }
 }
