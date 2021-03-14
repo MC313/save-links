@@ -1,31 +1,19 @@
 {
 	"AWSTemplateFormatVersion": "2010-09-09",
-	"Description": "Lambda Function resource stack creation using Amplify CLI",
+	"Description": "Lambda resource stack creation using Amplify CLI",
 	"Parameters": {
 		"env": {
 			"Type": "String"
-		},
-		"cloudWatchEventNamePrefix": {
-			"Type": "String",
-			"Default": "SCHEDULED_REMINDER"
-		},
-		"functionDependenciesLayerArn": {
-			"Type": "String",
-			"Default": "functionDependenciesLayerArn"
-		},
-		"snsReminderNotificationTopicArn": {
-			"Type": "String",
-			"Default": "snsReminderNotificationTopicArn"
 		},
 		"storageLinksTableName": {
 			"Type": "String",
 			"Default": "storageLinksTableName"
 		},
-		"storageLinksTableStreamArn": {
-			"Type": "String",
-			"Default": "storageLinksTableStreamArn"
-		},
 		"storageLinksTableArn": {
+			"Type": "String",
+			"Default": "storageLinksTableArn"
+		},
+		"storageLinksTableStreamArn": {
 			"Type": "String",
 			"Default": "storageLinksTableArn"
 		}
@@ -52,12 +40,12 @@
 				"FunctionName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"ScheduleReminderLambda",
+						"LinksTableTrigger6f089fe8",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"ScheduleReminderLambda",
+									"LinksTableTrigger6f089fe8",
 									"-",
 									{
 										"Ref": "env"
@@ -69,23 +57,8 @@
 				},
 				"Environment": {
 					"Variables": {
-						"CLOUD_WATCH_EVENT_NAME_PREFIX": {
-							"Ref": "cloudWatchEventNamePrefix"
-						},
 						"ENV": {
 							"Ref": "env"
-						},
-						"REGION": {
-							"Ref": "AWS::Region"
-						},
-						"SNS_REMINDER_NOTIFICATION_TOPIC_ARN": {
-							"Ref": "snsReminderNotificationTopicArn"
-						},
-						"STORAGE_LINKSTABLE_NAME": {
-							"Ref": "storageLinksTableName"
-						},
-						"STORAGE_LINKSTABLE_ARN": {
-							"Ref": "storageLinksTableArn"
 						}
 					}
 				},
@@ -95,16 +68,11 @@
 						"Arn"
 					]
 				},
-				"Runtime": "nodejs12.x",
-				"Layers": [
-					{
-						"Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:DependenciesLayer:5"
-					}
-				],
-				"Timeout": 25,
+				"Runtime": "nodejs10.x",
+				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/ScheduleReminderLambda-4a6a543556577664466c-build.zip"
+					"S3Key": "amplify-builds/LinksTableTrigger6f089fe8-50647a305936654a6459-build.zip"
 				}
 			}
 		},
@@ -114,12 +82,12 @@
 				"RoleName": {
 					"Fn::If": [
 						"ShouldNotCreateEnvResources",
-						"linkslockerLambdaRole088f2785",
+						"LinksTableLambdaRole6f089fe8",
 						{
 							"Fn::Join": [
 								"",
 								[
-									"linkslockerLambdaRole088f2785",
+									"LinksTableLambdaRole6f089fe8",
 									"-",
 									{
 										"Ref": "env"
@@ -148,6 +116,9 @@
 			}
 		},
 		"lambdaexecutionpolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
 			"Type": "AWS::IAM::Policy",
 			"Properties": {
 				"PolicyName": "lambda-execution-policy",
@@ -187,75 +158,10 @@
 				}
 			}
 		},
-		"AmplifyResourcesPolicy": {
-			"Type": "AWS::IAM::Policy",
-			"Properties": {
-				"PolicyName": "amplify-lambda-execution-policy",
-				"Roles": [
-					{
-						"Ref": "LambdaExecutionRole"
-					}
-				],
-				"PolicyDocument": {
-					"Version": "2012-10-17",
-					"Statement": [
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:Get*",
-								"dynamodb:BatchGetItem",
-								"dynamodb:List*",
-								"dynamodb:Describe*",
-								"dynamodb:Scan",
-								"dynamodb:Query"
-							],
-							"Resource": [
-								{
-									"Ref": "storageLinksTableArn"
-								},
-								{
-									"Fn::Join": [
-										"/",
-										[
-											{
-												"Ref": "storageLinksTableArn"
-											},
-											"index/*"
-										]
-									]
-								}
-							]
-						}
-					]
-				}
-			}
-		},
-		"CloudWatchEventsExecutionPolicy": {
-			"Type": "AWS::IAM::Policy",
-			"Properties": {
-				"PolicyName": "CloudWatchEventsExecutionPolicy",
-				"Roles": [
-					{
-						"Ref": "LambdaExecutionRole"
-					}
-				],
-				"PolicyDocument": {
-					"Version": "2012-10-17",
-					"Statement": [
-						{
-							"Effect": "Allow",
-							"Action": [
-								"events:*"
-							],
-							"Resource": {
-								"Fn::Sub": "arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/${cloudWatchEventNamePrefix}_*"
-							}
-						}
-					]
-				}
-			}
-		},
-		"LinksDatabaseStreamPolicy": {
+		"LinksTableTriggerPolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
 			"Type": "AWS::IAM::Policy",
 			"Properties": {
 				"PolicyName": "lambda-trigger-policy",
@@ -285,10 +191,10 @@
 				}
 			}
 		},
-		"LinksDatabaseStreamTrigger": {
+		"LinksTableTrigger": {
 			"Type": "AWS::Lambda::EventSourceMapping",
 			"DependsOn": [
-				"LinksDatabaseStreamPolicy"
+				"LinksTableTriggerPolicy"
 			],
 			"Properties": {
 				"BatchSize": 100,

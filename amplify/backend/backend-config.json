@@ -235,14 +235,6 @@
                         "Name",
                         "Arn"
                     ]
-                },
-                {
-                    "category": "function",
-                    "resourceName": "NotificationLambda",
-                    "attributes": [
-                        "Name",
-                        "Arn"
-                    ]
                 }
             ]
         }
