@@ -46,14 +46,12 @@ export const WizardItem3: React.FC<{}> = () => {
 const ReminderInfoElement: React.FC<ReminderInfoElementProps> = ({
     reminderUnit,
     reminderValue
-}) => {
-    return (
-        <InfoElement
-            label="Reminder"
-            value={ formatReminderText(reminderUnit, reminderValue) }
-        />
-    );
-};
+}) => (
+    <InfoElement
+        label="Reminder"
+        value={ formatReminderText(reminderUnit, reminderValue) }
+    />
+);
 
 const InfoElement: React.FC<InfoElementProps> = ({ label, value }) => {
     return (
@@ -65,7 +63,7 @@ const InfoElement: React.FC<InfoElementProps> = ({ label, value }) => {
 };
 
 const formatReminderText = (unit: string = "", value: number = 0) => {
-    if (!unit || !value) return "-";
+    if (!unit || !value) return undefined;
     return `${value} ${value > 1 ? unit + "s" : unit} from now`;
 };
 
