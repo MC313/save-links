@@ -1,31 +1,28 @@
 import React from "react";
 
-import { onNotificationConnect } from "./notificationService";
-
-const isEmptyObject = (obj: object | undefined) => {
-    if (!obj) return true;
-    return !Object.keys(obj).length
-};
+import { onWebSocketInit } from "./notificationService";
 
 export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
     const [notification, setNotification] = React.useState<object | undefined>(undefined)
 
-    const socket = onNotificationConnect(userId)
+    let socket = onWebSocketInit(userId)
 
     React.useEffect(() => {
-        socket.on("connect", (value: any) => {
-            console.log("webSocket connected successfully!! ", socket.connected)
-        })
 
         return () => { }
     }, [userId])
 
-    socket.on("disconnect", (reason: any) => {
-        console.log("WebSocket disconnected!!", reason)
-        if (reason === "io server disconnect") {
-            socket.connect()
-        }
-    })
+    socket.onopen = (event: any) => {
+        console.log("SOCKET OPENED: ", event)
+    }
+
+    socket.onmessage = (event: any) => {
+        console.log("MESSAGE: ", event)
+    }
+
+    socket.onclose = (event: any) => {
+        console.log("SOCKET CLOSED: ", event)
+    }
 
     return (
         <React.Fragment>
@@ -42,4 +39,9 @@ export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
             }
         </React.Fragment>
     );
+};
+
+const isEmptyObject = (obj: object | undefined) => {
+    if (!obj) return true;
+    return !Object.keys(obj).length
 };

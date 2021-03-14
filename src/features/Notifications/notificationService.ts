@@ -1,16 +1,10 @@
-import { io } from "socket.io-client";
+import websocket from 'isomorphic-ws';
 
 const WEBSOCKET_BASE_URL = "wss://khxvnnk5g2.execute-api.us-east-1.amazonaws.com"
 const env = setEnvironment()
 
-export const onNotificationConnect = (userId: string) => {
-    const options = {
-        query: { userId },
-        path: `/${env}`,
-        reconnectionDelayMax: 10000,
-        transports: ["websocket"]
-    }
-    return io(`${WEBSOCKET_BASE_URL}`, options)
+export const onWebSocketInit = (userId: string) => {
+    return new WebSocket(`${WEBSOCKET_BASE_URL}/${env}?userId=${userId}`)
 }
 
 function setEnvironment () {
