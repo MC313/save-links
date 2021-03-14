@@ -12,16 +12,16 @@ export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
         return () => { }
     }, [userId])
 
-    socket.onopen = (event: any) => {
-        console.log("SOCKET OPENED: ", event)
+    socket.onopen = () => {
+        console.log("SOCKET OPENED")
     }
 
     socket.onmessage = (event: any) => {
         console.log("MESSAGE: ", event)
     }
 
-    socket.onclose = (event: any) => {
-        console.log("SOCKET CLOSED: ", event)
+    socket.onclose = () => {
+        console.log("SOCKET CLOSED")
     }
 
     return (

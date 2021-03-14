@@ -106,13 +106,15 @@ function parseTime(timeInFuture) {
 
 function validateDynamodbEvent(eventName) {
     if (eventName !== "INSERT") {
-        throw new Error(`Invalid dynamodb eventName: '${eventName}'. The ScheduleReminderLambda function is only ran on INSERT events.`)
+        console.warn(`Invalid dynamodb eventName: '${eventName}'. The ScheduleReminderLambda function is only ran on INSERT events.`)
+        return;
     }
 }
 
 function validateReminderAttribute(reminderObject) {
     if (!reminderObject || reminderObject["NULL"]) {
-        throw new Error("Table item doesn't contain a valid 'reminder' attribute.")
+        console.warn("Table item doesn't contain a valid 'reminder' attribute.")
+        return;
     }
 }
 
