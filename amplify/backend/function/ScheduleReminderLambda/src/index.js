@@ -16,12 +16,13 @@ const cloudWatchClient = new AWS.CloudWatchEvents({ region });
 
 exports.handler = async ({ Records }) => {
     for (const { eventName, dynamodb } of Records) {
-        validateDynamodbEvent(eventName)
+
+        if (!isInsertEvent(eventName)) return;
 
         const dynamodbImage = dynamodb["NewImage"];
         const reminderObject = dynamodbImage["reminder"];
 
-        validateReminderAttribute(reminderObject)
+        if (!hasReminderAttribute(reminderObject)) return;
 
         const reminder = +reminderObject["N"];
         const attributesToGet = ["linkId", "userId", "name", "url"];
@@ -104,18 +105,20 @@ function parseTime(timeInFuture) {
     }
 }
 
-function validateDynamodbEvent(eventName) {
+function isInsertEvent(eventName) {
     if (eventName !== "INSERT") {
         console.warn(`Invalid dynamodb eventName: '${eventName}'. The ScheduleReminderLambda function is only ran on INSERT events.`)
-        return;
+        return false;
     }
+    return true;
 }
 
-function validateReminderAttribute(reminderObject) {
+function hasReminderAttribute(reminderObject) {
     if (!reminderObject || reminderObject["NULL"]) {
         console.warn("Table item doesn't contain a valid 'reminder' attribute.")
-        return;
+        return false;
     }
+    return true;
 }
 
 
