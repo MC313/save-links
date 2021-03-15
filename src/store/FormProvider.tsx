@@ -122,7 +122,7 @@ const form: FormState = {
         url: "",
         description: "",
         tags: "",
-        reminderUnit: "minutes",
+        reminderUnit: "minute",
         reminderValue: 0
     },
     errors: {
