@@ -1,5 +1,3 @@
-import websocket from 'isomorphic-ws';
-
 const WEBSOCKET_BASE_URL = "wss://khxvnnk5g2.execute-api.us-east-1.amazonaws.com"
 const env = setEnvironment()
 
