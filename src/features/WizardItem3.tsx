@@ -20,8 +20,7 @@ const StyledDiv = styled.div({
 export const WizardItem3: React.FC<{}> = () => {
     const [{ fields }] = useForm();
     const { reminderUnit, reminderValue, ...otherFields } = fields;
-    console.log("UNIT: ", reminderUnit)
-    console.log("VALUE: ", reminderValue)
+
     return (
         <WizardItem>
             {

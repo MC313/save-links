@@ -20,7 +20,7 @@ exports.handler = async ({ Records }) => {
         if (!isInsertEvent(eventName)) return;
 
         const dynamodbImage = dynamodb["NewImage"];
-        const reminderObject = dynamodbImage["reminder"];
+        const reminderObject = ["reminder"];
 
         if (!hasReminderAttribute(reminderObject)) return;
 
@@ -40,7 +40,7 @@ exports.handler = async ({ Records }) => {
             console.error("Error processing CloudWatch Event. ", error)
         }
     };
-};
+}
 
 async function setCloudWatchRule(cloudWatchRuleName, reminder) {
     const cloudWatchRuleParams = {
