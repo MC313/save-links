@@ -19,20 +19,25 @@ exports.handler = async ({ Records }) => {
 
         if (!isInsertEvent(eventName)) return;
 
-        const dynamodbImage = dynamodb["NewImage"];
-        const reminderObject = ["reminder"];
+        if (!hasReminderAttribute(dynamodb.NewImage.Reminder)) return;
 
-        if (!hasReminderAttribute(reminderObject)) return;
+        const attributesToFormat = [
+            "linkId",
+            "userId",
+            "description",
+            "reminder",
+            "url"
+        ];
 
-        const reminder = +reminderObject["N"];
-        const attributesToGet = ["linkId", "userId", "name", "url"];
         const {
             linkId,
             ...tableAttributes
-        } = getTableAttributes(dynamodbImage, attributesToGet)
+        } = formatTableAttributes(dynamodb.NewImage, attributesToFormat)
+
         const cloudWatchRuleName = `${CloudWatchEventNamePrefix}_${linkId}`;
 
         try {
+            const reminder = +dynamodb.NewImage.Reminder.N;
             const inputParams = { ...tableAttributes, linkId };
             await setCloudWatchRule(cloudWatchRuleName, reminder)
             await setCloudWatchTarget(cloudWatchRuleName, cwTargetSnsArn, inputParams)
@@ -48,7 +53,6 @@ async function setCloudWatchRule(cloudWatchRuleName, reminder) {
         ScheduleExpression: createCronJob(reminder),
         State: "ENABLED"
     }
-
     const response = await cloudWatchClient.putRule(cloudWatchRuleParams).promise()
     console.log(`Cloudwatch rule ${cloudWatchRuleName} created successfully!`)
     return response;
@@ -76,13 +80,13 @@ function createCronJob(reminder) {
 }
 
 // Helper function to format table attributes into a javascript object
-function getTableAttributes(dynamodbImage, attributes) {
+function formatTableAttributes(dynamodbImage, attributes) {
     let attrResults = {};
     attributes.forEach((attributeName) => {
-        const arttributeObject = dynamodbImage[attributeName]
+        const attributeObject = dynamodbImage[attributeName]
         attrResults = {
             ...attrResults,
-            [attributeName]: arttributeObject && arttributeObject["S"] || null
+            [attributeName]: attributeObject["S"] || attributeObject["N"]
         }
     });
     return attrResults;
