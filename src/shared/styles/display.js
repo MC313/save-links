@@ -1,4 +1,4 @@
-import { css } from '@emotion/core';
+import { css } from '@emotion/react';
 
 const _displayFlex = css`
   display: flex;
@@ -21,16 +21,16 @@ const _flexCenter = css`
 `;
 
 const flex = {
-    row: _flexRow,
-    column: _flexColumn,
-    center: _flexCenter
+  row: _flexRow,
+  column: _flexColumn,
+  center: _flexCenter
 };
 
 const radius = {
-    small: '4px',
-    medium: '8px',
-    large: '12px',
-    round: '100%'
+  small: '4px',
+  medium: '8px',
+  large: '12px',
+  round: '100%'
 };
 
 export { flex, radius };

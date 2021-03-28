@@ -1,4 +1,4 @@
-import { css } from "@emotion/core";
+import { css } from "@emotion/react";
 
 const lightPurple = "rgba(154, 103, 234, 1)";
 const purple = "rgba(103, 58, 183, 1)";
