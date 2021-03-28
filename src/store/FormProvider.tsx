@@ -19,25 +19,13 @@ export interface FormState {
     error?: string;
     fields: FormFields;
     errors: FormFieldsErrors;
-    hasError: boolean;
 };
 
 /**
  * =======================
- *    Types Definitions
+ *    Type Definitions
  * =======================
  */
-interface ReactContextDevToolParams {
-    id: string;
-    displayName: string;
-    values: any;
-};
-
-type ReactContextDevTool = (params: ReactContextDevToolParams) => void;
-
-type FormWindow = Window & typeof globalThis & {
-    _REACT_CONTEXT_DEVTOOL?: ReactContextDevTool
-};
 
 enum FormTypeKeys {
     RESET_FORM = "RESET_FORM",
@@ -46,11 +34,6 @@ enum FormTypeKeys {
     SET_INPUT_ERROR = "SET_INPUT_ERROR",
     SET_INPUT_VALUE = "SET_INPUT_VALUE",
     SUBMITTING_FORM = "SUBMITTING_FORM"
-};
-
-interface FormErrorAction {
-    type: FormTypeKeys.SET_FORM_ERROR;
-    payload?: undefined;
 };
 interface FormSubmittingAction {
     type: FormTypeKeys.SUBMITTING_FORM;
@@ -131,8 +114,7 @@ const form: FormState = {
         tags: "",
         reminderUnit: "",
         reminderValue: ""
-    },
-    hasError: false
+    }
 };
 
 /**
@@ -147,15 +129,13 @@ const formReducer: FormReducer = (state, action) => {
             const { field: inputField, value: inputValue } = payload as SetInputValueAction["payload"];
             return {
                 ...state,
-                fields: { ...state.fields, [inputField]: inputValue },
-                hasError: false
+                fields: { ...state.fields, [inputField]: inputValue }
             };
         case FormTypeKeys.SET_INPUT_ERROR:
             const inputKey = payload as SetInputErrorAction["payload"];
             return {
                 ...state,
-                errors: { ...state.errors, [inputKey]: true },
-                hasError: true,
+                errors: { ...state.errors, [inputKey]: true }
             };
         case FormTypeKeys.SUBMITTING_FORM:
             return {
@@ -199,20 +179,12 @@ const {
  */
 const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
     let [state, dispatch] = React.useReducer<FormReducer>(formReducer, form);
-    let _window: FormWindow = window;
 
     return (
         <FormStateProvider value={ state }>
             <FormDispatchProvider value={ dispatch }>
                 <FormConsumer>
                     { (values) => {
-                        if (_window && _window._REACT_CONTEXT_DEVTOOL) {
-                            _window._REACT_CONTEXT_DEVTOOL({
-                                id: 'FormContextId',
-                                displayName: 'FormContext',
-                                values
-                            });
-                        }
                         return (
                             <React.Fragment>
                                 { children }
