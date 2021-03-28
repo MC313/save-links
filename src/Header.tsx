@@ -21,10 +21,10 @@ export const Header: React.FC<{}> = () => {
 
     return (
         <StyledHeader>
-            <Button
+            {/* <Button
                 size="small"
                 title="Sign In"
-            />
+            /> */}
         </StyledHeader>
     );
 };
