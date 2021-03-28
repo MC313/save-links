@@ -7,7 +7,7 @@ import { SaveLinkForm } from "../features/SaveLink/SaveLinkForm";
 import { colors, flex, height, width } from "../shared/styles";
 import { AuthProvider, FormProvider, useAuth } from "../store";
 import { Header } from "../Header";
-import { Notification } from "../features/Notifications/Notification";
+import { Notification } from "../features/Notification";
 import { WizardProvider } from "../store/WizardProvider";
 
 const StyledAppContainer = styled.div({
