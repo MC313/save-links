@@ -1,7 +1,7 @@
 import React from "react";
 
 
-type SubmitStatus = "INITIAL" | "ERROR" | "SUBMITTING" | "SUBMITTED";
+type SubmitStatus = "INITIAL" | "ERROR" | "SUBMITTING" | "SUCCESS";
 export interface FormFields {
     url: string;
     description?: string;
@@ -145,7 +145,7 @@ const formReducer: FormReducer = (state, action) => {
         case FormTypeKeys.SET_FORM_SUCCESS:
             return {
                 ...state,
-                status: "SUBMITTED"
+                status: "SUCCESS"
             };
         case FormTypeKeys.SET_FORM_ERROR:
             return {

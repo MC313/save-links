@@ -13,6 +13,7 @@ import { WizardContainer } from "../WizardContainer";
 import { WizardItem1 } from "../WizardItem1";
 import { WizardItem2 } from "../WizardItem2";
 import { WizardItem3 } from "../WizardItem3";
+import { SuccessOverlay } from "../SuccessDialog";
 
 
 const StyledForm = styled.form({
@@ -40,6 +41,7 @@ export const SaveLinkForm: React.FC<SaveLinkProps> = ({ userId }) => {
 
     return (
         <Card>
+            <SuccessOverlay />
             <StepsIndicator />
             <StyledForm onSubmit={ submit }>
                 <WizardContainer>

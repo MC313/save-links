@@ -9,7 +9,10 @@ export const ContinueButton: React.FC<{}> = () => {
     const [{ step }, setStep] = useWizard();
 
     return (
-        <NavButton disabled={ !!!fields.url } onClick={ () => setStep(step + 1) }>
+        <NavButton
+            disabled={ !!!fields.url }
+            onClick={ () => setStep(step + 1) }
+        >
             { <ContinueIcon /> }
         </NavButton>
     )

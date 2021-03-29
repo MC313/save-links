@@ -1,11 +1,12 @@
 const colors = {
+    black: '#1d1d1d',
+    darkPurple: 'rgba(54, 5, 104, 1)',
+    grey: 'rgba(61, 61, 61, 0.8)',
     lightPurple: 'rgba(154, 103, 234, 1)',
     purple: 'rgba(103, 58, 183, 1)',
-    darkPurple: 'rgba(54, 5, 104, 1)',
+    purplishGrey: 'rgb(238,238,242, 1)',
     red: 'red',
-    grey: 'rgba(61, 61, 61, 0.8)',
-    white: 'rgba(255, 255, 255, 1)',
-    purplishGrey: 'rgb(238,238,242, 1)'
+    white: 'rgba(255, 255, 255, 1)'
 }
 
 const primaryTheme = {
