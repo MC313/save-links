@@ -12,7 +12,7 @@ export const Card = styled.div({
     display: "block",
     overflow: "hidden",
     margin: "0px auto",
-    padding: "15px 30px 0px 30px",
+    padding: "15px 30px",
     border: "1px solid rgba(162, 136, 166, 0.26)",
     borderBottomColor: "rgba(162, 136, 166, 0.26)",
     borderRadius: radius.medium,

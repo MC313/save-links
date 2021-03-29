@@ -6,8 +6,8 @@ import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
 import * as yup from "yup";
 
+import { colors } from "../styles";
 import { formSchema } from "../../features/SaveLink/schema";
-import { margin } from "../styles";
 import { FormFieldInput } from "./FormFieldInput";
 import { FormFieldLabel } from "./FormFieldLabel";
 
@@ -67,13 +67,13 @@ const StyledFormField = styled.div({
   width: "94%",
   minHeight: "95px",
   margin: "0 auto",
-  marginBottom: margin.small,
+  marginBottom: "5px",
   p: {
     minHeight: "20px",
     height: "20px",
     margin: "5px 0px 0px 0px",
     fontSize: "15px",
-    color: "red"
+    color: colors.red
   }
 });
 
