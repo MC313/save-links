@@ -17,11 +17,9 @@ export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
         description: "Just some description"
     }
 
-    React.useEffect(() => {
-        setNotification(_notification)
-    }, [])
-
-    console.log(notification)
+    // React.useEffect(() => {
+    //     setNotification(_notification)
+    // }, [])
 
     let socket = onWebSocketInit(userId)
 
@@ -30,9 +28,8 @@ export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
     }
 
     socket.onmessage = ({ data }: any) => {
-        console.log("MESSAGE: ", data)
-        const payload = JSON.parse(data);
-        setNotification(payload);
+        console.log("NOTIFICATION: ", data);
+        setNotification(JSON.parse(data));
     }
 
     socket.onclose = () => {
