@@ -14,6 +14,8 @@ import { WizardItem1 } from "../WizardItem1";
 import { WizardItem2 } from "../WizardItem2";
 import { WizardItem3 } from "../WizardItem3";
 import { SuccessOverlay } from "../SuccessDialog";
+import { colors } from "../../shared/styles";
+import { ErrorMessage } from "../ErrorMessage";
 
 
 const StyledForm = styled.form({
@@ -23,7 +25,7 @@ const StyledForm = styled.form({
 })
 
 export const SaveLinkForm: React.FC<SaveLinkProps> = ({ userId }) => {
-    const [{ error, fields }, dispatch] = useForm();
+    const [{ fields }, dispatch] = useForm();
     const [_, setStep] = useWizard();
 
     const submit = (e: React.FormEvent) => {
@@ -31,12 +33,14 @@ export const SaveLinkForm: React.FC<SaveLinkProps> = ({ userId }) => {
         dispatch.formSubmitting()
         saveLink(formatFormData({ userId, ...fields }))
             .then(() => {
-                console.log("form submitted successfully!")
                 dispatch.formSuccess()
                 dispatch.resetForm()
                 setStep(1)
             })
-            .catch((error) => dispatch.formError(error))
+            .catch(({ message }) => {
+                console.log(message)
+                dispatch.setFormError(message)
+            })
     };
 
     return (
@@ -50,11 +54,8 @@ export const SaveLinkForm: React.FC<SaveLinkProps> = ({ userId }) => {
                     <WizardItem3 />
                 </WizardContainer>
 
+                <ErrorMessage />
                 <NavButtons />
-
-                <p style={ { color: "red" } }>
-                    { error }
-                </p>
             </StyledForm>
         </Card>
     )

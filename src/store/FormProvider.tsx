@@ -58,9 +58,9 @@ interface SetInputValueAction {
     };
 };
 
-interface FormErrorAction {
+interface SetFormErrorAction {
     type: FormTypeKeys.SET_FORM_ERROR;
-    payload?: undefined;
+    payload: string;
 };
 
 interface SetInputErrorAction {
@@ -69,10 +69,10 @@ interface SetInputErrorAction {
 };
 
 type FormActions =
-    FormErrorAction |
     FormSubmittingAction |
     FormSuccessAction |
     ResetFormAction |
+    SetFormErrorAction |
     SetInputErrorAction |
     SetInputValueAction;
 
@@ -85,10 +85,10 @@ interface FormProviderProps {
 };
 
 type ActionName =
-    "formError" |
     "formSubmitting" |
     "formSuccess" |
     "resetForm" |
+    "setFormError" |
     "setInput" |
     "setInputError";
 
@@ -98,7 +98,7 @@ type FormDispatchHook = {
     [k in ActionName]: (payload?: any) => any
 };
 
-const form: FormState = {
+const initialForm: FormState = {
     status: "INITIAL",
     error: undefined,
     fields: {
@@ -125,6 +125,8 @@ const form: FormState = {
 const formReducer: FormReducer = (state, action) => {
     const { payload, type } = action;
     switch (type) {
+        case FormTypeKeys.RESET_FORM:
+            return initialForm;
         case FormTypeKeys.SET_INPUT_VALUE:
             const { field: inputField, value: inputValue } = payload as SetInputValueAction["payload"];
             return {
@@ -150,7 +152,7 @@ const formReducer: FormReducer = (state, action) => {
         case FormTypeKeys.SET_FORM_ERROR:
             return {
                 ...state,
-                formError: payload,
+                error: payload as string,
                 status: "ERROR"
             };
 
@@ -178,7 +180,7 @@ const {
  * =======================
  */
 const FormProvider: React.FC<FormProviderProps> = ({ children }) => {
-    let [state, dispatch] = React.useReducer<FormReducer>(formReducer, form);
+    let [state, dispatch] = React.useReducer<FormReducer>(formReducer, initialForm);
 
     return (
         <FormStateProvider value={ state }>
@@ -209,11 +211,6 @@ const useFormDispatch = () => {
         throw new Error('useFormDispatch can only be used with FormProvider component.')
     };
     return {
-        formError: () =>
-            dispatch({
-                type: FormTypeKeys.SET_FORM_ERROR,
-                payload: undefined
-            }),
         formSubmitting: () =>
             dispatch({
                 type: FormTypeKeys.SUBMITTING_FORM,
@@ -243,7 +240,12 @@ const useFormDispatch = () => {
             dispatch({
                 type: FormTypeKeys.SET_INPUT_ERROR,
                 payload
-            })
+            }),
+        setFormError: (payload: string) =>
+            dispatch({
+                type: FormTypeKeys.SET_FORM_ERROR,
+                payload
+            }),
     };
 };
 
