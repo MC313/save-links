@@ -31,8 +31,8 @@ export const SuccessOverlay: React.FC<{}> = () => {
 };
 
 const StyledOverlay = styled.div<StyledOverlayProps>`
-display: ${({ show }) => show ? 'flex' : 'none'};
-visibility: ${({ show }) => show ? 'visible' : 'hidden'};
+    display: ${({ show }) => show ? 'flex' : 'none'};
+    visibility: ${({ show }) => show ? 'visible' : 'hidden'};
     position: absolute;
     top: 0;
     left: 0;

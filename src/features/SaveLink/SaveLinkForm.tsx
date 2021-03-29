@@ -3,19 +3,18 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import { NavButtons } from "../NavButtons";
-import { saveLink } from "./saveLinkService";
 import { Card } from "../../shared/components";
+import { ErrorMessage } from "../ErrorMessage";
 import { FormPayload } from "../../shared/types";
+import { saveLink } from "./saveLinkService";
 import { StepsIndicator } from "../StepsIndicator/StepsIndicator";
+import { SuccessOverlay } from "../SuccessOverlay";
 import { toUtcTime, TimeUnit } from "../../shared/utils";
 import { FormFields, useForm, useWizard } from "../../store";
 import { WizardContainer } from "../WizardContainer";
 import { WizardItem1 } from "../WizardItem1";
 import { WizardItem2 } from "../WizardItem2";
 import { WizardItem3 } from "../WizardItem3";
-import { SuccessOverlay } from "../SuccessDialog";
-import { colors } from "../../shared/styles";
-import { ErrorMessage } from "../ErrorMessage";
 
 
 const StyledForm = styled.form({
@@ -53,7 +52,6 @@ export const SaveLinkForm: React.FC<SaveLinkProps> = ({ userId }) => {
                     <WizardItem2 />
                     <WizardItem3 />
                 </WizardContainer>
-
                 <ErrorMessage />
                 <NavButtons />
             </StyledForm>
