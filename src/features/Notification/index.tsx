@@ -11,30 +11,15 @@ import { colors } from "../../shared/styles";
 export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
     const [notification, setNotification] = React.useState<INotification>();
 
-    const _notification = {
-        url: "https://roygbiv.world/collections/hats",
-        reminder: "12312344",
-        description: "Just some description"
-    }
-
-    // React.useEffect(() => {
-    //     setNotification(_notification)
-    // }, [])
-
     let socket = onWebSocketInit(userId)
 
-    socket.onopen = () => {
-        console.log("SOCKET OPENED")
-    }
+    socket.onopen = () => console.log("SOCKET OPENED")
 
-    socket.onmessage = ({ data }: any) => {
-        console.log("NOTIFICATION: ", data);
+    socket.onmessage = ({ data }: { data: any }) => {
         setNotification(JSON.parse(data));
     }
 
-    socket.onclose = () => {
-        console.log("SOCKET CLOSED")
-    }
+    socket.onclose = () => console.log("SOCKET CLOSED")
 
     return (
         <React.Fragment>
@@ -52,7 +37,7 @@ export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
 const isEmptyObject = (obj: object | undefined) => {
     if (!obj) return true
     return !Object.keys(obj).length
-};
+}
 
 const StyledNotification = styled.div({
     width: "35%",
