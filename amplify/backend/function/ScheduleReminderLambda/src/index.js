@@ -19,7 +19,7 @@ exports.handler = async ({ Records }) => {
 
         if (!isInsertEvent(eventName)) return;
 
-        if (!hasReminderAttribute(dynamodb.NewImage.Reminder)) return;
+        if (!hasReminderAttribute(dynamodb.NewImage.reminder)) return;
 
         const attributesToFormat = [
             "linkId",
@@ -34,17 +34,17 @@ exports.handler = async ({ Records }) => {
             ...tableAttributes
         } = formatTableAttributes(dynamodb.NewImage, attributesToFormat)
 
-        const cloudWatchRuleName = `${CloudWatchEventNamePrefix}_${linkId}`;
+        const cloudWatchRuleName = `${CloudWatchEventNamePrefix}_${linkId}`
 
         try {
-            const reminder = +dynamodb.NewImage.Reminder.N;
+            const reminder = +dynamodb.NewImage.reminder.N;
             const inputParams = { ...tableAttributes, linkId };
             await setCloudWatchRule(cloudWatchRuleName, reminder)
             await setCloudWatchTarget(cloudWatchRuleName, cwTargetSnsArn, inputParams)
         } catch (error) {
             console.error("Error processing CloudWatch Event. ", error)
         }
-    };
+    }
 }
 
 async function setCloudWatchRule(cloudWatchRuleName, reminder) {
