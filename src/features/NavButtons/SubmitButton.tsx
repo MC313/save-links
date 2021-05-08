@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ReactComponent as LoadingIcon } from "../assets/loading.svg";
+import LoadingIcon from "../assets/loading.svg";
 import { Button } from "../../shared/components";
 import { useForm } from "../../store";
 

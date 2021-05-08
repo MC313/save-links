@@ -1,7 +1,7 @@
-export interface FormData extends Object {
+export interface FormData {
     url: string;
     tags?: string;
-    reminderUnit: string;
+    reminderUnit?: string;
     reminderValue: number;
     description?: string;
 };

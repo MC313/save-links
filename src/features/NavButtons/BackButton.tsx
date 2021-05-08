@@ -1,8 +1,8 @@
 import React from "react";
 
-import { useWizard } from "../../store";
-import { ReactComponent as BackIcon } from "./arrow-west.svg";
+import BackIcon from "./arrow-west.svg";
 import { NavButton } from "./NavButton";
+import { useWizard } from "../../store";
 
 
 export const BackButton: React.FC<{}> = () => {
