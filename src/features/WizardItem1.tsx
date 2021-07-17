@@ -4,9 +4,11 @@ import { WizardItem } from "./WizardContainer";
 import { FormField } from "../shared/components";
 import { useForm } from "../store";
 
+console.log('VANILLA JS URL: ', document.querySelector("input[name='url']"))
+
 export const WizardItem1: React.FC<{}> = () => {
     const [{ fields }, dispatch] = useForm();
-
+    console.log('REACT URL: ', fields["url"])
     return (
         <WizardItem>
             <FormField

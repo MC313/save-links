@@ -12,8 +12,9 @@
     "yup": "0.28.5"
   },
   "scripts": {
-    "start": "webpack serve --mode development --open --hot",
-    "build": "webpack --mode production",
+    "start": "webpack serve --mode development --config ./webpack.webapp.config.js ./webpack.common.js --merge --open --hot",
+    "build": "webpack --mode production --config ./webpack.webapp.config.js ./webpack.common.js --merge",
+    "extension": "webpack --config ./webpack.extension.config.js ./webpack.common.js --merge",
     "test": ""
   },
   "devDependencies": {
