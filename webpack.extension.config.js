@@ -25,6 +25,14 @@ module.exports = (env) => ({
                     globOptions: {
                         ignore: ["**/template.html"]
                     }
+                },
+                {
+                    context: './extension',
+                    from: '**/*',
+                    to: 'output',
+                    globOptions: {
+                        ignore: ["**/static/**"]
+                    }
                 }
             ]
         }),
