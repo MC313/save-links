@@ -20,18 +20,11 @@ module.exports = (env) => ({
             patterns: [
                 {
                     context: './extension/static/',
-                    from: '**/*',
+                    from: './',
+                    // This format with just the folder name creates the folder
                     to: 'output',
                     globOptions: {
-                        ignore: ["**/template.html"]
-                    }
-                },
-                {
-                    context: './extension',
-                    from: '**/*',
-                    to: 'output',
-                    globOptions: {
-                        ignore: ["**/static/**"]
+                        ignore: ['**/template.html']
                     }
                 }
             ]

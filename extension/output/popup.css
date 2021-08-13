@@ -1,0 +1,12 @@
+body {
+    width: 325px !important;
+    height: 100vh !important;
+}
+
+header {
+    display: none !important;
+}
+
+main div {
+    height: 100%;
+}
