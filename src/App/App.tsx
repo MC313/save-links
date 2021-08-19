@@ -52,8 +52,9 @@ const Main = () => {
 };
 
 const getUserId = () => {
-    if (sessionStorage.getItem("userId")) {
-        return sessionStorage.getItem("userId")
+    const currentUserId = sessionStorage.getItem("userId")
+    if (currentUserId) {
+        return currentUserId
     } else {
         const userId = `GUEST_${Date.now()}`
         sessionStorage.setItem("userId", userId)
