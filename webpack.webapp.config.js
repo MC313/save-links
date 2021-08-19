@@ -1,5 +1,4 @@
 const path = require('path')
-const CopyPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const InterpolateHtmlPlugin = require('interpolate-html-plugin')
 
@@ -7,16 +6,16 @@ module.exports = (env) => ({
     entry: {
         index: path.join(__dirname, 'src/index.tsx')
     },
-    mode: 'production',
+    mode: env.dev ? 'development' : 'production',
     output: {
-        path: path.join(__dirname, 'extension'),
+        path: path.join(__dirname, 'dist'),
         filename: '[name].js',
         clean: true
     },
     plugins: [
         new HtmlWebpackPlugin({
-            filename: 'popup.html',
-            template: './extension/template.html'
+            filename: 'index.html',
+            template: './public/index.html'
         }),
         new InterpolateHtmlPlugin({
             PUBLIC_URL: 'static'

@@ -11,15 +11,15 @@ import { colors } from "../../shared/styles";
 export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
     const [notification, setNotification] = React.useState<INotification>();
 
-    let socket = onWebSocketInit(userId)
+    //let socket = onWebSocketInit(userId)
 
-    socket.onopen = () => console.log("SOCKET OPENED")
+    // socket.onopen = () => console.log("SOCKET OPENED")
 
-    socket.onmessage = ({ data }: { data: any }) => {
-        setNotification(JSON.parse(data));
-    }
+    // socket.onmessage = ({ data }: { data: any }) => {
+    //     setNotification(JSON.parse(data));
+    // }
 
-    socket.onclose = () => console.log("SOCKET CLOSED")
+    // socket.onclose = () => console.log("SOCKET CLOSED")
 
     return (
         <React.Fragment>

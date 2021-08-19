@@ -14,6 +14,11 @@ export const toUtcTime = (timeValue: number, timeUnit: TimeUnit) => {
     return Date.now() + convertToMilliseconds(timeValue, timeUnit);
 };
 
+export const getURL = async () => {
+    const { url } = await getCurrentTab()
+    return url
+};
+
 const getMillisecByUnit: GetMillisecByUnit = {
     minute: 60000,
     minutes: 60000,
@@ -25,6 +30,12 @@ const getMillisecByUnit: GetMillisecByUnit = {
 
 const convertToMilliseconds = (timeValue: number, timeUnit: TimeUnit) =>
     (timeValue * getMillisecByUnit[timeUnit]);
+
+const getCurrentTab = async () => {
+    let queryOptions = { active: true, currentWindow: true }
+    let [tab] = await chrome.tabs.query(queryOptions)
+    return tab
+};
 
 interface GetMillisecByUnit {
     minute: number;
