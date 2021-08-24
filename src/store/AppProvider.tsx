@@ -1,49 +1,6 @@
 import React from "react";
 
-// import { AppState } from "../types";
-import { appState, AppState } from "./state";
-
-/**
- * =======================
- *    Types Definitions
- * =======================
- */
-
-interface ReactContextDevToolParams {
-    id: string;
-    displayName: string;
-    values: any;
-};
-type ReactContextDevTool = (params: ReactContextDevToolParams) => void;
-
-type AppWindow = Window & typeof globalThis & {
-    _REACT_CONTEXT_DEVTOOL?: ReactContextDevTool
-};
-
-enum AppTypeKeys {
-    SET_USER_ID = "SET_USER_ID"
-};
-
-interface SetUserIdAction {
-    type: AppTypeKeys.SET_USER_ID;
-    payload: Partial<AppState["userId"]>;
-};
-
-type AppActions = SetUserIdAction;
-
-type AppDispatch = (action: AppActions) => void;
-
-type AppReducer = React.Reducer<AppState, AppActions>;
-
-interface AppProviderProps {
-    children: React.ReactNode;
-};
-
-type ActionName = "setUserId";
-
-type AppDispatchHook = {
-    [k in ActionName]: (payload?: any) => void
-};
+import { appState, AppState, AppType } from "./state";
 
 
 /**
@@ -52,10 +9,12 @@ type AppDispatchHook = {
  * =======================
  */
 const appReducer: AppReducer = (state: AppState, action: AppActions) => {
-    switch (action.type) {
+    const { payload, type } = action;
+    switch (type) {
         case AppTypeKeys.SET_USER_ID:
             return {
-                userId: action.payload
+                ...state,
+                userId: payload
             };
         default:
             return state;
@@ -80,12 +39,12 @@ const {
  *   Provider Component
  * =======================
  */
-const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+const AppProvider: React.FC<AppProviderProps> = ({ children, value }) => {
     let [state, dispatch] = React.useReducer<AppReducer>(appReducer, appState);
     let _window: AppWindow = window;
 
     return (
-        <AppStateProvider value={ state }>
+        <AppStateProvider value={ { ...state, ...value } }>
             <AppDispatchProvider value={ dispatch }>
                 <AppConsumer>
                     { (values) => {
@@ -143,4 +102,47 @@ export {
     useApp,
     AppConsumer,
     AppProvider
+};
+
+/**
+ * =======================
+ *    Types Definitions
+ * =======================
+ */
+
+interface ReactContextDevToolParams {
+    id: string;
+    displayName: string;
+    values: any;
+};
+type ReactContextDevTool = (params: ReactContextDevToolParams) => void;
+
+type AppWindow = Window & typeof globalThis & {
+    _REACT_CONTEXT_DEVTOOL?: ReactContextDevTool
+};
+
+enum AppTypeKeys {
+    SET_USER_ID = "SET_USER_ID"
+};
+
+interface SetUserIdAction {
+    type: AppTypeKeys.SET_USER_ID;
+    payload: Partial<AppState["userId"]>;
+};
+
+type AppActions = SetUserIdAction;
+
+type AppDispatch = (action: AppActions) => void;
+
+type AppReducer = React.Reducer<AppState, AppActions>;
+
+interface AppProviderProps {
+    children: React.ReactNode;
+    value: AppState;
+};
+
+type ActionName = "setUserId";
+
+type AppDispatchHook = {
+    [k in ActionName]: (payload?: any) => void
 };

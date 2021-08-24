@@ -2,24 +2,26 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
+import { CloseButton } from "./CloseButton";
 import { NotificationContent } from "./NotificationContent";
 import { onWebSocketInit } from "./notificationService";
 import { Notification as INotification } from "./types";
-import { CloseButton } from "./CloseButton";
 import { colors } from "../../shared/styles";
+import { useApp } from "../../store";
 
-export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
+export const Notification: React.FC<{}> = () => {
+    const [{ appType, userId }] = useApp();
     const [notification, setNotification] = React.useState<INotification>();
 
-    //let socket = onWebSocketInit(userId)
+    let socket = onWebSocketInit(userId);
 
-    // socket.onopen = () => console.log("SOCKET OPENED")
+    socket.onopen = () => console.log("SOCKET OPENED");
 
-    // socket.onmessage = ({ data }: { data: any }) => {
-    //     setNotification(JSON.parse(data));
-    // }
+    socket.onmessage = ({ data }: { data: any }) => {
+        setNotification(JSON.parse(data));
+    };
 
-    // socket.onclose = () => console.log("SOCKET CLOSED")
+    socket.onclose = () => console.log("SOCKET CLOSED");
 
     return (
         <React.Fragment>
@@ -35,9 +37,9 @@ export const Notification: React.FC<{ userId: string }> = ({ userId }) => {
 }
 
 const isEmptyObject = (obj: object | undefined) => {
-    if (!obj) return true
-    return !Object.keys(obj).length
-}
+    if (!obj) return true;
+    return !Object.keys(obj).length;
+};
 
 const StyledNotification = styled.div({
     width: "35%",
@@ -54,4 +56,4 @@ const StyledNotification = styled.div({
     borderRadius: 8,
     backgroundColor: colors.white,
     color: "#000"
-})
+});

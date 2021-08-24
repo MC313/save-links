@@ -1,7 +1,12 @@
+
+export type AppType = "EXTENSION" | "MOBILE" | "WEB";
+
 export interface AppState {
-    userId: undefined | string;
+    appType?: AppType;
+    userId: string;
 };
 
 export const appState: AppState = {
-    userId: undefined
+    appType: undefined,
+    userId: ""
 };

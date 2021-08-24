@@ -7,10 +7,11 @@ import { Card } from "../../shared/components";
 import { ErrorMessage } from "../ErrorMessage";
 import { FormPayload } from "../../shared/types";
 import { saveLink } from "./saveLinkService";
+// update steps indicator import to remove the nested folder reference
 import { StepsIndicator } from "../StepsIndicator/StepsIndicator";
 import { SuccessOverlay } from "../SuccessOverlay";
 import { toUtcTime, TimeUnit } from "../../shared/utils";
-import { FormFields, useForm, useWizard } from "../../store";
+import { FormFields, useApp, useForm, useWizard } from "../../store";
 import { WizardContainer } from "../WizardContainer";
 import { WizardItem1 } from "../WizardItem1";
 import { WizardItem2 } from "../WizardItem2";
@@ -23,7 +24,8 @@ const StyledForm = styled.form({
     alignItems: "center"
 })
 
-export const SaveLinkForm: React.FC<SaveLinkProps> = ({ userId }) => {
+export const SaveLinkForm: React.FC<{}> = () => {
+    const [{ userId }] = useApp();
     const [{ fields }, dispatch] = useForm();
     const [_, setStep] = useWizard();
 
@@ -82,9 +84,5 @@ interface FormFieldsWithUserId extends FormFields {
     userId: string;
 }
 interface FormWithUserId extends FormPayload {
-    userId: string;
-}
-
-interface SaveLinkProps {
     userId: string;
 }
