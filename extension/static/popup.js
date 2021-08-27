@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', async function () {
-    console.log(`TIME: ${getCurrentTime()}`)
-    const url = await getURL()
-    const urlInput = document.getElementById('urlId')
-    setInputValue(urlInput, url)
+
 })
 
 function getCurrentTime() {
@@ -13,19 +10,13 @@ function getCurrentTime() {
     return `${hours}:${minutesFormatted}`
 }
 
-const setInputValue = (element, value) => {
-    const event = new Event('input', { bubbles: true })
-    element.value = value
-    element.dispatchEvent(event)
-}
-
 async function getURL() {
     const { url } = await getCurrentTab()
     return url;
 }
 
 async function getCurrentTab() {
-    let queryOptions = { active: true, currentWindow: true };
-    let [tab] = await chrome.tabs.query(queryOptions);
-    return tab;
+    let queryOptions = { active: true, currentWindow: true }
+    let [tab] = await chrome.tabs.query(queryOptions)
+    return tab
 }

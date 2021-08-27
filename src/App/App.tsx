@@ -3,10 +3,16 @@ import React from "react";
 import styled from "@emotion/styled";
 import { onAuthUIStateChange } from '@aws-amplify/ui-components';
 
+import {
+    AppProvider,
+    AuthProvider,
+    FormProvider,
+    useApp,
+    useAuth
+} from "../store";
 import { SaveLinkForm } from "../features/SaveLink/SaveLinkForm";
 import { colors, flex, height, width } from "../shared/styles";
 import { getUserId } from "../shared/utils";
-import { AppProvider, AuthProvider, FormProvider, useAuth } from "../store";
 import { Header } from "../Header";
 import { Notification } from "../features/Notification";
 import { WizardProvider } from "../store/WizardProvider";
@@ -24,6 +30,7 @@ export const App = () => {
 };
 
 const Main = () => {
+    const [{ appType, userId }] = useApp();
     const [, dispatch] = useAuth();
     const [, setUser] = React.useState<object | undefined>();
 
@@ -34,9 +41,18 @@ const Main = () => {
         });
     });
 
+    React.useEffect(() => {
+        if (appType === "EXTENSION") {
+            const message = { type: "WEBSOCKET_INIT", userId }
+            chrome.runtime.sendMessage(message, (response: any) => {
+                console.log("RESPONSE: ", response)
+            })
+        }
+    }, []);
+
     return (
         <StyledAppContainer className="app">
-            <Notification />
+            { appType === "WEB" && <Notification /> }
             <Header />
             <StyledContent>
                 <WizardProvider totalSteps={ 3 }>

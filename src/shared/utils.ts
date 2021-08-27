@@ -23,7 +23,7 @@ export const getURL = async () => {
 
 export const getUserId = (appType: AppType) => _getUserId(appType) || _setUserId(appType);
 
-const getMillisecByUnit: GetMillisecByUnit = {
+const _getMillisecByUnit: GetMillisecByUnit = {
     minute: 60000,
     minutes: 60000,
     hour: 60000 * 60,
@@ -33,7 +33,7 @@ const getMillisecByUnit: GetMillisecByUnit = {
 };
 
 const _convertToMilliseconds = (timeValue: number, timeUnit: TimeUnit) =>
-    (timeValue * getMillisecByUnit[timeUnit]);
+    (timeValue * _getMillisecByUnit[timeUnit]);
 
 const _getCurrentTab = async () => {
     let queryOptions = { active: true, currentWindow: true };
@@ -46,7 +46,7 @@ const _getUserId = (appType: AppType): string | undefined => {
 
     switch (appType) {
         case "EXTENSION":
-            chrome.storage.sync.get(["userId"], ({ userId }: UserId) => {
+            chrome.storage.local.get(["userId"], ({ userId }: UserId) => {
                 return userId;
             });
         case "WEB":
@@ -60,7 +60,7 @@ const _setUserId = (appType: AppType) => {
     const userId = `GUEST_${Date.now()}`;
     switch (appType) {
         case "EXTENSION":
-            chrome.storage.sync.set({ userId }, () => userId);
+            chrome.storage.local.set({ userId }, () => userId);
         case "WEB":
             sessionStorage.setItem("userId", userId);
             return userId;

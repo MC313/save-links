@@ -8,6 +8,9 @@
         "default_popup": "popup.html",
         "default_title": "My Bookmarks"
     },
+    "background": {
+        "service_worker": "background.js"
+    },
     "commands": {
         "_execute_action": {
             "suggested_key": {
@@ -17,7 +20,13 @@
             "description": "Opens popup.html"
         }
     },
+    "host_permissions": [
+        "https://vc9srwoh4b.execute-api.us-east-1.amazonaws.com/dev/link",
+        "https://vc9srwoh4b.execute-api.us-east-1.amazonaws.com/prod/link"
+    ],
     "permissions": [
+        "notifications",
+        "storage",
         "tabs"
     ]
 }
