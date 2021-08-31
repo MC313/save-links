@@ -1,6 +1,6 @@
 {
-    "name": "Hello Extensions",
-    "description": "Base Level Extension",
+    "name": "Links Locker",
+    "description": "Reuce your number of open tabs by saving links you find around the web and setting reminders to read them later.",
     "version": "1.0",
     "manifest_version": 3,
     "action": {
