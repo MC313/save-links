@@ -2,7 +2,6 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { NavButtons } from "../NavButtons";
 import { Card } from "../../shared/components";
 import { ErrorMessage } from "../ErrorMessage";
 import { FormPayload } from "../../shared/types";
@@ -16,18 +15,15 @@ import { WizardContainer } from "../WizardContainer";
 import { WizardItem1 } from "../WizardItem1";
 import { WizardItem2 } from "../WizardItem2";
 import { WizardItem3 } from "../WizardItem3";
+import { BackButton } from "../NavButtons/BackButton";
+import { ContinueButton } from "../NavButtons/ContinueButton";
+import { SubmitButton } from "../NavButtons/SubmitButton";
 
-
-const StyledForm = styled.form({
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-})
 
 export const SaveLinkForm: React.FC<{}> = () => {
     const [{ userId }] = useApp();
     const [{ fields }, dispatch] = useForm();
-    const [_, setStep] = useWizard();
+    const [{ step, totalSteps }, setStep] = useWizard();
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -47,7 +43,10 @@ export const SaveLinkForm: React.FC<{}> = () => {
     return (
         <Card>
             <SuccessOverlay />
-            <StepsIndicator />
+            <StyledHeader>
+                { step > 1 && <BackButton /> }
+                <StepsIndicator />
+            </StyledHeader>
             <StyledForm onSubmit={ submit }>
                 <WizardContainer>
                     <WizardItem1 />
@@ -55,7 +54,10 @@ export const SaveLinkForm: React.FC<{}> = () => {
                     <WizardItem3 />
                 </WizardContainer>
                 <ErrorMessage />
-                <NavButtons />
+                {
+                    step === totalSteps ?
+                        <SubmitButton /> : <ContinueButton />
+                }
             </StyledForm>
         </Card>
     )
@@ -86,3 +88,17 @@ interface FormFieldsWithUserId extends FormFields {
 interface FormWithUserId extends FormPayload {
     userId: string;
 }
+
+const verticalCenter = {
+    display: "flex",
+    alignItems: "center"
+}
+
+const StyledHeader = styled.header(verticalCenter)
+
+const StyledForm = styled.form({
+    ...verticalCenter,
+    flexDirection: "column",
+})
+
+
