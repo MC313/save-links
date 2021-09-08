@@ -8,7 +8,7 @@ body {
     background: transparent !important;
 }
 
-header {
+header.main-header {
     display: none !important;
     visibility: hidden !important;
 }

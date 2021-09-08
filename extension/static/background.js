@@ -15,30 +15,16 @@ chrome.runtime.onMessage.addListener(({ userId }, sender, sendMessage) => {
         sendMessage({ message });
     };
 
-    socket.onmessage = ({ data: { url } }) => {
-        console.log("WEBSOCKET RESPONSE: ", data);
+    socket.onmessage = ({ data }) => {
+        const message = JSON.parse(data);
+        console.log("WEBSOCKET RESPONSE: ", message);
         chrome.notifications.create("", {
+            iconUrl: "./hello_extensions.png",
             type: "basic",
             title: "Test Notification",
-            message: `Access link here: ${url}`
+            message: `Access link here: ${message.url}`
         });
     };
 
     socket.onclose = () => console.log("SOCKET CLOSED");
 });
-
-
-// chrome.runtime.onMessage.addListener(async (message, sender) => {
-//     console.log("MSG: ", message);
-//     console.log("SENDER: ", sender);
-//     const url = "https://randomuser.me/api/";
-//     try {
-//         const _resp = await fetch(url);
-//         const { result } = await _resp.json();
-//         const [result] = results;
-//         console.log("RANDOM USER: ", result);
-//     } catch (error) {
-//         console.error("Error getting random user. ", error);
-//         return { type: "ERROR", error };
-//     }
-// });

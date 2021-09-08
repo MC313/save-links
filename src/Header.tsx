@@ -20,7 +20,7 @@ const StyledHeader = styled.header({
 export const Header: React.FC<{}> = () => {
 
     return (
-        <StyledHeader>
+        <StyledHeader className="main-header">
             {/* <Button
                 size="small"
                 title="Sign In"
