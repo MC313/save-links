@@ -1,0 +1,32 @@
+{
+    "name": "Links Locker",
+    "description": "Reuce your number of open tabs by saving links you find around the web and setting reminders to read them later.",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+        "default_icon": "hello_extensions.png",
+        "default_popup": "popup.html",
+        "default_title": "My Bookmarks"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "commands": {
+        "_execute_action": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+F",
+                "mac": "MacCtrl+Shift+F"
+            },
+            "description": "Opens popup.html"
+        }
+    },
+    "host_permissions": [
+        "https://vc9srwoh4b.execute-api.us-east-1.amazonaws.com/dev/link",
+        "https://vc9srwoh4b.execute-api.us-east-1.amazonaws.com/prod/link"
+    ],
+    "permissions": [
+        "notifications",
+        "storage",
+        "tabs"
+    ]
+}

@@ -2,10 +2,27 @@ import React from "react";
 
 import { WizardItem } from "./WizardContainer";
 import { FormField } from "../shared/components";
+import { getURL } from "../shared/utils";
 import { useForm } from "../store";
+
 
 export const WizardItem1: React.FC<{}> = () => {
     const [{ fields }, dispatch] = useForm();
+
+    const isExtension = (): boolean => !!document.querySelector(".extension")
+
+    React.useEffect(() => {
+        const setURL = async () => {
+            try {
+                const url = await getURL()
+                dispatch.setInput("url")({ target: { value: url } })
+            } catch (error) {
+                console.error("Error getting URL: ", error)
+            }
+        }
+
+        isExtension() && setURL()
+    }, [])
 
     return (
         <WizardItem>

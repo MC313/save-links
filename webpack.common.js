@@ -1,11 +1,15 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const InterpolateHtmlPlugin = require('interpolate-html-plugin')
 
 
 module.exports = (env) => ({
-    entry: './src/index.tsx',
-    mode: env.dev ? 'development' : 'production',
+    name: 'common',
+    resolve: {
+        alias: {
+            react: path.join(__dirname, 'node_modules', 'react')
+        },
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        fullySpecified: false
+    },
     module: {
         rules: [
             {
@@ -28,25 +32,6 @@ module.exports = (env) => ({
                 use: ['@svgr/webpack']
             },
         ]
-    },
-    output: {
-        path: path.join(__dirname, 'build'),
-        filename: 'bundle.js'
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './public/index.html'
-        }),
-        new InterpolateHtmlPlugin({
-            PUBLIC_URL: 'static'
-        })
-    ],
-    resolve: {
-        alias: {
-            react: path.join(__dirname, 'node_modules', 'react')
-        },
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        fullySpecified: false
     },
     optimization: {
         minimize: true
@@ -100,3 +85,4 @@ module.exports = (env) => ({
         // show warnings count in summary
     }
 })
+

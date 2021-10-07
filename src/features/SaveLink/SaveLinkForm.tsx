@@ -6,10 +6,11 @@ import { Card } from "../../shared/components";
 import { ErrorMessage } from "../ErrorMessage";
 import { FormPayload } from "../../shared/types";
 import { saveLink } from "./saveLinkService";
+// update steps indicator import to remove the nested folder reference
 import { StepsIndicator } from "../StepsIndicator/StepsIndicator";
 import { SuccessOverlay } from "../SuccessOverlay";
 import { toUtcTime, TimeUnit } from "../../shared/utils";
-import { FormFields, useForm, useWizard } from "../../store";
+import { FormFields, useApp, useForm, useWizard } from "../../store";
 import { WizardContainer } from "../WizardContainer";
 import { WizardItem1 } from "../WizardItem1";
 import { WizardItem2 } from "../WizardItem2";
@@ -19,7 +20,8 @@ import { ContinueButton } from "../NavButtons/ContinueButton";
 import { SubmitButton } from "../NavButtons/SubmitButton";
 
 
-export const SaveLinkForm: React.FC<SaveLinkProps> = ({ userId }) => {
+export const SaveLinkForm: React.FC<{}> = () => {
+    const [{ userId }] = useApp();
     const [{ fields }, dispatch] = useForm();
     const [{ step, totalSteps }, setStep] = useWizard();
 
@@ -87,15 +89,19 @@ interface FormWithUserId extends FormPayload {
     userId: string;
 }
 
-interface SaveLinkProps {
-    userId: string;
-}
-
 const verticalCenter = {
     display: "flex",
     alignItems: "center"
 }
 
+<<<<<<< HEAD
+const verticalCenter = {
+    display: "flex",
+    alignItems: "center"
+}
+
+=======
+>>>>>>> browser-extension
 const StyledHeader = styled.header(verticalCenter)
 
 const StyledForm = styled.form({

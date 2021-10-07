@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import { radius } from "../styles";
 
 export const Card = styled.div({
-    width: "45%",
+    width: "100%",
     maxWidth: "350px",
     height: "auto",
     position: "relative",
