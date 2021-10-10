@@ -89,6 +89,9 @@ const reset = css`
     font: inherit;
     vertical-align: baseline;
   }
+  html {
+    font-size: calc(1em + 1vw);
+  }
   /* HTML5 display-role reset for older browsers */
   article,
   aside,
@@ -134,6 +137,10 @@ const reset = css`
 
   button:hover {
     cursor: pointer;
+  }
+
+  p {
+    font-size: 0.60em;
   }
 `;
 

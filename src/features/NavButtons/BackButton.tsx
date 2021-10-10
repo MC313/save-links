@@ -9,6 +9,7 @@ export const BackButton: React.FC<{}> = () => {
 
     return (
         <button
+            name="back button"
             type="button"
             onClick={ () => setStep(step - 1) }
             style={ styles }
@@ -19,7 +20,9 @@ export const BackButton: React.FC<{}> = () => {
 };
 
 const styles = {
+    display: "flex",
     background: "white",
     border: "0px",
+    padding: "0px",
     color: "black"
 }

@@ -3,13 +3,14 @@ import React from "react";
 import { WizardItem } from "./WizardContainer";
 import { FormField } from "../shared/components";
 import { getURL } from "../shared/utils";
-import { useForm } from "../store";
+import { useApp, useForm } from "../store";
 
 
 export const WizardItem1: React.FC<{}> = () => {
+    const [{ appType }] = useApp();
     const [{ fields }, dispatch] = useForm();
 
-    const isExtension = (): boolean => !!document.querySelector(".extension")
+    const isExtension = (): boolean => (appType === "EXTENSION")
 
     React.useEffect(() => {
         const setURL = async () => {
@@ -27,6 +28,7 @@ export const WizardItem1: React.FC<{}> = () => {
     return (
         <WizardItem>
             <FormField
+                autoFocus={ true }
                 label="Link url"
                 name="url"
                 onChange={ dispatch.setInput("url") }

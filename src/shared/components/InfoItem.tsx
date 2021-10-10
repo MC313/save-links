@@ -3,7 +3,17 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import { font, margin } from "../styles";
-//import { StoreContext } from "../../store";
+
+const InfoItem: React.FC<InfoItemProps> = ({ value, label, ...props }) => {
+  //const { theme } = useContext(StoreContext);
+
+  return (
+    <StyledInfoElement { ...props }>
+      <label>{ label }</label>
+      <p>{ value || "-" }</p>
+    </StyledInfoElement>
+  );
+};
 
 const StyledInfoElement = styled.div({
   marginBottom: margin.medium,
@@ -23,17 +33,6 @@ const StyledInfoElement = styled.div({
 interface InfoItemProps {
   label?: string;
   value?: string;
-};
-
-const InfoItem: React.FC<InfoItemProps> = ({ value, label, ...props }) => {
-  //const { theme } = useContext(StoreContext);
-
-  return (
-    <StyledInfoElement { ...props }>
-      <label>{ label }</label>
-      <p>{ value || "-" }</p>
-    </StyledInfoElement>
-  );
 };
 
 export default InfoItem;

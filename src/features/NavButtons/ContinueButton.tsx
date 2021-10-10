@@ -10,6 +10,7 @@ export const ContinueButton: React.FC<{}> = () => {
 
     return (
         <NavButton
+            name="continue"
             disabled={ !!!fields.url }
             onClick={ () => setStep(step + 1) }
         >

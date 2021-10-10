@@ -1,12 +1,18 @@
+html, body, div#root, div.app, main {
+    background: transparent !important;
+}
+
 body {
     width: 325px !important;
     height: 100vh !important;
+    background: transparent !important;
 }
 
-header {
+header.main-header {
     display: none !important;
+    visibility: hidden !important;
 }
 
-main div {
-    height: 100%;
+div.app {
+    height: 100% !important;
 }

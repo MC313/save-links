@@ -8,6 +8,7 @@ export const SubmitButton: React.FC<{}> = () => {
     const [{ status }] = useForm();
     return (
         <Button
+            name="submit link"
             style={ { width: "92%", height: "44px" } }
             title={ status === "SUBMITTING" ? "Submitting......" : "Submit" }
             type="submit"

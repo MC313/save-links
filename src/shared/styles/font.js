@@ -1,6 +1,5 @@
 export default {
-    extraSmall: '8px',
-    small: '12px',
-    medium: '16px',
-    large: '20px'
+    small: '0.60em',
+    medium: '0.70em',
+    large: '0.80em'
 };

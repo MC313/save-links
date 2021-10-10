@@ -3,26 +3,10 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import { capitalize } from "../utils";
-import { font, margin } from "../styles";
+import { form } from "../styles";
 
-const StyledLabel = styled.label({
-  display: "flex",
-  fontSize: font.medium,
-  marginBottom: margin.extraSmall,
-  marginRight: margin.small,
-  color: "black",
-  "&--error": {
-    color: "red",
-  },
-});
 
-interface FormFieldLabelProps {
-  htmlFor?: string;
-  required?: boolean;
-  label: string;
-};
-
-export const FormFieldLabel: React.FC<FormFieldLabelProps> = ({
+export const FormFieldLabel: React.FC<LabelProps> = ({
   htmlFor,
   required = false,
   label = ""
@@ -30,8 +14,16 @@ export const FormFieldLabel: React.FC<FormFieldLabelProps> = ({
   //const { theme } = useContext(StoreContext);
   return (
     <StyledLabel htmlFor={ htmlFor }>
-      { capitalize(label) }
+      { label && capitalize(label) }
       { required ? " (Required)" : "" }
     </StyledLabel>
   );
+};
+
+const StyledLabel = styled.label(form.label);
+
+export type LabelProps = {
+  htmlFor?: string;
+  required?: boolean;
+  label: string;
 };

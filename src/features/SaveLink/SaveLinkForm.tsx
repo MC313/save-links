@@ -35,7 +35,7 @@ export const SaveLinkForm: React.FC<{}> = () => {
                 setStep(1)
             })
             .catch(({ message }) => {
-                console.log(message)
+                console.error(message)
                 dispatch.setFormError(message)
             })
     };
@@ -94,14 +94,6 @@ const verticalCenter = {
     alignItems: "center"
 }
 
-<<<<<<< HEAD
-const verticalCenter = {
-    display: "flex",
-    alignItems: "center"
-}
-
-=======
->>>>>>> browser-extension
 const StyledHeader = styled.header(verticalCenter)
 
 const StyledForm = styled.form({

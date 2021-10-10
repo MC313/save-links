@@ -3,9 +3,46 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import { FormFieldLabel, FormFieldInput } from "../shared/components";
-import { font, margin } from "../shared/styles";
+import { flex, form, margin } from "../shared/styles";
 import { useForm } from "../store";
 import { WizardItem } from "./WizardContainer";
+
+const TIME_UNIT_OPTIONS = ["minute", "hour", "day"];
+
+export const WizardItem2: React.FC<{}> = () => {
+    const [{ fields }, dispatch] = useForm();
+    const { reminderValue } = fields;
+
+    return (
+        <WizardItem center>
+            <StyledFormFieldGroup>
+                <FormFieldLabel
+                    label="Send me a remind me about this link in"
+                />
+                <div>
+                    <FormFieldInput
+                        id="reminderValue"
+                        min={ 0 }
+                        max={ 24 }
+                        name="reminderValue"
+                        onChange={ dispatch.setInput("reminderValue") }
+                        required={ false }
+                        style={ {
+                            flex: "1 0 50px",
+                            marginRight: 15
+                        } }
+                        type="number"
+                        value={ reminderValue }
+                    />
+                    <Dropdown
+                        onChange={ dispatch.setInput("reminderUnit") }
+                        options={ TIME_UNIT_OPTIONS }
+                    />
+                </div>
+            </StyledFormFieldGroup>
+        </WizardItem>
+    );
+};
 
 const StyledFormFieldGroup = styled.div({
     width: "98%",
@@ -13,23 +50,17 @@ const StyledFormFieldGroup = styled.div({
     marginBottom: margin.medium,
     div: {
         display: "flex",
-        flexFlow: "row"
+        flexFlow: "row wrap"
     },
     p: {
         minHeight: "20px",
         height: "20px",
         margin: "5px 0px 0px 0px",
-        fontSize: font.medium,
         color: "red"
     }
 });
 
-const StyledSelectInput = styled.select({
-    flex: 1,
-    height: 45
-});
-
-const TIME_UNIT_OPTIONS = ["minute", "hour", "day"];
+const StyledSelectInput = styled.select(form.input, { flex: "3 0 175px" });
 
 const Dropdown: React.FC<DropdownProps> = ({ onChange, options }) => {
     const [{ fields }] = useForm();
@@ -52,39 +83,6 @@ const Dropdown: React.FC<DropdownProps> = ({ onChange, options }) => {
             }
         </StyledSelectInput>
     )
-};
-
-export const WizardItem2: React.FC<{}> = () => {
-    const [{ fields }, dispatch] = useForm();
-    const { reminderValue } = fields;
-
-    return (
-        <WizardItem>
-            <StyledFormFieldGroup>
-                <FormFieldLabel label="Remind me about this link in" />
-                <div>
-                    <FormFieldInput
-                        id="reminderValue"
-                        min={ 0 }
-                        max={ 24 }
-                        name="reminderValue"
-                        onChange={ dispatch.setInput("reminderValue") }
-                        required={ false }
-                        style={ {
-                            flexBasis: 50,
-                            marginRight: 15
-                        } }
-                        type="number"
-                        value={ reminderValue }
-                    />
-                    <Dropdown
-                        onChange={ dispatch.setInput("reminderUnit") }
-                        options={ TIME_UNIT_OPTIONS }
-                    />
-                </div>
-            </StyledFormFieldGroup>
-        </WizardItem>
-    );
 };
 
 interface DropdownProps {

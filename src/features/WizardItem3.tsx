@@ -2,20 +2,12 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
+import { colors, font } from "../shared/styles";
 import { capitalize } from "../shared/utils";
 import { useForm } from "../store";
 import { WizardItem } from "./WizardContainer";
 
-const StyledDiv = styled.div({
-    label: {
-        fontSize: "0.95rem",
-        color: "#909090"
-    },
-    p: {
-        color: "black",
-        margin: "5px 0px 15px 0px"
-    },
-});
+
 
 export const WizardItem3: React.FC<{}> = () => {
     const [{ fields }] = useForm();
@@ -60,6 +52,18 @@ const InfoElement: React.FC<InfoElementProps> = ({ label, value }) => {
         </StyledDiv>
     );
 };
+
+const StyledDiv = styled.div({
+    label: {
+        fontSize: font.small,
+        color: "#909090"
+    },
+    p: {
+        fontSize: font.large,
+        margin: "5px 0px 15px 0px",
+        color: colors.black
+    },
+});
 
 const formatReminderText = (unit: string = "", value: number = 0) => {
     if (!unit || !value) return undefined;

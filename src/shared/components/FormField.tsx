@@ -8,8 +8,8 @@ import * as yup from "yup";
 
 import { colors } from "../styles";
 import { formSchema } from "../../features/SaveLink/schema";
-import { FormFieldInput } from "./FormFieldInput";
-import { FormFieldLabel } from "./FormFieldLabel";
+import { FormFieldInput, InputProps } from "./FormFieldInput";
+import { FormFieldLabel, LabelProps } from "./FormFieldLabel";
 
 export const FormField: React.FC<FormFieldProps> = ({
   id,
@@ -50,7 +50,7 @@ export const FormField: React.FC<FormFieldProps> = ({
       }
       <FormFieldInput
         { ...props }
-        id={ id ? id : `${name}Id` }
+        id={ id ? id : name }
         name={ name }
         onBlur={ validateField(name) }
         onChange={ onChange }
@@ -77,16 +77,23 @@ const StyledFormField = styled.div({
   }
 });
 
-export interface FormFieldProps {
-  id?: string;
-  label?: string;
+export interface FormFieldProps extends Omit<InputProps, "onError">, LabelProps {
   name: string;
-  onBlur?: (event: React.FormEvent<HTMLInputElement>) => void;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onError?: Function;
-  placeholder?: string;
-  required?: boolean;
-  type?: string;
   validate?: boolean;
-  value: string;
 };
+
+
+// export interface FormFieldProps extends InputProps, LabelProps {
+//   id?: string;
+//   label?: string;
+//   name: string;
+//   onBlur?: (event: React.FormEvent<HTMLInputElement>) => void;
+//   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+//   onError?: Function;
+//   placeholder?: string;
+//   required?: boolean;
+//   type?: string;
+//   validate?: boolean;
+//   value: string;
+// };
