@@ -14,7 +14,7 @@ export const WizardItem3: React.FC<{}> = () => {
     const { reminderUnit, reminderValue, ...otherFields } = fields;
 
     return (
-        <WizardItem>
+        <WizardItem scroll>
             {
                 Object.entries(otherFields).map(([key, value], index) => {
                     return (

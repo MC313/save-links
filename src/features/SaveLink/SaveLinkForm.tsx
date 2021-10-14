@@ -22,12 +22,12 @@ import { SubmitButton } from "../NavButtons/SubmitButton";
 
 export const SaveLinkForm: React.FC<{}> = () => {
     const [{ userId }] = useApp();
-    const [{ fields }, dispatch] = useForm();
+    const [{ fields, status }, dispatch] = useForm();
     const [{ step, totalSteps }, setStep] = useWizard();
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault()
-        dispatch.formSubmitting()
+        dispatch.formSuccess()
         saveLink(formatFormData({ userId, ...fields }))
             .then(() => {
                 dispatch.formSuccess()
@@ -42,7 +42,7 @@ export const SaveLinkForm: React.FC<{}> = () => {
 
     return (
         <Card>
-            <SuccessOverlay />
+            { status === "SUCCESS" && <SuccessOverlay /> }
             <StyledHeader>
                 { step > 1 && <BackButton /> }
                 <StepsIndicator />

@@ -4,6 +4,8 @@ import React from 'react';
 import { jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { SuccessIcon } from './SuccessIcon';
+
 import {
     colors,
     flex,
@@ -13,26 +15,34 @@ import {
     padding,
     width
 } from '../shared/styles';
-import { useForm } from '../store/FormProvider';
+import { useForm, useWizard } from '../store';
+import { Button } from '../shared/components';
 
 
 
 export const SuccessOverlay: React.FC<{}> = () => {
-    const [{ status }, dispatch] = useForm();
+    const [, dispatch] = useForm();
+    const [, setStep] = useWizard();
 
     return (
-        <StyledOverlay show={ status === "SUCCESS" }>
-            <p>Link Saved Successfully</p>
-            <button onClick={ dispatch.resetForm }>
-                Save Another Link
-            </button>
+        <StyledOverlay>
+            <p aria-live="assertive">Link Saved Successfully</p>
+            <SuccessIcon />
+            <Button
+                name="close overlay"
+                title="Close"
+                type="button"
+                onClick={ () => {
+                    setStep(1)
+                    dispatch.resetForm()
+                } }
+            />
         </StyledOverlay>
     );
 };
 
 const StyledOverlay = styled.div<StyledOverlayProps>`
-    display: ${({ show }) => show ? 'flex' : 'none'};
-    visibility: ${({ show }) => show ? 'visible' : 'hidden'};
+    display: flex;
     position: absolute;
     top: 0;
     left: 0;
@@ -51,9 +61,11 @@ const StyledOverlay = styled.div<StyledOverlayProps>`
         width: 250px;
         height: ${height.medium};
         margin-top: ${margin.medium}; 
+        color: ${colors.black};
+        background: ${colors.white};
     }
 `;
 
 interface StyledOverlayProps {
-    show: boolean;
+    //show: boolean;
 };

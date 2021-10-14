@@ -1,15 +1,26 @@
 import React from "react";
 
+import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 
 import { useWizard } from "../store";
-import { flex } from "../shared/styles";
 
-export const WizardItem: React.FC<{ center?: boolean }> = ({ children, center }) => (
-    <StyledListItem style={ (center ? { justifyContent: "center" } : {}) }>
-        { children }
-    </StyledListItem>
-);
+export const WizardItem: React.FC<WizardItemProps> = ({
+    children,
+    center,
+    scroll
+}) => {
+    const styles = css`
+        justify-content: ${center ? 'center' : 'inherit'};
+        overflow-y: ${scroll ? 'scroll' : 'hidden'}
+    `;
+
+    return (
+        <StyledListItem className={ styles }>
+            { children }
+        </StyledListItem>
+    )
+};
 
 export const WizardContainer: React.FC<{}> = ({ children }) => {
     const [{ step }] = useWizard();
@@ -47,6 +58,10 @@ const StyledListItem = styled.li<StyleProp>(({ style }) => ({
     ...style,
 }));
 
+interface WizardItemProps {
+    center?: boolean;
+    scroll?: boolean;
+};
 interface StyleProp {
     style?: React.CSSProperties;
 };
