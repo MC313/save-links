@@ -6,10 +6,11 @@ import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
 import * as yup from "yup";
 
-import { colors } from "../styles";
+import { colors, font } from "../styles";
 import { formSchema } from "../../features/SaveLink/schema";
 import { FormFieldInput, InputProps } from "./FormFieldInput";
 import { FormFieldLabel, LabelProps } from "./FormFieldLabel";
+import { ErrorMessage } from "./ErrorMessage";
 
 export const FormField: React.FC<FormFieldProps> = ({
   id,
@@ -57,7 +58,7 @@ export const FormField: React.FC<FormFieldProps> = ({
         required={ required }
         value={ value }
       />
-      <p>{ error }</p>
+      <ErrorMessage error={ error } />
     </StyledFormField>
   );
 };
@@ -72,7 +73,7 @@ const StyledFormField = styled.div({
     minHeight: "20px",
     height: "20px",
     margin: "5px 0px 0px 0px",
-    fontSize: "15px",
+    fontSize: font.small,
     color: colors.red
   }
 });

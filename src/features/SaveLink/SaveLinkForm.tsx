@@ -2,8 +2,7 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { Card } from "../../shared/components";
-import { ErrorMessage } from "../ErrorMessage";
+import { Card, ErrorMessage } from "../../shared/components";
 import { FormPayload } from "../../shared/types";
 import { saveLink } from "./saveLinkService";
 // update steps indicator import to remove the nested folder reference
@@ -22,7 +21,7 @@ import { SubmitButton } from "../NavButtons/SubmitButton";
 
 export const SaveLinkForm: React.FC<{}> = () => {
     const [{ userId }] = useApp();
-    const [{ fields, status }, dispatch] = useForm();
+    const [{ error, fields, status }, dispatch] = useForm();
     const [{ step, totalSteps }, setStep] = useWizard();
 
     const submit = (e: React.FormEvent) => {
@@ -53,7 +52,7 @@ export const SaveLinkForm: React.FC<{}> = () => {
                     <WizardItem2 />
                     <WizardItem3 />
                 </WizardContainer>
-                <ErrorMessage />
+                <ErrorMessage error={ error } />
                 {
                     step === totalSteps ?
                         <SubmitButton /> : <ContinueButton />
