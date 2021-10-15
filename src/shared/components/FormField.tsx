@@ -68,14 +68,7 @@ const StyledFormField = styled.div({
   width: "94%",
   minHeight: "95px",
   margin: "0 auto",
-  marginBottom: "5px",
-  p: {
-    minHeight: "20px",
-    height: "20px",
-    margin: "5px 0px 0px 0px",
-    fontSize: font.small,
-    color: colors.red
-  }
+  marginBottom: "5px"
 });
 
 export interface FormFieldProps extends Omit<InputProps, "onError">, LabelProps {
