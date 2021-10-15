@@ -4,6 +4,14 @@ import styled from "@emotion/styled";
 
 import { font, height, radius, width } from "../styles";
 
+export const Button: React.FC<ButtonProps> = ({ title, ...props }) => {
+  return (
+    <StyledButton { ...props }>
+      { title }
+    </StyledButton>
+  );
+};
+
 const StyledButton = styled.button<ButtonProps>(props => ({
   width: props.size ? setSize(props.size) : width.full,
   minHeight: "40px",
@@ -19,14 +27,6 @@ const StyledButton = styled.button<ButtonProps>(props => ({
     opacity: "0.7",
   },
 }));
-
-export const Button: React.FC<ButtonProps> = ({ title, ...props }) => {
-  return (
-    <StyledButton { ...props }>
-      { title }
-    </StyledButton>
-  );
-};
 
 const setSize = (size: ButtonSize | undefined) => {
   switch (size) {

@@ -61,6 +61,8 @@ const StyledDiv = styled.div({
     p: {
         fontSize: font.large,
         margin: "5px 0px 15px 0px",
+        wordBreak: "break-word",
+        whiteSpace: "break-spaces",
         color: colors.black
     },
 });
