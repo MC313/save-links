@@ -5,7 +5,7 @@ const colors = {
     lightPurple: 'rgba(154, 103, 234, 1)',
     purple: 'rgba(103, 58, 183, 1)',
     purplishGrey: 'rgb(238,238,242, 1)',
-    red: 'red',
+    red: 'rgb(220,20,60)',
     white: 'rgba(255, 255, 255, 1)'
 }
 
