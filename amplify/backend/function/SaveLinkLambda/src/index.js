@@ -10,6 +10,7 @@ const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 const region = process.env.REGION;
 const tableName = process.env.STORAGE_LINKSTABLE_NAME;
 const { v4: uuidv4 } = require('uuid');
+const LINK_LIMIT = 10;
 
 const dbClient = new AWS.DynamoDB.DocumentClient({ region });
 
@@ -24,6 +25,9 @@ exports.handler = async (event) => {
     };
 
     const { userId, ...linkAttributes } = body;
+
+    if (linkLimitReached(LINK_LIMIT, userId)) throw new Error("Save links limit reached for guest account.");
+
 
     const tableParams = {
         TableName: tableName,
@@ -55,4 +59,18 @@ function paramsValid(params) {
         if (!params[param]) return false;
     }
     return true;
+};
+
+/*
+    A user with no account (a guest user) can only save a maximum of 10 links. After that they have to create an account to save additional links. This function checks if that maximum has been reached.
+*/
+async function linkLimitReached(limit, userId) {
+    const tableParams = {
+        TableName: tableName,
+        Key: { userId },
+        Limit: limit
+
+    }
+    const { Item: { Count } } = await dbClient.query(tableParams).promise()
+    return (Count === limit);
 };

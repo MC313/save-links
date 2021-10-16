@@ -50,7 +50,7 @@ const _getUserId = (appType: AppType): string | undefined => {
                 return userId;
             });
         case "WEB":
-            return sessionStorage.getItem("userId") || undefined;
+            return localStorage.getItem("userId") || undefined;
         default:
             return undefined;
     }
@@ -62,7 +62,7 @@ const _setUserId = (appType: AppType) => {
         case "EXTENSION":
             chrome.storage.local.set({ userId }, () => userId);
         case "WEB":
-            sessionStorage.setItem("userId", userId);
+            localStorage.setItem("userId", userId);
             return userId;
         default:
             return userId;
