@@ -66,7 +66,7 @@ export const FormField: React.FC<FormFieldProps> = ({
 const StyledFormField = styled.div({
   overflow: "hidden",
   width: "94%",
-  minHeight: "95px",
+  minHeight: "100px",
   margin: "0 auto",
   marginBottom: "5px"
 });

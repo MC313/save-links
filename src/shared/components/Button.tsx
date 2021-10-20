@@ -2,7 +2,7 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { font, height, radius, width } from "../styles";
+import { colors, font, radius, width } from "../styles";
 
 export const Button: React.FC<ButtonProps> = ({ title, ...props }) => {
   return (
@@ -14,18 +14,25 @@ export const Button: React.FC<ButtonProps> = ({ title, ...props }) => {
 
 const StyledButton = styled.button<ButtonProps>(props => ({
   width: props.size ? setSize(props.size) : width.full,
-  minHeight: "40px",
-  height: "7vh",
-  maxHeight: height.medium,
+  height: "44px",
   margin: "0px 13px",
   borderRadius: radius.medium,
+  borderWidth: "2px",
   fontSize: font.medium,
-  backgroundColor: "black",
-  borderColor: "black",
-  color: "white",
-  "&:disabled": {
-    opacity: "0.7",
+  backgroundColor: colors.white,
+  borderColor: colors.black,
+  color: colors.black,
+  opacity: props.disabled ? "0.7" : "1",
+  svg: {
+    fill: colors.black
   },
+  "&:focus, &:hover": {
+    backgroundColor: colors.black,
+    color: colors.white,
+    svg: {
+      fill: colors.white
+    }
+  }
 }));
 
 const setSize = (size: ButtonSize | undefined) => {

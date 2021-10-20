@@ -53,8 +53,7 @@ const StyledListItem = styled.li<StyleProp>(({ style }) => ({
     flexDirection: "column",
     minWidth: "100%",
     height: "290px",
-    margin: "auto",
-    marginTop: 15,
+    margin: "15px 0px",
     ...style,
 }));
 

@@ -97,7 +97,7 @@ const StyledHeader = styled.header(verticalCenter)
 
 const StyledForm = styled.form({
     ...verticalCenter,
-    flexDirection: "column",
+    flexDirection: "column"
 })
 
 
