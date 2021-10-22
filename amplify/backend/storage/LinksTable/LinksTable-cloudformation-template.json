@@ -40,12 +40,12 @@
                 "AttributeDefinitions": [
                   
                   {
-                      "AttributeName": "userId",
+                      "AttributeName": "linkId",
                       "AttributeType": "S"
                   }  , 
                   
                   {
-                      "AttributeName": "linkId",
+                      "AttributeName": "userId",
                       "AttributeType": "S"
                   } 
                   
@@ -93,6 +93,29 @@
                         }
                     ]
                 }
+                
+                ,"GlobalSecondaryIndexes": [
+                  
+                    {
+                        "IndexName": "UserId",
+                        "KeySchema": [
+                            
+                            {
+                                "AttributeName": "userId",
+                                "KeyType": "HASH"
+                            } 
+                            
+                        ],
+                        "Projection": {
+                            "ProjectionType": "ALL"
+                        },
+                        "ProvisionedThroughput": {
+                            "ReadCapacityUnits": "5",
+                            "WriteCapacityUnits": "5"
+                        }
+                    } 
+                  
+                ]
                 
             }
         }

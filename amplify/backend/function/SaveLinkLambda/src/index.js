@@ -10,7 +10,7 @@ const AWS = AWSXRay.captureAWS(require('aws-sdk'));
 const region = process.env.REGION;
 const tableName = process.env.STORAGE_LINKSTABLE_NAME;
 const { v4: uuidv4 } = require('uuid');
-const LINK_LIMIT = 10;
+const LINK_LIMIT = 2;
 
 const dbClient = new AWS.DynamoDB.DocumentClient({ region });
 
@@ -26,7 +26,6 @@ exports.handler = async (event) => {
 
     const { userId, ...linkAttributes } = body;
 
-    if (linkLimitReached(LINK_LIMIT, userId)) throw new Error("Save links limit reached for guest account.");
 
 
     const tableParams = {
@@ -37,17 +36,23 @@ exports.handler = async (event) => {
     };
 
     try {
+        const reachedLinkLimit = await linkLimitReached(LINK_LIMIT, userId)
+
+        if (isGuestUser(userId) && reachedLinkLimit) {
+            throw new CustomError({ message: "Save links limit reached for guest account.", statusCode: 402 });
+        }
+
         await dbClient.put(tableParams).promise();
         console.log(`Link saved successfully! ${JSON.stringify(tableParams.Item, null, 2)}`)
         return {
             statusCode: 200,
             body: JSON.stringify(tableParams.Item)
         };
-    } catch ({ message }) {
-        console.error(`Error saving link. ${message}`)
+    } catch (error) {
+        console.error(`Error saving link. ${error.message || error}`)
         return {
-            statusCode: 500,
-            body: JSON.stringify({ message })
+            statusCode: error.statusCode || 500,
+            body: JSON.stringify({ error: error.message || "Internal server error." })
         };
     }
 };
@@ -67,10 +72,24 @@ function paramsValid(params) {
 async function linkLimitReached(limit, userId) {
     const tableParams = {
         TableName: tableName,
-        Key: { userId },
-        Limit: limit
+        IndexName: "UserId",
+        Limit: limit,
+        KeyConditionExpression: "userId = :userId",
+        ExpressionAttributeValues: {
+            ":userId": userId
+        }
 
     }
-    const { Item: { Count } } = await dbClient.query(tableParams).promise()
+    const { Count } = await dbClient.query(tableParams).promise()
     return (Count === limit);
 };
+
+function isGuestUser(userId) {
+    return userId.startsWith("GUEST_");
+}
+
+function CustomError({ message, statusCode }) {
+    this.message = message;
+    this.statusCode = statusCode;
+}
+
