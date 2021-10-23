@@ -2,18 +2,29 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { font, radius } from "../../shared/styles";
+import { colors, font, radius } from "../../shared/styles";
 
 const StyledButton = styled.button<NavButtonProps>(props => ({
-    width: "92%",
+    width: "95%",
     height: "44px",
     margin: "0px 13px",
     borderRadius: radius.medium,
+    borderWidth: "2px",
     fontSize: font.medium,
-    backgroundColor: "black",
-    borderColor: "black",
-    color: "white",
+    backgroundColor: colors.white,
+    borderColor: colors.black,
+    color: colors.black,
     opacity: props.disabled ? "0.7" : "1",
+    svg: {
+        fill: colors.black
+    },
+    "&:hover": {
+        backgroundColor: colors.black,
+        color: colors.black,
+        svg: {
+            fill: colors.white
+        }
+    }
 }));
 
 export const NavButton: React.FC<NavButtonProps> = ({

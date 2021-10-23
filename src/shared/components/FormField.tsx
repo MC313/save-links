@@ -1,12 +1,9 @@
-/** @jsx jsx */
-
 import React from "react";
 
-import { jsx } from "@emotion/react";
 import styled from "@emotion/styled";
 import * as yup from "yup";
 
-import { colors, font } from "../styles";
+import { flex } from "../styles";
 import { formSchema } from "../../features/SaveLink/schema";
 import { FormFieldInput, InputProps } from "./FormFieldInput";
 import { FormFieldLabel, LabelProps } from "./FormFieldLabel";
@@ -63,7 +60,8 @@ export const FormField: React.FC<FormFieldProps> = ({
   );
 };
 
-const StyledFormField = styled.div({
+const StyledFormField = styled.div(flex.column, {
+  justifyContent: "flex-start",
   overflow: "hidden",
   width: "94%",
   minHeight: "100px",
