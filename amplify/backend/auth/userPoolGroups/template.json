@@ -5,12 +5,10 @@
             "Type": "String",
             "Default": "authLinksLockerAuthUserPoolId"
         },
-        
         "authLinksLockerAuthIdentityPoolId": {
             "Type": "String",
             "Default": "authLinksLockerAuthIdentityPoolId"
         },
-        
         "authLinksLockerAuthAppClientID": {
             "Type": "String",
             "Default": "authLinksLockerAuthAppClientID"
@@ -40,37 +38,33 @@
         }
     },
     "Resources": {
-    
         "GuestUsersGroup": {
-          "Type" : "AWS::Cognito::UserPoolGroup",
-          "Properties" : {
-              "GroupName" : "GuestUsers",
-              "Precedence" : 1,
-              
-              "RoleArn" : {
-                "Fn::GetAtt": [
-                    "GuestUsersGroupRole",
-                    "Arn"
-                ]
-              },
-              
-              "UserPoolId" : {
-                "Ref": "authLinksLockerAuthUserPoolId"
-              }
+            "Type": "AWS::Cognito::UserPoolGroup",
+            "Properties": {
+                "GroupName": "GuestUsers",
+                "Precedence": 1,
+                "RoleArn": {
+                    "Fn::GetAtt": [
+                        "GuestUsersGroupRole",
+                        "Arn"
+                    ]
+                },
+                "UserPoolId": {
+                    "Ref": "authLinksLockerAuthUserPoolId"
+                }
             }
         },
-        
         "GuestUsersGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
-                "RoleName":{
+                "RoleName": {
                     "Fn::Join": [
                         "",
                         [
-                          {
-                            "Ref": "authLinksLockerAuthUserPoolId"
-                          },
-                          "-GuestUsersGroupRole"
+                            {
+                                "Ref": "authLinksLockerAuthUserPoolId"
+                            },
+                            "-GuestUsersGroupRole"
                         ]
                     ]
                 },
@@ -85,46 +79,47 @@
                             },
                             "Action": "sts:AssumeRoleWithWebIdentity",
                             "Condition": {
-                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authLinksLockerAuthIdentityPoolId"}},
-                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                                "StringEquals": {
+                                    "cognito-identity.amazonaws.com:aud": {
+                                        "Ref": "authLinksLockerAuthIdentityPoolId"
+                                    }
+                                },
+                                "ForAnyValue:StringLike": {
+                                    "cognito-identity.amazonaws.com:amr": "authenticated"
+                                }
                             }
                         }
                     ]
                 }
             }
         },
-     
-    
         "AuthenticatedUsersGroup": {
-          "Type" : "AWS::Cognito::UserPoolGroup",
-          "Properties" : {
-              "GroupName" : "AuthenticatedUsers",
-              "Precedence" : 2,
-              
-              "RoleArn" : {
-                "Fn::GetAtt": [
-                    "AuthenticatedUsersGroupRole",
-                    "Arn"
-                ]
-              },
-              
-              "UserPoolId" : {
-                "Ref": "authLinksLockerAuthUserPoolId"
-              }
+            "Type": "AWS::Cognito::UserPoolGroup",
+            "Properties": {
+                "GroupName": "AuthenticatedUsers",
+                "Precedence": 2,
+                "RoleArn": {
+                    "Fn::GetAtt": [
+                        "AuthenticatedUsersGroupRole",
+                        "Arn"
+                    ]
+                },
+                "UserPoolId": {
+                    "Ref": "authLinksLockerAuthUserPoolId"
+                }
             }
         },
-        
         "AuthenticatedUsersGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
-                "RoleName":{
+                "RoleName": {
                     "Fn::Join": [
                         "",
                         [
-                          {
-                            "Ref": "authLinksLockerAuthUserPoolId"
-                          },
-                          "-AuthenticatedUsersGroupRole"
+                            {
+                                "Ref": "authLinksLockerAuthUserPoolId"
+                            },
+                            "-AuthenticatedUsersGroupRole"
                         ]
                     ]
                 },
@@ -139,37 +134,36 @@
                             },
                             "Action": "sts:AssumeRoleWithWebIdentity",
                             "Condition": {
-                              "StringEquals": {"cognito-identity.amazonaws.com:aud": {"Ref":"authLinksLockerAuthIdentityPoolId"}},
-                              "ForAnyValue:StringLike": {"cognito-identity.amazonaws.com:amr": "authenticated"}
+                                "StringEquals": {
+                                    "cognito-identity.amazonaws.com:aud": {
+                                        "Ref": "authLinksLockerAuthIdentityPoolId"
+                                    }
+                                },
+                                "ForAnyValue:StringLike": {
+                                    "cognito-identity.amazonaws.com:amr": "authenticated"
+                                }
                             }
                         }
                     ]
                 }
             }
         },
-     
-    
-    
         "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "RoleName": {
                     "Fn::If": [
                         "ShouldNotCreateEnvResources",
+                        {},
                         {
-                           
-                        },
-                        {
-
                             "Fn::Join": [
                                 "",
                                 [
-
-                                  "LinksLockerAuth",
-                                  "-ExecutionRole-",
-                                  {
-                                    "Ref": "env"
-                                  }
+                                    "LinksLockerAuth",
+                                    "-ExecutionRole-",
+                                    {
+                                        "Ref": "env"
+                                    }
                                 ]
                             ]
                         }
@@ -220,7 +214,6 @@
                                         "cognito-identity:SetIdentityPoolRoles",
                                         "cognito-identity:ListIdentityPools",
                                         "cognito-identity:describeIdentityPool"
-
                                     ],
                                     "Resource": "*"
                                 }
@@ -238,8 +231,12 @@
                                         "iam:PassRole"
                                     ],
                                     "Resource": [
-                                        { "Ref": "AuthRoleArn" },
-                                        { "Ref": "UnauthRoleArn" }
+                                        {
+                                            "Ref": "AuthRoleArn"
+                                        },
+                                        {
+                                            "Ref": "UnauthRoleArn"
+                                        }
                                     ]
                                 }
                             ]
@@ -250,7 +247,9 @@
         },
         "RoleMapFunction": {
             "Type": "AWS::Lambda::Function",
-            "DependsOn": ["LambdaExecutionRole"],
+            "DependsOn": [
+                "LambdaExecutionRole"
+            ],
             "Properties": {
                 "Code": {
                     "ZipFile": {
@@ -294,13 +293,12 @@
                                 "    }",
                                 "   };",
                                 "};"
-
                             ]
                         ]
                     }
                 },
                 "Handler": "index.handler",
-                "Runtime": "nodejs12.x",
+                "Runtime": "nodejs14.x",
                 "Timeout": 300,
                 "Role": {
                     "Fn::GetAtt": [
@@ -322,7 +320,7 @@
                 "AuthRoleArn": {
                     "Ref": "AuthRoleArn"
                 },
-                "UnauthRoleArn":  {
+                "UnauthRoleArn": {
                     "Ref": "UnauthRoleArn"
                 },
                 "identityPoolId": {
@@ -344,13 +342,12 @@
                     "Ref": "env"
                 }
             },
-            "DependsOn": ["RoleMapFunction"]
+            "DependsOn": [
+                "RoleMapFunction"
+            ]
         }
-   
     },
-    
     "Outputs": {
-      
         "GuestUsersGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
@@ -358,10 +355,7 @@
                     "Arn"
                 ]
             }
-        
         },
-        
-      
         "AuthenticatedUsersGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
@@ -369,10 +363,6 @@
                     "Arn"
                 ]
             }
-        
         }
-        
-      
     }
-    
 }

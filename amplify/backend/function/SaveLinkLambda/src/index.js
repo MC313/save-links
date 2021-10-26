@@ -46,6 +46,10 @@ exports.handler = async (event) => {
         console.log(`Link saved successfully! ${JSON.stringify(tableParams.Item, null, 2)}`)
         return {
             statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json",
+            },
             body: JSON.stringify(tableParams.Item)
         };
     } catch (error) {

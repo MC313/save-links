@@ -18,14 +18,38 @@
           "deploymentBucketName": "amplify-linkslocker-dev-14320-deployment",
           "s3Key": "amplify-builds/LinksLockerAuthPostConfirmation-4b5753432f6751593934-build.zip"
         },
-        "ScheduleReminderLambda": {},
+        "ScheduleReminderLambda": {
+          "deploymentBucketName": "amplify-linkslocker-dev-14320-deployment",
+          "s3Key": "amplify-builds/ScheduleReminderLambda-70546d42703361527a41-build.zip"
+        },
         "SaveLinkLambda": {
           "deploymentBucketName": "amplify-linkslocker-dev-14320-deployment",
-          "s3Key": "amplify-builds/SaveLinkLambda-63696a4b2f3245577565-build.zip"
+          "s3Key": "amplify-builds/SaveLinkLambda-68306d4b4575656f4872-build.zip"
         },
-        "OnConnectWebsocketLambda": {},
-        "OnDisconnectWebsocketLambda": {},
-        "SendWebNotficationLambda": {}
+        "OnConnectWebsocketLambda": {
+          "deploymentBucketName": "amplify-linkslocker-dev-14320-deployment",
+          "s3Key": "amplify-builds/OnConnectWebsocketLambda-4f4565364e4931314e67-build.zip"
+        },
+        "OnDisconnectWebsocketLambda": {
+          "deploymentBucketName": "amplify-linkslocker-dev-14320-deployment",
+          "s3Key": "amplify-builds/OnDisconnectWebsocketLambda-45303839716e6556316a-build.zip"
+        },
+        "SendWebNotficationLambda": {
+          "deploymentBucketName": "amplify-linkslocker-dev-14320-deployment",
+          "s3Key": "amplify-builds/SendWebNotficationLambda-5931346e32376c5a4a72-build.zip"
+        },
+        "ListUserLinksLambda": {
+          "deploymentBucketName": "amplify-linkslocker-dev-14320-deployment",
+          "s3Key": "amplify-builds/ListUserLinksLambda-6d776b79653250377939-build.zip"
+        },
+        "DependenciesLayer": {
+          "deploymentBucketName": "amplify-linkslocker-dev-14320-deployment",
+          "s3Key": "amplify-builds/DependenciesLayer-LambdaLayerVersiondaac9ebc-build.zip"
+        },
+        "NotificationLambda": {
+          "deploymentBucketName": "amplify-linkslocker-dev-14320-deployment",
+          "s3Key": "amplify-builds/NotificationLambda-67326d4a547433617a37-build.zip"
+        }
       },
       "auth": {
         "LinksLockerAuth": {},

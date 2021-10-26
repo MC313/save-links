@@ -1,313 +1,323 @@
 {
-	"AWSTemplateFormatVersion": "2010-09-09",
-	"Description": "Lambda Function resource stack creation using Amplify CLI",
-	"Parameters": {
-		"env": {
-			"Type": "String"
-		},
-		"apiLinksLockerWebSocketAPIApiName": {
-			"Type": "String",
-			"Default": "apiLinksLockerWebSocketAPIApiName"
-		},
-		"apiLinksLockerWebSocketAPIApiId": {
-			"Type": "String",
-			"Default": "apiLinksLockerWebSocketAPIApiId"
-		},
-		"storageWebSocketConnectionIdTableName": {
-			"Type": "String",
-			"Default": "storageWebSocketConnectionIdTableName"
-		},
-		"storageWebSocketConnectionIdTableArn": {
-			"Type": "String",
-			"Default": "storageWebSocketConnectionIdTableArn"
-		},
-		"functionDependenciesLayerArn": {
-			"Type": "String",
-			"Default": "functionDependenciesLayerArn"
-		}
-	},
-	"Conditions": {
-		"ShouldNotCreateEnvResources": {
-			"Fn::Equals": [
-				{
-					"Ref": "env"
-				},
-				"NONE"
-			]
-		}
-	},
-	"Resources": {
-		"LambdaFunction": {
-			"Type": "AWS::Lambda::Function",
-			"Metadata": {
-				"aws:asset:path": "./src",
-				"aws:asset:property": "Code"
-			},
-			"Properties": {
-				"Handler": "index.handler",
-				"FunctionName": {
-					"Fn::If": [
-						"ShouldNotCreateEnvResources",
-						"SendWebNotficationLambda",
-						{
-							"Fn::Join": [
-								"",
-								[
-									"SendWebNotficationLambda",
-									"-",
-									{
-										"Ref": "env"
-									}
-								]
-							]
-						}
-					]
-				},
-				"Environment": {
-					"Variables": {
-						"ENV": {
-							"Ref": "env"
-						},
-						"REGION": {
-							"Ref": "AWS::Region"
-						},
-						"API_LINKSLOCKERWEBSOCKETAPI_APINAME": {
-							"Ref": "apiLinksLockerWebSocketAPIApiName"
-						},
-						"API_LINKSLOCKERWEBSOCKETAPI_APIID": {
-							"Ref": "apiLinksLockerWebSocketAPIApiId"
-						},
-						"STORAGE_WEBSOCKETCONNECTIONIDTABLE_NAME": {
-							"Ref": "storageWebSocketConnectionIdTableName"
-						},
-						"STORAGE_WEBSOCKETCONNECTIONIDTABLE_ARN": {
-							"Ref": "storageWebSocketConnectionIdTableArn"
-						},
-						"WEBSOCKET_ENDPOINT_URL": {
-							"Fn::Sub": "https://${apiLinksLockerWebSocketAPIApiId}.execute-api.${AWS::Region}.amazonaws.com/${env}"
-						}
-					}
-				},
-				"Role": {
-					"Fn::GetAtt": [
-						"LambdaExecutionRole",
-						"Arn"
-					]
-				},
-				"Runtime": "nodejs12.x",
-				"Layers": [
-					{
-						"Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:DependenciesLayer:5"
-					}
-				],
-				"Timeout": "25",
-				"Code": {
-					"S3Bucket": "amplify-linkslocker-dev-14320-deployment",
-					"S3Key": "amplify-builds/SendWebNotficationLambda-356d5548343056327a61-build.zip"
-				}
-			}
-		},
-		"LambdaExecutionRole": {
-			"Type": "AWS::IAM::Role",
-			"Properties": {
-				"RoleName": {
-					"Fn::If": [
-						"ShouldNotCreateEnvResources",
-						"linkslockerLambdaRole9772ae10",
-						{
-							"Fn::Join": [
-								"",
-								[
-									"linkslockerLambdaRole9772ae10",
-									"-",
-									{
-										"Ref": "env"
-									}
-								]
-							]
-						}
-					]
-				},
-				"AssumeRolePolicyDocument": {
-					"Version": "2012-10-17",
-					"Statement": [
-						{
-							"Effect": "Allow",
-							"Principal": {
-								"Service": [
-									"lambda.amazonaws.com"
-								]
-							},
-							"Action": [
-								"sts:AssumeRole"
-							]
-						}
-					]
-				}
-			}
-		},
-		"lambdaexecutionpolicy": {
-			"Type": "AWS::IAM::Policy",
-			"Properties": {
-				"PolicyName": "lambda-execution-policy",
-				"Roles": [
-					{
-						"Ref": "LambdaExecutionRole"
-					}
-				],
-				"PolicyDocument": {
-					"Version": "2012-10-17",
-					"Statement": [
-						{
-							"Effect": "Allow",
-							"Action": [
-								"logs:CreateLogGroup",
-								"logs:CreateLogStream",
-								"logs:PutLogEvents"
-							],
-							"Resource": {
-								"Fn::Sub": [
-									"arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*",
-									{
-										"region": {
-											"Ref": "AWS::Region"
-										},
-										"account": {
-											"Ref": "AWS::AccountId"
-										},
-										"lambda": {
-											"Ref": "LambdaFunction"
-										}
-									}
-								]
-							}
-						}
-					]
-				}
-			}
-		},
-		"AmplifyResourcesPolicy": {
-			"Type": "AWS::IAM::Policy",
-			"Properties": {
-				"PolicyName": "amplify-lambda-execution-policy",
-				"Roles": [
-					{
-						"Ref": "LambdaExecutionRole"
-					}
-				],
-				"PolicyDocument": {
-					"Version": "2012-10-17",
-					"Statement": [
-						{
-							"Effect": "Allow",
-							"Action": [
-								"apigateway:GET",
-								"apigateway:HEAD",
-								"apigateway:OPTIONS",
-								"apigateway:PATCH"
-							],
-							"Resource": [
-								{
-									"Fn::Join": [
-										"",
-										[
-											"arn:aws:apigateway:",
-											{
-												"Ref": "AWS::Region"
-											},
-											"::/restapis/",
-											{
-												"Ref": "apiLinksLockerWebSocketAPIApiName"
-											},
-											"/*"
-										]
-									]
-								}
-							]
-						},
-						{
-							"Effect": "Allow",
-							"Action": [
-								"dynamodb:Get*",
-								"dynamodb:BatchGetItem",
-								"dynamodb:List*",
-								"dynamodb:Describe*",
-								"dynamodb:Scan",
-								"dynamodb:Query"
-							],
-							"Resource": [
-								{
-									"Ref": "storageWebSocketConnectionIdTableArn"
-								},
-								{
-									"Fn::Join": [
-										"/",
-										[
-											{
-												"Ref": "storageWebSocketConnectionIdTableArn"
-											},
-											"index/*"
-										]
-									]
-								}
-							]
-						}
-					]
-				}
-			}
-		},
-		"WebSocketApiPolicy": {
-			"Type": "AWS::IAM::Policy",
-			"Properties": {
-				"PolicyName": "amplify-lambda-websocket-api-execution-policy",
-				"Roles": [
-					{
-						"Ref": "LambdaExecutionRole"
-					}
-				],
-				"PolicyDocument": {
-					"Version": "2012-10-17",
-					"Statement": [
-						{
-							"Effect": "Allow",
-							"Action": [
-								"execute-api:Invoke",
-								"execute-api:ManageConnections"
-							],
-							"Resource": [
-								{
-									"Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiLinksLockerWebSocketAPIApiId}/${env}/POST/@connections/*"
-								}
-							]
-						}
-					]
-				}
-			}
-		}
-	},
-	"Outputs": {
-		"Name": {
-			"Value": {
-				"Ref": "LambdaFunction"
-			}
-		},
-		"Arn": {
-			"Value": {
-				"Fn::GetAtt": [
-					"LambdaFunction",
-					"Arn"
-				]
-			}
-		},
-		"Region": {
-			"Value": {
-				"Ref": "AWS::Region"
-			}
-		},
-		"LambdaExecutionRole": {
-			"Value": {
-				"Ref": "LambdaExecutionRole"
-			}
-		}
-	}
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Lambda Function resource stack creation using Amplify CLI",
+  "Parameters": {
+    "env": {
+      "Type": "String"
+    },
+    "apiLinksLockerWebSocketAPIApiName": {
+      "Type": "String",
+      "Default": "apiLinksLockerWebSocketAPIApiName"
+    },
+    "apiLinksLockerWebSocketAPIApiId": {
+      "Type": "String",
+      "Default": "apiLinksLockerWebSocketAPIApiId"
+    },
+    "storageWebSocketConnectionIdTableName": {
+      "Type": "String",
+      "Default": "storageWebSocketConnectionIdTableName"
+    },
+    "storageWebSocketConnectionIdTableArn": {
+      "Type": "String",
+      "Default": "storageWebSocketConnectionIdTableArn"
+    },
+    "functionDependenciesLayerArn": {
+      "Type": "String",
+      "Default": "functionDependenciesLayerArn"
+    },
+    "deploymentBucketName": {
+      "Type": "String"
+    },
+    "s3Key": {
+      "Type": "String"
+    }
+  },
+  "Conditions": {
+    "ShouldNotCreateEnvResources": {
+      "Fn::Equals": [
+        {
+          "Ref": "env"
+        },
+        "NONE"
+      ]
+    }
+  },
+  "Resources": {
+    "LambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Metadata": {
+        "aws:asset:path": "./src",
+        "aws:asset:property": "Code"
+      },
+      "Properties": {
+        "Handler": "index.handler",
+        "FunctionName": {
+          "Fn::If": [
+            "ShouldNotCreateEnvResources",
+            "SendWebNotficationLambda",
+            {
+              "Fn::Join": [
+                "",
+                [
+                  "SendWebNotficationLambda",
+                  "-",
+                  {
+                    "Ref": "env"
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "ENV": {
+              "Ref": "env"
+            },
+            "REGION": {
+              "Ref": "AWS::Region"
+            },
+            "API_LINKSLOCKERWEBSOCKETAPI_APINAME": {
+              "Ref": "apiLinksLockerWebSocketAPIApiName"
+            },
+            "API_LINKSLOCKERWEBSOCKETAPI_APIID": {
+              "Ref": "apiLinksLockerWebSocketAPIApiId"
+            },
+            "STORAGE_WEBSOCKETCONNECTIONIDTABLE_NAME": {
+              "Ref": "storageWebSocketConnectionIdTableName"
+            },
+            "STORAGE_WEBSOCKETCONNECTIONIDTABLE_ARN": {
+              "Ref": "storageWebSocketConnectionIdTableArn"
+            },
+            "WEBSOCKET_ENDPOINT_URL": {
+              "Fn::Sub": "https://${apiLinksLockerWebSocketAPIApiId}.execute-api.${AWS::Region}.amazonaws.com/${env}"
+            }
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "LambdaExecutionRole",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs14.x",
+        "Layers": [
+          {
+            "Fn::Sub": "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:DependenciesLayer:5"
+          }
+        ],
+        "Timeout": "25",
+        "Code": {
+          "S3Bucket": {
+            "Ref": "deploymentBucketName"
+          },
+          "S3Key": {
+            "Ref": "s3Key"
+          }
+        }
+      }
+    },
+    "LambdaExecutionRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "RoleName": {
+          "Fn::If": [
+            "ShouldNotCreateEnvResources",
+            "linkslockerLambdaRole9772ae10",
+            {
+              "Fn::Join": [
+                "",
+                [
+                  "linkslockerLambdaRole9772ae10",
+                  "-",
+                  {
+                    "Ref": "env"
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "lambdaexecutionpolicy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Resource": {
+                "Fn::Sub": [
+                  "arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*",
+                  {
+                    "region": {
+                      "Ref": "AWS::Region"
+                    },
+                    "account": {
+                      "Ref": "AWS::AccountId"
+                    },
+                    "lambda": {
+                      "Ref": "LambdaFunction"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "AmplifyResourcesPolicy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "apigateway:GET",
+                "apigateway:HEAD",
+                "apigateway:OPTIONS",
+                "apigateway:PATCH"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "::/restapis/",
+                      {
+                        "Ref": "apiLinksLockerWebSocketAPIApiName"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageWebSocketConnectionIdTableArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageWebSocketConnectionIdTableArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "WebSocketApiPolicy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-websocket-api-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "execute-api:Invoke",
+                "execute-api:ManageConnections"
+              ],
+              "Resource": [
+                {
+                  "Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${apiLinksLockerWebSocketAPIApiId}/${env}/POST/@connections/*"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "Name": {
+      "Value": {
+        "Ref": "LambdaFunction"
+      }
+    },
+    "Arn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "LambdaFunction",
+          "Arn"
+        ]
+      }
+    },
+    "Region": {
+      "Value": {
+        "Ref": "AWS::Region"
+      }
+    },
+    "LambdaExecutionRole": {
+      "Value": {
+        "Ref": "LambdaExecutionRole"
+      }
+    }
+  }
 }
