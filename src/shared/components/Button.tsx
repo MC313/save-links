@@ -4,10 +4,10 @@ import styled from "@emotion/styled";
 
 import { colors, font, radius, width } from "../styles";
 
-export const Button: React.FC<ButtonProps> = ({ title, ...props }) => {
+export const Button: React.FC<ButtonProps> = ({ children, title, ...props }) => {
   return (
     <StyledButton { ...props }>
-      { title }
+      { children ? children : title }
     </StyledButton>
   );
 };
@@ -22,7 +22,8 @@ const StyledButton = styled.button<ButtonProps>(props => ({
   backgroundColor: colors.white,
   borderColor: colors.black,
   color: colors.black,
-  opacity: props.disabled ? "0.7" : "1",
+  opacity: props.disabled ? 0.7 : 1,
+  ...props.styles,
   svg: {
     fill: colors.black
   },
@@ -51,4 +52,5 @@ const setSize = (size: ButtonSize | undefined) => {
 type ButtonSize = "small" | "medium" | "large";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
+  styles?: object;
 };

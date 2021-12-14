@@ -13,15 +13,17 @@ export const Notification: React.FC<{}> = () => {
     const [{ appType, userId }] = useApp();
     const [notification, setNotification] = React.useState<INotification>();
 
-    let socket = onWebSocketInit(userId);
+    React.useEffect(() => {
+        let socket = onWebSocketInit(userId);
 
-    socket.onopen = () => console.log("SOCKET OPENED");
+        socket.onopen = () => console.log("SOCKET OPENED");
 
-    socket.onmessage = ({ data }: { data: any }) => {
-        setNotification(JSON.parse(data));
-    };
+        socket.onmessage = ({ data }: { data: any }) => {
+            setNotification(JSON.parse(data));
+        };
 
-    socket.onclose = () => console.log("SOCKET CLOSED");
+        socket.onclose = () => console.log("SOCKET CLOSED");
+    }, [])
 
     return (
         <React.Fragment>

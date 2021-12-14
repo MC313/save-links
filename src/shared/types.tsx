@@ -14,3 +14,11 @@ export interface FormPayload extends Object, Pick<FormData, "url" | "description
 export interface Notification {
 
 }
+
+export interface Link {
+    linkId: string;
+    url: string;
+    description: string;
+    tags: string[];
+    reminder?: number;
+}
