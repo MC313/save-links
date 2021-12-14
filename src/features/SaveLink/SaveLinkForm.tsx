@@ -40,7 +40,7 @@ export const SaveLinkForm: React.FC<{}> = () => {
     };
 
     return (
-        <Card>
+        <Card styles={ cardStyles }>
             { status === "SUCCESS" && <SuccessOverlay /> }
             <StyledHeader>
                 { step > 1 && <BackButton /> }
@@ -99,5 +99,9 @@ const StyledForm = styled.form({
     ...verticalCenter,
     flexDirection: "column"
 })
+
+const cardStyles = {
+
+}
 
 

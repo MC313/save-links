@@ -40,7 +40,7 @@
         },
         "ListUserLinksLambda": {
           "deploymentBucketName": "amplify-linkslocker-dev-14320-deployment",
-          "s3Key": "amplify-builds/ListUserLinksLambda-6d776b79653250377939-build.zip"
+          "s3Key": "amplify-builds/ListUserLinksLambda-5579717761644c6f556d-build.zip"
         },
         "DependenciesLayer": {
           "deploymentBucketName": "amplify-linkslocker-dev-14320-deployment",

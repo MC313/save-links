@@ -3,8 +3,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { Global } from "@emotion/react";
 
-import { FormProvider, useApp, WizardProvider } from "../store";
-import { SaveLinkForm } from "../features/SaveLink/SaveLinkForm";
+import { useApp } from "../store";
 import { Notification } from "../features/Notification";
 import {
     colors,
@@ -14,6 +13,7 @@ import {
     width
 } from "../shared/styles";
 import { Header } from "../Header";
+import { LinkList } from "../features/LinkList";
 
 export const Main = () => {
     const [{ appType, userId }] = useApp();
@@ -32,13 +32,9 @@ export const Main = () => {
             <Global styles={ reset } />
             <StyledAppContainer className="app">
                 { appType === "WEB" && <Notification /> }
-                <Header />
+                { appType === "WEB" && <Header /> }
                 <StyledMainContent>
-                    <WizardProvider totalSteps={ 3 }>
-                        <FormProvider>
-                            <SaveLinkForm />
-                        </FormProvider>
-                    </WizardProvider>
+                    <LinkList />
                 </StyledMainContent>
             </StyledAppContainer>
         </React.Fragment>

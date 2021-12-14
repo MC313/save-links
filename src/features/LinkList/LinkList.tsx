@@ -17,7 +17,6 @@ export const LinkList = () => {
     // extract this into a hook
     React.useEffect(() => {
         (async () => {
-            console.log("running this function")
             try {
                 const { links }: { links: Link[] } = await getLinks(userId);
                 addLinks(links);

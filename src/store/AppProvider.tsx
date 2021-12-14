@@ -1,6 +1,6 @@
 import React from "react";
 
-import { appState, AppState, AppType } from "./state";
+import { initialAppState, AppState, FormStatus } from "./state";
 
 
 /**
@@ -14,7 +14,13 @@ const appReducer: AppReducer = (state: AppState, action: AppActions) => {
         case AppTypeKeys.SET_USER_ID:
             return {
                 ...state,
-                userId: payload
+                userId: payload as string
+            };
+        case AppTypeKeys.SET_FORM_STATUS:
+            console.log("PROVIDER STATUS: ", payload)
+            return {
+                ...state,
+                formStatus: payload as FormStatus
             };
         default:
             return state;
@@ -40,11 +46,12 @@ const {
  * =======================
  */
 const AppProvider: React.FC<AppProviderProps> = ({ children, value }) => {
+    const appState = { ...initialAppState, ...value };
     let [state, dispatch] = React.useReducer<AppReducer>(appReducer, appState);
     let _window: AppWindow = window;
 
     return (
-        <AppStateProvider value={ { ...state, ...value } }>
+        <AppStateProvider value={ state }>
             <AppDispatchProvider value={ dispatch }>
                 <AppConsumer>
                     { (values) => {
@@ -82,6 +89,11 @@ const useAppDispatch = () => {
         setUserId: (payload: string) =>
             dispatch({
                 type: AppTypeKeys.SET_USER_ID,
+                payload
+            }),
+        setFormStatus: (payload: FormStatus) =>
+            dispatch({
+                type: AppTypeKeys.SET_FORM_STATUS,
                 payload
             }),
     };
@@ -122,15 +134,21 @@ type AppWindow = Window & typeof globalThis & {
 };
 
 enum AppTypeKeys {
-    SET_USER_ID = "SET_USER_ID"
+    SET_USER_ID = "SET_USER_ID",
+    SET_FORM_STATUS = "SET_FORM_STATUS"
 };
 
 interface SetUserIdAction {
     type: AppTypeKeys.SET_USER_ID;
-    payload: Partial<AppState["userId"]>;
+    payload: AppState["userId"];
 };
 
-type AppActions = SetUserIdAction;
+interface SetFormStatusAction {
+    type: AppTypeKeys.SET_FORM_STATUS;
+    payload: AppState["formStatus"];
+};
+
+type AppActions = SetUserIdAction | SetFormStatusAction;
 
 type AppDispatch = (action: AppActions) => void;
 
@@ -141,8 +159,11 @@ interface AppProviderProps {
     value: AppState;
 };
 
-type ActionName = "setUserId";
+const ActionName: { setUserId: string, setFormStatus: FormStatus } = {
+    "setUserId": "",
+    "setFormStatus": FormStatus.Inactive
+};
 
 type AppDispatchHook = {
-    [k in ActionName]: (payload?: any) => void
+    [key in keyof typeof ActionName]: (payload: typeof ActionName[key]) => void;
 };

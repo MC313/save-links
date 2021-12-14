@@ -11,10 +11,18 @@ const dbClient = new AWS.DynamoDB.DocumentClient({ region });
 exports.handler = async (event) => {
     const { userId } = event.pathParameters;
 
+    if (event.httpMethod !== "GET") {
+        return {
+            statusCode: 400,
+            body: JSON.stringify({
+                error: "Invalid request. Only 'GET' requests allowed."
+            })
+        }
+    }
     if (!isValidUserId(userId)) {
         return {
             statusCode: 400,
-            body: JSON.stringify({ message: "Invalid userId." })
+            body: JSON.stringify({ error: "Invalid userId." })
         }
     };
 
