@@ -21,7 +21,7 @@ const StyledCard = styled.div(({ styles }: StyledCardProps) => ({
     ...styles
 }));
 
-export const Card: React.FC<CardProps> = ({ children, styles }) => (
+export const Card: React.FC<CardProps> = ({ children, styles = {} }) => (
     <StyledCard className="card" styles={ styles }>
         { children }
     </StyledCard>
@@ -33,5 +33,5 @@ type StyledCardProps = {
 
 interface CardProps {
     children: any;
-    styles: {}
+    styles?: {}
 };

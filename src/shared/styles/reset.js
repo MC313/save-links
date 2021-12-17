@@ -92,6 +92,11 @@ const reset = css`
   html {
     font-size: calc(1em + 1vw);
   }
+  body {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
   /* HTML5 display-role reset for older browsers */
   article,
   aside,
