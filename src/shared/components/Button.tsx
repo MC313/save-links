@@ -27,7 +27,7 @@ const StyledButton = styled.button<ButtonProps>(props => ({
   svg: {
     fill: colors.black
   },
-  "&:focus, &:hover": {
+  "&:hover": {
     backgroundColor: colors.black,
     color: colors.white,
     svg: {

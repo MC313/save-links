@@ -30,10 +30,13 @@ const btnStyles = {
     position: "absolute" as "absolute",
     width: "70px",
     height: "70px",
-    bottom: "0px",
+    left: 0,
+    right: 0,
+    bottom: 0,
     borderRadius: radius.round,
-    margin: "0 auto",
-    transform: "translateY(-35%)"
+    margin: "auto",
+    transform: "translateY(-35%)",
+    zIndex: 20
 };
 
 const transformIcon = (isActive: boolean) => ({

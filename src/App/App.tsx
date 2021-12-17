@@ -2,9 +2,10 @@ import React from "react";
 
 import { Main } from "./Main";
 import { AppProvider, AuthProvider } from "../store";
+import { AppState, AppType, FormStatus } from "../store/state";
 import { getUserId } from "../shared/utils";
 import { SaveLinkContainer } from "../features/SaveLink/SaveLinkContainer";
-import { AppState, AppType, FormStatus } from "../store/state";
+import { ToggleFormButton } from "../features/ToggleForm";
 
 export const App = () => {
     const isExtension = (): boolean => !!document.querySelector(".extension");
@@ -19,6 +20,7 @@ export const App = () => {
         <AuthProvider>
             <AppProvider value={ appState }>
                 <Main />
+                <ToggleFormButton />
                 <SaveLinkContainer />
             </AppProvider>
         </AuthProvider>
