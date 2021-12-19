@@ -1,4 +1,6 @@
+import styled from "@emotion/styled";
 import React from "react";
+import { margin } from "../../shared/styles";
 
 import { Link } from "../../shared/types";
 import { useApp } from "../../store";
@@ -30,9 +32,19 @@ export const LinkList = () => {
 };
 
 const List: React.FC<{ links: Link[] }> = ({ links }) => (
-    <ul>
+    <StyledList>
         { links.map((link, idx) => <ListItem key={ idx } link={ link } />) }
-    </ul>
-)
+    </StyledList>
+);
+
+const StyledList = styled.ul({
+    height: "100%",
+    overflowY: "scroll",
+    padding: "70px 100px",
+    margin: "0px 20px",
+    ".card + .card": {
+        marginTop: "25px"
+    }
+});
 
 

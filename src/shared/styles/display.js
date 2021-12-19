@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 
-const _displayFlex = css`
-  display: flex;
-`;
+const _displayFlex = {
+  display: "flex"
+};
 
 const _flexRow = css`
   ${_displayFlex};

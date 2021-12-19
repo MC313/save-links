@@ -23,6 +23,7 @@ const StyledButton = styled.button<ButtonProps>(props => ({
   borderColor: colors.black,
   color: colors.black,
   opacity: props.disabled ? 0.7 : 1,
+  transition: "background-color 0.4s ease",
   ...props.styles,
   svg: {
     fill: colors.black
@@ -39,13 +40,13 @@ const StyledButton = styled.button<ButtonProps>(props => ({
 const setSize = (size: ButtonSize | undefined) => {
   switch (size) {
     case "small":
-      return "15em"
+      return "125px"
     case "medium":
-      return "25em"
+      return "200px"
     case "large":
-      return "40em"
+      return "400px"
     default:
-      return "25em"
+      return "200px"
   }
 };
 

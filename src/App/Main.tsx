@@ -5,14 +5,8 @@ import { Global } from "@emotion/react";
 
 import { useApp } from "../store";
 import { Notification } from "../features/Notification";
-import {
-    colors,
-    flex,
-    height,
-    reset,
-    width
-} from "../shared/styles";
-import { Header } from "../Header";
+import { colors, flex, height, reset, width } from "../shared/styles";
+import { Header } from "../features/Header";
 import { LinkList } from "../features/LinkList";
 
 export const Main = () => {

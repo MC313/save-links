@@ -2,15 +2,16 @@ import React from "react";
 
 import styled from "@emotion/styled";
 
-import { radius } from "../styles";
+import { card, radius } from "../styles";
 
-const StyledCard = styled.div(({ styles }: StyledCardProps) => ({
+export const Card: React.FC<CardProps> = ({ children, styles = {} }) => (
+    <StyledCard className="card" styles={ styles }>
+        { children }
+    </StyledCard>
+);
+
+const StyledCard = styled.div(card, ({ styles }: StyledCardProps) => ({
     width: "100%",
-    maxWidth: "350px",
-    height: "430px",
-    position: "relative",
-    display: "block",
-    overflow: "hidden",
     margin: "0px auto",
     padding: "15px 30px",
     border: "1px solid rgba(162, 136, 166, 0.26)",
@@ -21,11 +22,6 @@ const StyledCard = styled.div(({ styles }: StyledCardProps) => ({
     ...styles
 }));
 
-export const Card: React.FC<CardProps> = ({ children, styles = {} }) => (
-    <StyledCard className="card" styles={ styles }>
-        { children }
-    </StyledCard>
-);
 
 type StyledCardProps = {
     styles: {}

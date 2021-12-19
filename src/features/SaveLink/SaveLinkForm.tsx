@@ -101,7 +101,8 @@ const StyledForm = styled.form({
 })
 
 const cardStyles = {
-
+    maxWidth: "350px",
+    height: "430px"
 }
 
 

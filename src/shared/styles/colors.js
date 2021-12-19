@@ -1,5 +1,6 @@
 const colors = {
     black: '#1d1d1d',
+    almostBlack: '#323232',
     darkPurple: 'rgba(54, 5, 104, 1)',
     grey: 'rgba(61, 61, 61, 0.8)',
     lightPurple: 'rgba(154, 103, 234, 1)',
